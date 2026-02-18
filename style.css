@@ -111,14 +111,19 @@
 .skills-container {
   display: grid;
 
-  grid-template-columns: repeat(auto-fit, minmax(260px, 260px));
+  /* Fixed-size columns */
+  grid-template-columns: repeat(auto-fit, 260px);
+
   gap: 30px;
 
-  max-width: 1200px;   /* Limit row width */
-  margin: 0 auto;      /* Center container */
-
+  /* Center the whole grid */
   justify-content: center;
+
+  /* Limit width */
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 
 .skill-card {
   background: rgb(10, 10, 60);
