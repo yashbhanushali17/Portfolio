@@ -58,7 +58,9 @@
   white-space: nowrap;
   display: inline-block;
 }
-
+.subtitle {
+  white-space: nowrap;
+}
       .purple {
         color: rgb(194, 7, 194);
       
