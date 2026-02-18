@@ -96,10 +96,10 @@
   margin-bottom: 20px;
 }
 
-/* SKILLS */
+/* ========== SKILLS SECTION ========== */
 
 .skills-section {
-  padding: 80px 100px;
+  padding: 60px 100px;
 }
 
 .skills-section h1 {
@@ -108,30 +108,27 @@
   margin-bottom: 40px;
 }
 
+/* Container */
 .skills-container {
   display: grid;
 
-  /* Fixed-size columns */
-  grid-template-columns: repeat(auto-fit, 260px);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 
-  gap: 30px;
+  gap: 30px;              /* ✅ Proper gap */
 
-  /* Center the whole grid */
-  justify-content: center;
-
-  /* Limit width */
-  max-width: 1200px;
+  /* max-width: 1100px; */
   margin: 0 auto;
 }
 
-
+/* Skill box */
 .skill-card {
   background: rgb(10, 10, 60);
+
   padding: 25px;
-  border-radius: 12px;
+  border-radius: 10px;
+
   text-align: center;
 
-  width: 260px;
   height: 260px;
 
   display: flex;
@@ -140,30 +137,36 @@
   align-items: center;
 }
 
-
+/* Image */
 .skill-card img {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-
-
+/* Progress bar */
 .bar {
-  background: #444;
-  height: 14px;
   width: 90%;
+  height: 12px;
 
-  border-radius: 8px;
+  background: #444;
+
+  border-radius: 6px;
   overflow: hidden;
-  margin: 12px 0;
+
+  margin: 10px 0;
 }
+
+
+
+
 .skill-card:hover {
   transform: scale(1.05);
   transition: 0.3s ease;
   box-shadow: 0 0 15px rgba(194, 7, 194, 0.6);
 }
+/* Progress fill */
 
 .progress {
   height: 100%;
