@@ -71,6 +71,9 @@
       .leftsection .buttons{
         padding: 23px;
       }
+      .leftsection a{
+        text-decoration: none;
+      }
       .leftsection .btn{
         padding: 12px;
         background-color: #8915a7;
@@ -113,23 +116,45 @@
 
 .skill-card {
   background: rgb(10, 10, 60);
-  padding: 20px;
-  border-radius: 10px;
+  padding: 25px;
+  border-radius: 12px;
   text-align: center;
+
+  width: 260px;
+  height: 260px;          /* Makes it square */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin: auto;
 }
 
+
 .skill-card img {
-  width: 60px;
-  
-  margin-bottom: 10px;
+  width: 90px;          /* Bigger icon */
+  height: 90px;
+
+  object-fit: contain;
+
+  margin-bottom: 15px;
 }
+
 
 .bar {
   background: #444;
-  height: 12px;
-  border-radius: 6px;
+  height: 14px;
+  width: 90%;
+
+  border-radius: 8px;
   overflow: hidden;
-  margin: 10px 0;
+  margin: 12px 0;
+}
+.skill-card:hover {
+  transform: scale(1.05);
+  transition: 0.3s ease;
+  box-shadow: 0 0 15px rgba(194, 7, 194, 0.6);
 }
 
 .progress {

@@ -13,11 +13,11 @@
         <div class="left">Yash's Portfolio</div>
         <div class="right">
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/">About</a></li>
-            <li><a href="/">Skills</a></li>
-            <li><a href="/">Projects</a></li>
-            <li><a href="/">Contact Me</a></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact Me</a></li>
           </ul>
         </div>
       </nav>
@@ -25,7 +25,7 @@
 <main>
 
   <!-- HOME (UNCHANGED) -->
-  <section class="firstsection">
+  <section id="home" class="firstsection">
     <div class="leftsection">
   <span class="intro">
     Hi , My name is <span class="purple">Yash</span>
@@ -34,9 +34,9 @@
       <span id="element"></span> <br>
 
       <div class="buttons">
-        <button class="btn">Download Resume</button>
-        <button class="btn">Visit GitHub</button>
-      </div>
+        <a href="yash_resume.pdf" class="btn">Download Resume</a>
+        <a href="https://github.com/yashbhanushali17" target="_blank" class="btn">Visit GitHub</a>
+</div>
     </div>
 
     <div class="rightsection">
@@ -140,22 +140,41 @@
   <section id="contact" class="contact-section">
     <h1>Contact Me</h1>
 
-    <form>
+<form id="contactForm">
 
-      <input type="text" placeholder="Your Name" required>
+  <input
+    type="text"
+    name="name"
+    placeholder="Your Name"
+    required
+  >
 
-      <input type="email" placeholder="Your Email" required>
+  <input
+    type="email"
+    name="email"
+    placeholder="Your Email"
+    required
+  >
 
-      <textarea placeholder="Your Message" required></textarea>
+  <textarea
+    name="message"
+    placeholder="Your Message"
+    required
+  ></textarea>
 
-      <button type="submit" class="btn">Send Message</button>
+  <button type="submit" class="btn">
+    Send Message
+  </button>
 
-    </form>
+</form>
+
+<p id="statusMsg"></p>
+
   </section>
 
 </main>
 
-
+  <script src="script.js"></script>
     <!-- for getting animation we will get this cdn from typed.js github -->
     <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
     <script>
