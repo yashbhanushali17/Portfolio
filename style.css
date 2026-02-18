@@ -54,8 +54,14 @@
       .rightsection img {
         width: 80%;
       }
+      .intro {
+  white-space: nowrap;
+  display: inline-block;
+}
+
       .purple {
         color: rgb(194, 7, 194);
+      
       }
       #element {
         color: rgb(194, 7, 194);
