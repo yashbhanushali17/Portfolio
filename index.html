@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yash -ML Engineer Portfolio</title>
+<link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <div class="left">Yash's Portfolio</div>
+        <div class="right">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/">About</a></li>
+            <li><a href="/">Skills</a></li>
+            <li><a href="/">Projects</a></li>
+            <li><a href="/">Contact Me</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+<main>
+
+  <!-- HOME (UNCHANGED) -->
+  <section class="firstsection">
+    <div class="leftsection">
+      Hi , My name is <span class="purple">Yash</span>
+      <div>and I am an Aspiring</div>
+      <span id="element"></span> <br>
+
+      <div class="buttons">
+        <button class="btn">Download Resume</button>
+        <button class="btn">Visit GitHub</button>
+      </div>
+    </div>
+
+    <div class="rightsection">
+      <img src="bg.png" alt="" />
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about-section">
+    <h1>About Me</h1>
+    <p>
+      I am Yash, an aspiring Machine Learning Engineer.
+      I love working on AI, Data Science, and building intelligent systems.
+      My goal is to become a professional ML Engineer and contribute to
+      impactful projects.
+    </p>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="skills-section">
+    <h1>Skills</h1>
+
+    <div class="skills-container">
+
+      <!-- Skill 1 -->
+      <div class="skill-card">
+        <img src="python.png" alt="Python">
+        <h3>Python</h3>
+
+        <div class="bar">
+          <div class="progress" style="width:80%"></div>
+        </div>
+
+        <p>8 / 10</p>
+      </div>
+
+      <!-- Skill 2 -->
+      <div class="skill-card">
+        <img src="ml.png" alt="ML">
+        <h3>Machine Learning</h3>
+
+        <div class="bar">
+          <div class="progress" style="width:70%"></div>
+        </div>
+
+        <p>7 / 10</p>
+      </div>
+
+      <!-- Skill 3 -->
+      <div class="skill-card">
+        <img src="sklearn.png" alt="sklearn">
+        <h3>Sklearn</h3>
+
+        <div class="bar">
+          <div class="progress" style="width:60%"></div>
+        </div>
+
+        <p>6 / 10</p>
+      </div>
+
+      <!-- Skill 4 -->
+      <div class="skill-card">
+        <img src="sql.png" alt="SQL">
+        <h3>SQL</h3>
+
+        <div class="bar">
+          <div class="progress" style="width:70%"></div>
+        </div>
+
+        <p>7 / 10</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="projects-section">
+    <h1>Projects</h1>
+
+    <div class="projects-container">
+
+      <div class="project-card">
+        <h3>Face Recognition System</h3>
+        <p>Built using Python and OpenCV.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>Stock Price Prediction</h3>
+        <p>Used Machine Learning models.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>Chatbot</h3>
+        <p>AI-powered conversational assistant.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact-section">
+    <h1>Contact Me</h1>
+
+    <form>
+
+      <input type="text" placeholder="Your Name" required>
+
+      <input type="email" placeholder="Your Email" required>
+
+      <textarea placeholder="Your Message" required></textarea>
+
+      <button type="submit" class="btn">Send Message</button>
+
+    </form>
+  </section>
+
+</main>
+
+
+    <!-- for getting animation we will get this cdn from typed.js github -->
+    <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
+    <script>
+      var typed = new Typed("#element", {
+        strings: ["ML Engineer"],
+        typeSpeed: 50,
+      });
+    </script>
+  </body>
+</html>

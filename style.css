@@ -1,0 +1,322 @@
+      /* navbar */
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: rgb(0, 0, 34);
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 90px;
+      }
+      nav ul {
+        display: flex;
+        justify-content: center;
+      }
+      nav ul li {
+        list-style: none;
+        font-size: 18px;
+        margin: 0 23px;
+      }
+      .left {
+        font-size: 2rem;
+        font-weight: 200;
+      }
+      nav ul li a {
+        text-decoration: none;
+        color: white;
+      }
+      nav ul li a:hover {
+        color: rgb(166, 166, 255);
+        font-size: 22px;
+      }
+
+      /* main part */
+      .firstsection {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin: 120px 0;
+      }
+      .firstsection > div {
+        /* with this div only 1st dev will get this property so if there div inside another div will not get this property */
+        width: 30%; /* this will give width of 30% to both div of section and will be gap between them */
+      }
+      .leftsection {
+        font-size: 3rem;
+        /* margin: 130px 0; */
+      }
+      .rightsection img {
+        width: 80%;
+      }
+      .purple {
+        color: rgb(194, 7, 194);
+      }
+      #element {
+        color: rgb(194, 7, 194);
+      }
+      .leftsection .buttons{
+        padding: 23px;
+      }
+      .leftsection .btn{
+        padding: 12px;
+        background-color: #8915a7;
+        color: white;
+        border: 2px solid white;
+        border-radius: 6px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+/* ABOUT */
+
+.about-section {
+  padding: 80px 100px;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.about-section h1 {
+  color: rgb(194, 7, 194);
+  margin-bottom: 20px;
+}
+
+/* SKILLS */
+
+.skills-section {
+  padding: 80px 100px;
+}
+
+.skills-section h1 {
+  text-align: center;
+  color: rgb(194, 7, 194);
+  margin-bottom: 40px;
+}
+
+.skills-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.skill-card {
+  background: rgb(10, 10, 60);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.skill-card img {
+  width: 60px;
+  
+  margin-bottom: 10px;
+}
+
+.bar {
+  background: #444;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress {
+  height: 100%;
+  background: rgb(194, 7, 194);
+}
+
+/* PROJECTS */
+
+.projects-section {
+  padding: 80px 100px;
+}
+
+.projects-section h1 {
+  text-align: center;
+  color: rgb(194, 7, 194);
+  margin-bottom: 40px;
+}
+
+.projects-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.project-card {
+  background: rgb(10,10,60);
+  padding: 25px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+}
+
+/* CONTACT */
+
+.contact-section {
+  padding: 80px 100px;
+  text-align: center;
+}
+
+.contact-section h1 {
+  color: rgb(194, 7, 194);
+  margin-bottom: 30px;
+}
+
+.contact-section form {
+  max-width: 500px;
+  margin: auto;
+}
+
+.contact-section input,
+.contact-section textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background: #111;
+  color: white;
+  border: 1px solid white;
+  border-radius: 6px;
+}
+
+.contact-section textarea {
+  height: 120px;
+  resize: none;
+}
+
+.contact-section .btn{
+            padding: 10px;
+        background-color: #8915a7;
+        color: white;
+        border: 2px solid white;
+        border-radius: 6px;
+        font-size: 20px;
+        cursor: pointer;
+}
+
+
+/* ============================= */
+/* RESPONSIVE DESIGN */
+/* ============================= */
+
+/* Tablets & Small Laptops */
+@media (max-width: 1024px) {
+
+  .firstsection {
+    flex-direction: column;
+    text-align: center;
+    margin: 80px 0;
+  }
+
+  .firstsection > div {
+    width: 80%;
+  }
+
+  .rightsection img {
+    width: 70%;
+    margin-top: 30px;
+  }
+
+  nav ul li {
+    margin: 0 15px;
+    font-size: 16px;
+  }
+
+  .leftsection {
+    font-size: 2.5rem;
+  }
+}
+
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+
+  /* Navbar */
+
+  nav {
+    flex-direction: column;
+    height: auto;
+    padding: 15px 0;
+  }
+
+  .left {
+    margin-bottom: 10px;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+  }
+
+  nav ul li {
+    margin: 8px 12px;
+    font-size: 15px;
+  }
+
+  /* Home Section */
+
+  .firstsection {
+    margin: 60px 0;
+  }
+
+  .leftsection {
+    font-size: 2rem;
+  }
+
+  .buttons {
+    padding: 15px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 10px 14px;
+    margin: 5px;
+  }
+
+  .rightsection img {
+    width: 80%;
+  }
+
+  /* Sections Padding */
+
+  .about-section,
+  .skills-section,
+  .projects-section,
+  .contact-section {
+    padding: 60px 30px;
+  }
+
+}
+
+
+/* Very Small Screens */
+@media (max-width: 480px) {
+
+  .leftsection {
+    font-size: 1.7rem;
+  }
+
+  .left {
+    font-size: 1.6rem;
+  }
+
+  nav ul li {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .skill-card,
+  .project-card {
+    padding: 15px;
+  }
+
+}
