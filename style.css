@@ -110,8 +110,10 @@
 
 .skills-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 25px;
+
+  justify-items: center;
 }
 
 .skill-card {
@@ -121,25 +123,21 @@
   text-align: center;
 
   width: 260px;
-  height: 260px;          /* Makes it square */
+  height: 260px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  margin: auto;
 }
-
 
 .skill-card img {
-  width: 90px;          /* Bigger icon */
+  width: 90px;
   height: 90px;
-
   object-fit: contain;
-
   margin-bottom: 15px;
 }
+
 
 
 .bar {
