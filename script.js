@@ -17,42 +17,7 @@ new Typed('#typed-el', {
 });
 
 // ── Custom Cursor ─────────────────────────────
-const cursor     = document.getElementById('cursor');
-const cursorRing = document.getElementById('cursorRing');
-
-let mouseX = -100, mouseY = -100;
-let ringX  = -100, ringY  = -100;
-
-// Hide cursor until mouse moves
-cursor.style.opacity = '0';
-cursorRing.style.opacity = '0';
-
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursor.style.opacity = '1';
-  cursorRing.style.opacity = '1';
-  cursor.style.transform = `translate(${mouseX - 5}px, ${mouseY - 5}px)`;
-});
-
-(function animateRing() {
-  ringX += (mouseX - ringX - 18) * 0.12;
-  ringY += (mouseY - ringY - 18) * 0.12;
-  cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
-  requestAnimationFrame(animateRing);
-})();
-
-// Cursor hover effects
-document.querySelectorAll('a, button, .proj-card, .stat-card, .skill-item, .social-link, .c-social, .tech-pill').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.transform += ' scale(2)';
-    cursorRing.style.transform += ' scale(1.6)';
-    cursorRing.style.borderColor = 'rgba(255,255,255,0.7)';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursorRing.style.borderColor = 'rgba(255,255,255,0.4)';
-  });
-});
+// Custom cursor disabled - using default arrow cursor
 
 // ── Scroll Progress Bar ───────────────────────
 const scrollBar = document.getElementById('scrollBar');
@@ -70,7 +35,6 @@ const revealObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
-      // Animate skill bars when skills section reveals
       entry.target.querySelectorAll('.skill-fill').forEach(bar => {
         bar.style.width = bar.dataset.w;
       });
@@ -191,3 +155,175 @@ if (contactForm && statusMsg) {
     }
   });
 }
+
+// =============================================
+//  AI CHATBOT
+// =============================================
+
+const WORKER_URL = 'https://round-paper-417b.yashbhanushali1710.workers.dev/';
+
+const YASH_PORTFOLIO = {
+  name: "Yash Bhanushali",
+  bio: "Aspiring Machine Learning Engineer and AI Enthusiast with 2+ years of learning in data science and AI. Passionate about building intelligent systems that solve real-world problems.",
+  skills: {
+    "Python": "8/10 - Strong proficiency in data science and ML libraries",
+    "Machine Learning": "7/10 - Model training, evaluation, and optimization",
+    "Scikit-learn": "6/10 - Supervised and unsupervised learning models",
+    "SQL": "7/10 - Database design and complex queries",
+    "Computer Vision": "6/10 - Image processing and face recognition",
+    "NLP": "5/10 - Natural language processing and text analysis",
+    "Data Analysis": "7/10 - Statistical analysis and data visualization",
+    "Git & Version Control": "6/10 - Collaborative development"
+  },
+  projects: [
+    {
+      name: "Face Recognition System",
+      description: "Real-time face detection and recognition pipeline using Python and OpenCV. Identifies faces with high accuracy across varying lighting conditions.",
+      tags: ["Python", "OpenCV", "face_recognition", "ML"]
+    },
+    {
+      name: "Stock Price Prediction",
+      description: "ML models trained on historical market data to forecast stock price movements and trends using regression algorithms.",
+      tags: ["Python", "Sklearn", "Pandas", "Time Series"]
+    },
+    {
+      name: "AI Chatbot",
+      description: "NLP-powered conversational assistant capable of understanding intent and generating contextual responses.",
+      tags: ["NLP", "NLTK", "Python", "Text Processing"]
+    },
+    {
+      name: "Data Analysis Dashboard",
+      description: "Interactive EDA tool to surface insights from complex datasets quickly and visually.",
+      tags: ["Pandas", "Matplotlib", "Seaborn", "Data Visualization"]
+    }
+  ],
+  experience: {
+    "2023": "Started learning Python & Data Science — self-taught foundations",
+    "2024": "Dived into Machine Learning — Sklearn, model training & evaluation",
+    "2025": "Building real-world projects — Face recognition, stock prediction, NLP"
+  },
+  stats: { Projects: "4+", LearningStreak: "2 years", CuriosityLevel: "∞" },
+  contact: "Available for ML engineering opportunities, internships, and collaborations. Use the contact form on this site or reach out via LinkedIn/GitHub.",
+  github: "https://github.com/yashbhanushali17"
+};
+
+// DOM
+const chatbotToggle   = document.getElementById('chatbot-toggle');
+const chatbotWidget   = document.getElementById('chatbot-widget');
+const closeBtn        = document.getElementById('close-chatbot');
+const chatInput       = document.getElementById('chat-input');
+const sendBtn         = document.getElementById('send-btn');
+const chatMessages    = document.getElementById('chat-messages');
+const typingIndicator = document.getElementById('typing-indicator');
+
+// Toggle open/close
+chatbotToggle.addEventListener('click', () => {
+  const isOpen = chatbotWidget.classList.toggle('open');
+  chatbotToggle.classList.toggle('active', isOpen);
+  // Hide notification dot on first open
+  const notif = chatbotToggle.querySelector('.fab-notif');
+  if (notif) notif.style.display = 'none';
+  if (isOpen) setTimeout(() => chatInput.focus(), 380);
+});
+
+closeBtn.addEventListener('click', () => {
+  chatbotWidget.classList.remove('open');
+  chatbotToggle.classList.remove('active');
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && chatbotWidget.classList.contains('open')) {
+    chatbotWidget.classList.remove('open');
+    chatbotToggle.classList.remove('active');
+  }
+});
+
+// Suggestion chips
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const chipText = chip.textContent.replace(/[^\w\s?]/g, '').trim();
+    chatInput.value = chipText;
+    chatInput.focus();
+    sendMessage();
+  });
+});
+
+// Time helper
+function getTime() {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+// Add a message bubble
+function addChatMessage(text, sender) {
+  const wrap = document.createElement('div');
+  wrap.className = `chat-message ${sender}-msg`;
+
+  const p = document.createElement('p');
+  p.textContent = text;
+  wrap.appendChild(p);
+
+  const time = document.createElement('span');
+  time.className = 'msg-time';
+  time.textContent = getTime();
+  wrap.appendChild(time);
+
+  // Insert before typing indicator so it stays at bottom
+  chatMessages.insertBefore(wrap, typingIndicator);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Main send function
+async function sendMessage() {
+  const message = chatInput.value.trim();
+  if (!message) return;
+
+  addChatMessage(message, 'user');
+  chatInput.value = '';
+  chatInput.style.height = 'auto';
+
+  // Show typing
+  typingIndicator.classList.add('show');
+  sendBtn.disabled = true;
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, portfolioData: YASH_PORTFOLIO })
+    });
+
+    const data = await res.json();
+    typingIndicator.classList.remove('show');
+
+    if (data.success) {
+      addChatMessage(data.message, 'bot');
+    } else {
+      addChatMessage('❌ ' + (data.error || 'Something went wrong. Please try again.'), 'bot');
+    }
+  } catch (err) {
+    typingIndicator.classList.remove('show');
+    addChatMessage('❌ Network error. Please check your connection and try again.', 'bot');
+    console.error('Chat error:', err);
+  } finally {
+    sendBtn.disabled = false;
+    chatInput.focus();
+  }
+}
+
+// Send on button click
+sendBtn.addEventListener('click', sendMessage);
+
+// Send on Enter (not Shift+Enter)
+chatInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// Auto-grow textarea
+chatInput.addEventListener('input', () => {
+  chatInput.style.height = 'auto';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 80) + 'px';
+});
