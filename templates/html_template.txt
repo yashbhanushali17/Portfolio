@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,7 +6,7 @@
   <title>Yash — ML Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,25 +21,18 @@
 <!-- Dot grid canvas -->
 <canvas id="bg"></canvas>
 
-<!-- Background glow orbs -->
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
-
 <!-- ═══ HEADER ═══ -->
 <header id="header">
   <a href="#home" class="nav-logo">
-    <div class="logo-bracket">[</div>
-    <span class="logo-text">YASH</span>
-    <span class="logo-dot">.DEV</span>
-    <div class="logo-bracket">]</div>
+    <div class="dot"></div>
+    YASH.DEV
   </a>
   <nav>
     <ul>
-      <li><a href="#home"><span class="nav-num">01.</span>Home</a></li>
-      <li><a href="#about"><span class="nav-num">02.</span>About</a></li>
-      <li><a href="#skills"><span class="nav-num">03.</span>Skills</a></li>
-      <li><a href="#projects"><span class="nav-num">04.</span>Projects</a></li>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
       <li><a href="#contact" class="nav-cta">Contact</a></li>
     </ul>
   </nav>
@@ -50,17 +43,19 @@
 
 <!-- Mobile nav -->
 <div class="mobile-nav" id="mobileNav">
-  <a href="#home" onclick="closeMobileNav()"><span>01.</span>Home</a>
-  <a href="#about" onclick="closeMobileNav()"><span>02.</span>About</a>
-  <a href="#skills" onclick="closeMobileNav()"><span>03.</span>Skills</a>
-  <a href="#projects" onclick="closeMobileNav()"><span>04.</span>Projects</a>
-  <a href="#contact" onclick="closeMobileNav()"><span>05.</span>Contact</a>
+  <a href="#home" onclick="closeMobileNav()">Home</a>
+  <a href="#about" onclick="closeMobileNav()">About</a>
+  <a href="#skills" onclick="closeMobileNav()">Skills</a>
+  <a href="#projects" onclick="closeMobileNav()">Projects</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
 </div>
 
 <main>
 
   <!-- ═══ HOME ═══ -->
   <section id="home">
+
+    <!-- Blurred background image -->
     <div class="hero-bg">
       <img src="images/bg.png" alt="" class="hero-bg-img">
       <div class="hero-bg-overlay"></div>
@@ -71,67 +66,33 @@
         <span class="pulse"></span>
         Available for Opportunities
       </div>
-
-      <div class="hero-greeting">Hello, World! 👋</div>
-
       <h1 class="home-name">
-        I'm <span class="name-highlight">Yash</span>
+        Hi, I'm<br><span class="outline">Yash</span>
       </h1>
-
-      <div class="home-role">
-        <span class="role-prefix">&lt;</span>
-        ML Engineer &amp; AI Enthusiast
-        <span class="role-suffix">/&gt;</span>
-      </div>
-
-      <div class="typed-wrap">
-        <span class="typed-prefix">$ </span>
-        <span id="typed-el"></span>
-        <span class="typed-cursor-line">_</span>
-      </div>
-
+      <div class="home-role">ML Engineer &amp; AI Enthusiast</div>
+      <span id="typed-el"></span>
       <div class="home-btns">
         <a href="Yash_Nanda_Resume.pdf" class="btn btn-solid">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download Resume
         </a>
-        <a href="#projects" class="btn btn-ghost">
-          View Work
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
+        <a href="#projects" class="btn btn-ghost">View Work →</a>
       </div>
     </div>
 
     <!-- Profile card -->
     <div class="home-right">
       <div class="profile-card">
-        <div class="card-glow"></div>
         <div class="profile-img-wrap">
-          <div class="img-ring"></div>
           <img src="images/bg.png" alt="Yash">
-          <div class="img-status"></div>
         </div>
-        <h3>Yash Bhanushali</h3>
-        <div class="role-tag">
-          <span class="tag-dot"></span>
-          ML_ENGINEER
-        </div>
+        <h3>Yash</h3>
+        <div class="role-tag">ML_ENGINEER</div>
         <div class="profile-divider"></div>
         <div class="profile-stats">
-          <div class="stat-item">
-            <span class="s-num">4+</span>
-            <span class="s-lbl">Projects</span>
-          </div>
-          <div class="stat-sep"></div>
-          <div class="stat-item">
-            <span class="s-num">2yr</span>
-            <span class="s-lbl">Learning</span>
-          </div>
-          <div class="stat-sep"></div>
-          <div class="stat-item">
-            <span class="s-num">∞</span>
-            <span class="s-lbl">Curiosity</span>
-          </div>
+          <div><span class="s-num">4+</span><span class="s-lbl">Projects</span></div>
+          <div><span class="s-num">2yr</span><span class="s-lbl">Learning</span></div>
+          <div><span class="s-num">∞</span><span class="s-lbl">Curiosity</span></div>
         </div>
         <div class="profile-divider"></div>
         <div class="social-connect">
@@ -176,67 +137,44 @@
 
   <!-- ═══ ABOUT ═══ -->
   <section id="about" class="section-wrap reveal">
-    <div class="section-header">
-      <div class="section-tag">// 01 — about me</div>
-      <h2 class="section-title">Who I <span>Am</span></h2>
-    </div>
+    <div class="section-tag">// 01 — about me</div>
+    <h2 class="section-title">Who I <span>Am</span></h2>
     <div class="about-grid">
       <div class="about-bio">
         <p>I'm <strong>Yash</strong>, an aspiring Machine Learning Engineer with a deep passion for AI, data science, and building systems that think. I believe the intersection of mathematics, statistics, and software is where the most exciting problems live.</p>
         <p>My journey started with curiosity — asking how machines can learn from data, detect patterns, and make decisions. That question still drives me every day.</p>
-        <p>I'm currently building projects spanning <strong>Regression, Classification and predictive analytics</strong>, while sharpening my fundamentals.</p>
-
+        <p>I'm currently building projects spanning <strong>Regression , Classification and predictive analytics</strong>, while sharpening my fundamentals.</p>
         <div class="timeline">
           <div class="tl-item">
-            <div class="tl-icon">🚀</div>
-            <div class="tl-line"></div>
+            <div class="tl-dot">🚀</div>
             <div class="tl-content">
-              <div class="tl-year">2023</div>
               <h4>Started learning Python &amp; Data Science</h4>
-              <p>Self-taught foundations in ML and data science</p>
+              <p>2023 · Self-taught foundations</p>
             </div>
           </div>
           <div class="tl-item">
-            <div class="tl-icon">🤖</div>
-            <div class="tl-line"></div>
+            <div class="tl-dot">🤖</div>
             <div class="tl-content">
-              <div class="tl-year">2024</div>
               <h4>Dived into Machine Learning</h4>
-              <p>Sklearn, model training &amp; evaluation</p>
+              <p>2024 · Sklearn, model training &amp; evaluation</p>
             </div>
           </div>
           <div class="tl-item">
-            <div class="tl-icon">💡</div>
-            <div class="tl-line last"></div>
+            <div class="tl-dot">💡</div>
             <div class="tl-content">
-              <div class="tl-year">2025</div>
               <h4>Building real-world projects</h4>
-              <p>Web development, stock prediction, Classification</p>
+              <p>2025 · Web development, stock prediction, Classification</p>
             </div>
           </div>
         </div>
       </div>
-
       <div class="about-right">
         <div class="stat-row">
-          <div class="stat-card">
-            <span class="num">4+</span>
-            <span class="lbl">Projects shipped</span>
-          </div>
-          <div class="stat-card">
-            <span class="num">8/10</span>
-            <span class="lbl">Python proficiency</span>
-          </div>
-          <div class="stat-card">
-            <span class="num">2yr</span>
-            <span class="lbl">Learning streak</span>
-          </div>
-          <div class="stat-card">
-            <span class="num">∞</span>
-            <span class="lbl">Curiosity level</span>
-          </div>
+          <div class="stat-card"><span class="num">4+</span><span class="lbl">Projects shipped</span></div>
+          <div class="stat-card"><span class="num">8/10</span><span class="lbl">Python proficiency</span></div>
+          <div class="stat-card"><span class="num">2yr</span><span class="lbl">Learning streak</span></div>
+          <div class="stat-card"><span class="num">∞</span><span class="lbl">Curiosity level</span></div>
         </div>
-
         <div class="tech-stack">
           <h4>// Tech I work with</h4>
           <div class="tech-pills">
@@ -257,219 +195,73 @@
   <!-- ═══ SKILLS ═══ -->
   <section id="skills">
     <div class="section-wrap reveal">
-      <div class="section-header">
-        <div class="section-tag">// 02 — skills</div>
-        <h2 class="section-title">What I <span>Know</span></h2>
-      </div>
+      <div class="section-tag">// 02 — skills</div>
+      <h2 class="section-title">What I <span>Know</span></h2>
       <div class="skills-grid">
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-icon">🐍</span>
-            <h3>Python</h3>
-          </div>
-          <div class="skill-meta">
-            <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">8/10</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="80%"></div></div>
-        </div>
-
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-icon">🧠</span>
-            <h3>Machine Learning</h3>
-          </div>
-          <div class="skill-meta">
-            <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">7/10</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="70%"></div></div>
-        </div>
-
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-icon">🔬</span>
-            <h3>Scikit-learn</h3>
-          </div>
-          <div class="skill-meta">
-            <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">6/10</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="60%"></div></div>
-        </div>
-
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-icon">🗄️</span>
-            <h3>SQL</h3>
-          </div>
-          <div class="skill-meta">
-            <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">7/10</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="70%"></div></div>
-        </div>
-
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-icon">⚡</span>
-            <h3>FastAPI</h3>
-          </div>
-          <div class="skill-meta">
-            <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">6/10</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="60%"></div></div>
-        </div>
-
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-icon">📊</span>
-            <h3>Visualization</h3>
-          </div>
-          <div class="skill-meta">
-            <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">5/10</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="50%"></div></div>
-        </div>
-
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-icon">📈</span>
-            <h3>Data Analysis</h3>
-          </div>
-          <div class="skill-meta">
-            <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">7/10</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="72%"></div></div>
-        </div>
-
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-icon">🔗</span>
-            <h3>Git &amp; Version Control</h3>
-          </div>
-          <div class="skill-meta">
-            <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">6/10</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="60%"></div></div>
-        </div>
+        <div class="skill-item"><span class="skill-icon">🐍</span><h3>Python</h3><div class="skill-level">PROFICIENCY · 8/10</div><div class="skill-bar"><div class="skill-fill" data-w="80%"></div></div></div>
+        <div class="skill-item"><span class="skill-icon">🧠</span><h3>Machine Learning</h3><div class="skill-level">PROFICIENCY · 7/10</div><div class="skill-bar"><div class="skill-fill" data-w="70%"></div></div></div>
+        <div class="skill-item"><span class="skill-icon">🔬</span><h3>Scikit-learn</h3><div class="skill-level">PROFICIENCY · 6/10</div><div class="skill-bar"><div class="skill-fill" data-w="60%"></div></div></div>
+        <div class="skill-item"><span class="skill-icon">🗄️</span><h3>SQL</h3><div class="skill-level">PROFICIENCY · 7/10</div><div class="skill-bar"><div class="skill-fill" data-w="70%"></div></div></div>
+        <div class="skill-item"><span class="skill-icon">👁️</span><h3>FastAPI</h3><div class="skill-level">PROFICIENCY · 6/10</div><div class="skill-bar"><div class="skill-fill" data-w="60%"></div></div></div>
+        <div class="skill-item"><span class="skill-icon">📝</span><h3>Visualization</h3><div class="skill-level">PROFICIENCY · 5/10</div><div class="skill-bar"><div class="skill-fill" data-w="50%"></div></div></div>
+        <div class="skill-item"><span class="skill-icon">📊</span><h3>Data Analysis</h3><div class="skill-level">PROFICIENCY · 7/10</div><div class="skill-bar"><div class="skill-fill" data-w="72%"></div></div></div>
+        <div class="skill-item"><span class="skill-icon">🔗</span><h3>Git &amp; Version Control</h3><div class="skill-level">PROFICIENCY · 6/10</div><div class="skill-bar"><div class="skill-fill" data-w="60%"></div></div></div>
       </div>
     </div>
   </section>
 
   <!-- ═══ PROJECTS ═══ -->
   <section id="projects" class="section-wrap reveal">
-    <div class="section-header">
-      <div class="section-tag">// 03 — projects</div>
-      <h2 class="section-title">What I've <span>Built</span></h2>
-    </div>
+    <div class="section-tag">// 03 — projects</div>
+    <h2 class="section-title">What I've <span>Built</span></h2>
     <div class="projects-grid">
-
       <div class="proj-card">
-        <div class="proj-glow"></div>
         <div class="proj-body">
-          <div class="proj-top">
-            <div class="proj-num">PROJECT_01</div>
-            <div class="proj-icon">👁️</div>
-          </div>
+          <div class="proj-num">PROJECT_01</div>
+          <div class="proj-icon">👁️</div>
           <h3>Cohort-A communication Website</h3>
           <p>Cohort is a real-time chat and communication platform designed for seamless collaboration.</p>
-          <div class="proj-tags">
-            <span class="proj-tag">React</span>
-            <span class="proj-tag">Node.js</span>
-            <span class="proj-tag">MongoDB</span>
-            <span class="proj-tag">Socket IO</span>
-          </div>
-          <a href="https://github.com/yashbhanushali17/Cohort" target="_blank" class="proj-link">
-            View on GitHub
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
+          <div class="proj-tags"><span class="proj-tag">React</span><span class="proj-tag">Node.js</span><span class="proj-tag">MongoDB</span><span class="proj-tag">socket IO</span></div>
+          <a href="https://github.com/yashbhanushali17/Cohort" target="_blank" class="proj-link">View on GitHub →</a>
         </div>
       </div>
-
       <div class="proj-card">
-        <div class="proj-glow"></div>
-        <div class="proj-body">
-          <div class="proj-top">
-            <div class="proj-num">PROJECT_02</div>
-            <div class="proj-icon">📈</div>
-          </div>
-          <h3>DiagnoWeb Diabetes Risk Predictor</h3>
-          <p>ML models trained on patient data to predict diabetes risk with high accuracy.</p>
-          <div class="proj-tags">
-            <span class="proj-tag">Python</span>
-            <span class="proj-tag">Sklearn</span>
-            <span class="proj-tag">Pandas</span>
-            <span class="proj-tag">FastAPI</span>
-          </div>
-          <a href="https://github.com/yashbhanushali17/DiagnoWeb.git" target="_blank" class="proj-link">
-            View on GitHub
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
+        <div class="proj-num">PROJECT_02</div>
+        <div class="proj-icon">📈</div>
+        <h3>DiagnoWeb Diabetes Risk Predictor</h3>
+        <p>ML models trained on patient data to predict diabetes risk.</p>
+        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Sklearn</span><span class="proj-tag">Pandas</span><span class="proj-tag">FastAPI</span><span class="proj-tag">Responsive Frontend</span></div>
+        <a href="https://github.com/yashbhanushali17/DiagnoWeb.git" target="_blank" class="proj-link">View on GitHub →</a>
       </div>
-
       <div class="proj-card">
-        <div class="proj-glow"></div>
-        <div class="proj-body">
-          <div class="proj-top">
-            <div class="proj-num">PROJECT_03</div>
-            <div class="proj-icon">🤖</div>
-          </div>
-          <h3>AI Chatbot</h3>
-          <p>An NLP-powered conversational assistant capable of understanding intent and generating contextual responses.</p>
-          <div class="proj-tags">
-            <span class="proj-tag">NLP</span>
-            <span class="proj-tag">NLTK</span>
-            <span class="proj-tag">Python</span>
-          </div>
-          <a href="https://github.com/yashbhanushali17" target="_blank" class="proj-link">
-            View on GitHub
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
+        <div class="proj-num">PROJECT_03</div>
+        <div class="proj-icon">🤖</div>
+        <h3>AI Chatbot</h3>
+        <p>An NLP-powered conversational assistant capable of understanding intent and generating contextual responses.</p>
+        <div class="proj-tags"><span class="proj-tag">NLP</span><span class="proj-tag">NLTK</span><span class="proj-tag">Python</span></div>
+        <a href="https://github.com/yashbhanushali17" target="_blank" class="proj-link">View on GitHub →</a>
       </div>
-
       <div class="proj-card">
-        <div class="proj-glow"></div>
-        <div class="proj-body">
-          <div class="proj-top">
-            <div class="proj-num">PROJECT_04</div>
-            <div class="proj-icon">📊</div>
-          </div>
-          <h3>Data Analysis Dashboard</h3>
-          <p>Interactive EDA tool to surface insights from complex datasets quickly and visually.</p>
-          <div class="proj-tags">
-            <span class="proj-tag">Pandas</span>
-            <span class="proj-tag">Matplotlib</span>
-            <span class="proj-tag">Seaborn</span>
-          </div>
-          <a href="https://github.com/yashbhanushali17" target="_blank" class="proj-link">
-            View on GitHub
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
+        <div class="proj-num">PROJECT_04</div>
+        <div class="proj-icon">📊</div>
+        <h3>Data Analysis Dashboard</h3>
+        <p>Interactive EDA tool to surface insights from complex datasets quickly and visually.</p>
+        <div class="proj-tags"><span class="proj-tag">Pandas</span><span class="proj-tag">Matplotlib</span><span class="proj-tag">Seaborn</span></div>
+        <a href="https://github.com/yashbhanushali17" target="_blank" class="proj-link">View on GitHub →</a>
       </div>
-
     </div>
   </section>
 
   <!-- ═══ CONTACT ═══ -->
   <section id="contact">
     <div class="section-wrap reveal">
-      <div class="section-header">
-        <div class="section-tag">// 04 — contact</div>
-        <h2 class="section-title">Let's <span>Connect</span></h2>
-      </div>
+      <div class="section-tag">// 04 — contact</div>
+      <h2 class="section-title">Let's <span>Connect</span></h2>
       <div class="contact-wrap">
         <div class="contact-info">
           <p>I'm actively looking for ML engineering opportunities, internships, and collaborations. Whether you have a project idea or just want to connect — my inbox is always open.</p>
-
           <div class="contact-socials">
+
             <a href="https://github.com/yashbhanushali17" target="_blank" class="c-social">
               <div class="c-icon" style="background:#161b22;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -501,33 +293,19 @@
               <div class="c-text"><span class="c-label">Email</span><span class="c-sub">yashbhanushali1710@email.com</span></div>
               <span class="c-arr">→</span>
             </a>
+
           </div>
         </div>
 
-        <div class="contact-form-wrap">
+        <div>
           <form class="contact-form" id="contactForm">
-            <div class="form-row">
-              <div class="form-field">
-                <label>Your Name</label>
-                <input type="text" name="name" placeholder="John Doe" required>
-              </div>
-              <div class="form-field">
-                <label>Your Email</label>
-                <input type="email" name="email" placeholder="john@example.com" required>
-              </div>
+            <div class="form-group">
+              <input type="text" name="name" placeholder="Your Name" required>
+              <input type="email" name="email" placeholder="Your Email" required>
             </div>
-            <div class="form-field">
-              <label>Subject</label>
-              <input type="text" name="subject" placeholder="Project Collaboration / Opportunity">
-            </div>
-            <div class="form-field">
-              <label>Message</label>
-              <textarea name="message" placeholder="Tell me about your project or opportunity..." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-solid btn-full">
-              Send Message
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            </button>
+            <input type="text" name="subject" placeholder="Subject">
+            <textarea name="message" placeholder="Tell me about your project or opportunity..." required></textarea>
+            <button type="submit" class="btn btn-solid">Send Message →</button>
             <p id="statusMsg"></p>
           </form>
         </div>
@@ -571,26 +349,27 @@
 </button>
 
 <div id="chatbot-widget" role="dialog" aria-label="AI Chat Assistant">
+
   <div class="chatbot-header">
     <div class="chatbot-title">
-      <div class="chat-avatar">
-        <svg width="22" height="22" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="18" y1="5" x2="18" y2="10" stroke="rgba(255,255,255,0.9)" stroke-width="1.8" stroke-linecap="round"/>
-          <circle cx="18" cy="3.5" r="2" fill="rgba(255,255,255,0.9)"/>
-          <rect x="9" y="10" width="18" height="13" rx="4" fill="rgba(255,255,255,0.9)"/>
-          <circle cx="14" cy="16" r="2.2" fill="rgba(255,255,255,0.15)"/>
-          <circle cx="22" cy="16" r="2.2" fill="rgba(255,255,255,0.15)"/>
-          <circle cx="14.7" cy="15.3" r="0.7" fill="rgba(255,255,255,0.9)"/>
-          <circle cx="22.7" cy="15.3" r="0.7" fill="rgba(255,255,255,0.9)"/>
-          <path d="M14 19.5 Q18 22 22 19.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-          <rect x="11" y="24" width="14" height="9" rx="3" fill="rgba(255,255,255,0.8)"/>
-          <circle cx="15" cy="28.5" r="1.2" fill="rgba(255,255,255,0.2)"/>
-          <circle cx="18" cy="28.5" r="1.2" fill="rgba(255,255,255,0.2)"/>
-          <circle cx="21" cy="28.5" r="1.2" fill="rgba(255,255,255,0.2)"/>
-          <rect x="5" y="24" width="5" height="7" rx="2.5" fill="rgba(255,255,255,0.7)"/>
-          <rect x="26" y="24" width="5" height="7" rx="2.5" fill="rgba(255,255,255,0.7)"/>
-        </svg>
-      </div>
+<div class="chat-avatar">
+  <svg width="22" height="22" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="18" y1="5" x2="18" y2="10" stroke="rgba(255,255,255,0.9)" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="18" cy="3.5" r="2" fill="rgba(255,255,255,0.9)"/>
+    <rect x="9" y="10" width="18" height="13" rx="4" fill="rgba(255,255,255,0.9)"/>
+    <circle cx="14" cy="16" r="2.2" fill="rgba(255,255,255,0.15)"/>
+    <circle cx="22" cy="16" r="2.2" fill="rgba(255,255,255,0.15)"/>
+    <circle cx="14.7" cy="15.3" r="0.7" fill="rgba(255,255,255,0.9)"/>
+    <circle cx="22.7" cy="15.3" r="0.7" fill="rgba(255,255,255,0.9)"/>
+    <path d="M14 19.5 Q18 22 22 19.5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <rect x="11" y="24" width="14" height="9" rx="3" fill="rgba(255,255,255,0.8)"/>
+    <circle cx="15" cy="28.5" r="1.2" fill="rgba(255,255,255,0.2)"/>
+    <circle cx="18" cy="28.5" r="1.2" fill="rgba(255,255,255,0.2)"/>
+    <circle cx="21" cy="28.5" r="1.2" fill="rgba(255,255,255,0.2)"/>
+    <rect x="5" y="24" width="5" height="7" rx="2.5" fill="rgba(255,255,255,0.7)"/>
+    <rect x="26" y="24" width="5" height="7" rx="2.5" fill="rgba(255,255,255,0.7)"/>
+  </svg>
+</div>
       <div class="chat-name-status">
         <h3>Yash's AI</h3>
         <span class="chat-status">
@@ -636,6 +415,7 @@
       </button>
     </div>
   </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
