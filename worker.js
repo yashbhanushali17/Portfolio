@@ -12,7 +12,6 @@ export default {
       'Access-Control-Allow-Headers': 'Content-Type',
     };
 
-    // Preflight
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders });
     }
@@ -25,28 +24,39 @@ export default {
     }
 
     try {
-      const body        = await request.json();
-      const userMessage = body.message   || '';
-      const portfolio   = body.portfolioData || {};
+      const body = await request.json();
+      const userMessage = body.message || '';
 
-      // CRITICAL: Check if API key exists
-      const apiKey = env.GROK_API_KEY;
+      const siteRes = await fetch('https://yashnanda-portfolio.vercel.app/');
+      const siteHTML = await siteRes.text();
+
+      const mainContent = siteHTML.match(/<main[\s\S]*?<\/main>/i)?.[0] || '';
+      const footerContent = siteHTML.match(/<footer[\s\S]*?<\/footer>/i)?.[0] || '';
+
+      const siteText = (mainContent + footerContent)
+        .replace(/<script[\s\S]*?<\/script>/gi, '')
+        .replace(/<style[\s\S]*?<\/style>/gi, '')
+        .replace(/<svg[\s\S]*?<\/svg>/gi, '')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      const apiKey = env.GROQ_API_KEY;
       if (!apiKey || apiKey.trim() === '') {
         return new Response(JSON.stringify({ 
           success: false, 
           error: 'API key not configured',
-          details: 'GROK_API_KEY is missing or empty in Cloudflare Worker secrets'
+          details: 'GROQ_API_KEY is missing or empty in Cloudflare Worker secrets'
         }), {
           status: 500,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         });
       }
 
-      // System prompt built from portfolio data
       const systemPrompt = `You are Yash's personal AI assistant embedded on his portfolio website. You are friendly, helpful, and concise.
 
-Here is everything about Yash:
-${JSON.stringify(portfolio, null, 2)}
+Here is Yash's latest live portfolio website text:
+${siteText}
 
 Your instructions:
 - Answer questions about Yash's skills, projects, experience, and background using only the data above.
@@ -57,17 +67,15 @@ Your instructions:
 - Never invent facts about Yash beyond what is given above.
 - Do not use bullet points or markdown formatting — plain conversational text only.`;
 
-      // Call Grok API — fast and capable
-      // GROK_API_KEY must be set in Cloudflare Worker Settings → Variables → Secrets
-      const response = await fetch('https://api.x.ai/v1/chat/completions', {
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          model: 'grok-2',
-          max_tokens: 400,
+          model: 'llama-3.1-8b-instant',
+          max_tokens: 300,
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userMessage }
@@ -77,8 +85,6 @@ Your instructions:
 
       if (!response.ok) {
         const errText = await response.text();
-        console.error('Grok API error status:', response.status);
-        console.error('Grok API error body:', errText);
         return new Response(JSON.stringify({ 
           success: false, 
           error: 'AI service unavailable',
@@ -90,7 +96,7 @@ Your instructions:
         });
       }
 
-      const aiData  = await response.json();
+      const aiData = await response.json();
       const aiReply = aiData.choices?.[0]?.message?.content || 'Sorry, I could not generate a response right now.';
 
       return new Response(JSON.stringify({ success: true, message: aiReply }), {
@@ -98,8 +104,6 @@ Your instructions:
       });
 
     } catch (err) {
-      console.error('Worker error:', err.message);
-      console.error('Full error:', err);
       return new Response(JSON.stringify({ success: false, error: 'Internal server error', details: err.message }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }

@@ -162,50 +162,7 @@ if (contactForm && statusMsg) {
 
 const WORKER_URL = 'https://round-paper-417b.yashbhanushali1710.workers.dev/';
 
-const YASH_PORTFOLIO = {
-  name: "Yash Bhanushali",
-  bio: "Aspiring Machine Learning Engineer and AI Enthusiast with 2+ years of learning in data science and AI. Passionate about building intelligent systems that solve real-world problems.",
-  skills: {
-    "Python": "8/10 - Strong proficiency in data science and ML libraries",
-    "Machine Learning": "7/10 - Model training, evaluation, and optimization",
-    "Scikit-learn": "6/10 - Supervised and unsupervised learning models",
-    "SQL": "7/10 - Database design and complex queries",
-    "Computer Vision": "6/10 - Image processing and face recognition",
-    "NLP": "5/10 - Natural language processing and text analysis",
-    "Data Analysis": "7/10 - Statistical analysis and data visualization",
-    "Git & Version Control": "6/10 - Collaborative development"
-  },
-  projects: [
-    {
-      name: "Face Recognition System",
-      description: "Real-time face detection and recognition pipeline using Python and OpenCV. Identifies faces with high accuracy across varying lighting conditions.",
-      tags: ["Python", "OpenCV", "face_recognition", "ML"]
-    },
-    {
-      name: "Stock Price Prediction",
-      description: "ML models trained on historical market data to forecast stock price movements and trends using regression algorithms.",
-      tags: ["Python", "Sklearn", "Pandas", "Time Series"]
-    },
-    {
-      name: "AI Chatbot",
-      description: "NLP-powered conversational assistant capable of understanding intent and generating contextual responses.",
-      tags: ["NLP", "NLTK", "Python", "Text Processing"]
-    },
-    {
-      name: "Data Analysis Dashboard",
-      description: "Interactive EDA tool to surface insights from complex datasets quickly and visually.",
-      tags: ["Pandas", "Matplotlib", "Seaborn", "Data Visualization"]
-    }
-  ],
-  experience: {
-    "2023": "Started learning Python & Data Science — self-taught foundations",
-    "2024": "Dived into Machine Learning — Sklearn, model training & evaluation",
-    "2025": "Building real-world projects — Face recognition, stock prediction, NLP"
-  },
-  stats: { Projects: "4+", LearningStreak: "2 years", CuriosityLevel: "∞" },
-  contact: "Available for ML engineering opportunities, internships, and collaborations. Use the contact form on this site or reach out via LinkedIn/GitHub.",
-  github: "https://github.com/yashbhanushali17"
-};
+  
 
 // DOM
 const chatbotToggle   = document.getElementById('chatbot-toggle');
@@ -290,7 +247,7 @@ async function sendMessage() {
     const res = await fetch(WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, portfolioData: YASH_PORTFOLIO })
+      body: JSON.stringify({ message })
     });
 
     const data = await res.json();
