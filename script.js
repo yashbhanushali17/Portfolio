@@ -14,9 +14,10 @@
   }
 
   function applyTheme(pref) {
-    document.documentElement.setAttribute('data-theme', resolve(pref));
-    document.querySelectorAll('[data-theme-choice]').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.themeChoice === pref);
+    const resolved = resolve(pref);
+    document.documentElement.setAttribute('data-theme', resolved);
+    document.querySelectorAll('.theme-toggle').forEach(btn => {
+      btn.setAttribute('aria-checked', String(resolved === 'dark'));
     });
   }
 
@@ -53,8 +54,7 @@
   function applyGoat(on, { silent } = {}) {
     document.documentElement.classList.toggle('goat-mode', on);
     document.querySelectorAll('.goat-btn').forEach(btn => {
-      btn.classList.toggle('active', on);
-      btn.setAttribute('aria-pressed', String(on));
+      btn.setAttribute('aria-checked', String(on));
     });
     // Toggling Messi Mode never opens/closes the achievements panel by itself,
     // except to force it shut when the mode is switched off.
@@ -67,11 +67,11 @@
   applyTheme(savedTheme);
   applyGoat(localStorage.getItem(GOAT_KEY) === 'on', { silent: true });
 
-  document.querySelectorAll('[data-theme-choice]').forEach(btn => {
+  document.querySelectorAll('.theme-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
-      const val = btn.dataset.themeChoice;
-      localStorage.setItem(THEME_KEY, val);
-      applyTheme(val);
+      const now = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, now);
+      applyTheme(now);
     });
   });
 
@@ -215,9 +215,121 @@ function addRipple(e) {
   el.appendChild(span);
   span.addEventListener('animationend', () => span.remove());
 }
-document.querySelectorAll('.btn, .chip, .filter-tab, .send-btn, .nav-cta, .theme-btn, .goat-btn').forEach(el => {
+document.querySelectorAll('.btn, .chip, .filter-tab, .send-btn, .nav-cta, .switch-toggle').forEach(el => {
   el.addEventListener('click', addRipple);
 });
+
+// ── Hero showcase — subtle mouse parallax (desktop, GPU-friendly) ──
+(function () {
+  const showcase = document.getElementById('heroShowcase');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!showcase || reduceMotion || !matchMedia('(pointer: fine)').matches) return;
+
+  let targetX = 0, targetY = 0, curX = 0, curY = 0, ticking = false;
+  const MAX_OFFSET = 10; // px
+
+  function onMove(e) {
+    const rect = showcase.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    targetX = ((e.clientX - cx) / rect.width) * MAX_OFFSET;
+    targetY = ((e.clientY - cy) / rect.height) * MAX_OFFSET;
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }
+
+  function update() {
+    curX += (targetX - curX) * 0.12;
+    curY += (targetY - curY) * 0.12;
+    showcase.style.setProperty('--px', curX.toFixed(2) + 'px');
+    showcase.style.setProperty('--py', curY.toFixed(2) + 'px');
+    if (Math.abs(targetX - curX) > 0.05 || Math.abs(targetY - curY) > 0.05) {
+      requestAnimationFrame(update);
+    } else {
+      ticking = false;
+    }
+  }
+
+  document.getElementById('home')?.addEventListener('mousemove', onMove, { passive: true });
+  document.getElementById('home')?.addEventListener('mouseleave', () => {
+    targetX = 0; targetY = 0;
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+})();
+
+// ── LM10 panel — infinite horizontal carousel (auto-scroll, hover pause, drag/swipe) ──
+(function () {
+  const wrap = document.getElementById('goatCarousel');
+  const track = document.getElementById('goatCarouselTrack');
+  if (!wrap || !track) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let pos = 0;
+  let half = 0;
+  let paused = false;
+  let dragging = false;
+  let dragMoved = false;
+  let startX = 0;
+  let startPos = 0;
+
+  function measure() {
+    half = track.scrollWidth / 2;
+  }
+  measure();
+  window.addEventListener('resize', measure, { passive: true });
+
+  function setTransform() {
+    track.style.transform = `translate3d(${pos}px,0,0)`;
+  }
+
+  function frame() {
+    if (!paused && !dragging && !reduceMotion && half > 0) {
+      pos -= 0.55;
+      if (pos <= -half) pos += half;
+      setTransform();
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  wrap.addEventListener('mouseenter', () => { paused = true; });
+  wrap.addEventListener('mouseleave', () => { paused = false; });
+
+  function dragStart(x) {
+    dragging = true;
+    dragMoved = false;
+    startX = x;
+    startPos = pos;
+    wrap.classList.add('dragging');
+  }
+  function dragMove(x) {
+    if (!dragging || half <= 0) return;
+    const dx = x - startX;
+    if (Math.abs(dx) > 3) dragMoved = true;
+    pos = startPos + dx;
+    if (pos > 0) pos -= half;
+    if (pos <= -half) pos += half;
+    setTransform();
+  }
+  function dragEnd() {
+    dragging = false;
+    wrap.classList.remove('dragging');
+  }
+
+  wrap.addEventListener('pointerdown', (e) => dragStart(e.clientX));
+  window.addEventListener('pointermove', (e) => dragMove(e.clientX), { passive: true });
+  window.addEventListener('pointerup', dragEnd, { passive: true });
+  wrap.addEventListener('touchstart', (e) => dragStart(e.touches[0].clientX), { passive: true });
+  wrap.addEventListener('touchmove', (e) => dragMove(e.touches[0].clientX), { passive: true });
+  wrap.addEventListener('touchend', dragEnd, { passive: true });
+
+  // Prevent the drag gesture from also firing a click on the slide underneath
+  wrap.addEventListener('click', (e) => {
+    if (dragMoved) { e.preventDefault(); e.stopPropagation(); }
+  }, true);
+})();
 
 // ── Card Tilt (project cards + profile card) ──
 function initTilt(selector, intensity) {
@@ -779,88 +891,3 @@ chatInput.addEventListener('input', () => {
   chatInput.style.height = 'auto';
   chatInput.style.height = Math.min(chatInput.scrollHeight, 80) + 'px';
 });
-
-// ── GOAT Gallery Premium Interactions ──────────
-(function initGalleryInteractions() {
-  const gallery = document.querySelector('.goat-panel-gallery');
-  if (!gallery) return;
-
-  const images = gallery.querySelectorAll('.gp-gimg');
-  
-  // Floating animation with staggered timing
-  images.forEach((img, i) => {
-    img.style.animation = `galleryFloat 4s cubic-bezier(0.42, 0, 0.58, 1) ${i * 0.3}s infinite`;
-  });
-
-  // Cursor-follow effect on desktop only
-  if (matchMedia('(pointer: fine)').matches) {
-    let mouseX = 0, mouseY = 0;
-    
-    gallery.addEventListener('mousemove', (e) => {
-      const rect = gallery.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-      
-      images.forEach(img => {
-        const imgRect = img.getBoundingClientRect();
-        const imgCenterX = imgRect.left + imgRect.width / 2 - rect.left;
-        const imgCenterY = imgRect.top + imgRect.height / 2 - rect.top;
-        
-        const distX = (mouseX - imgCenterX) * 0.08;
-        const distY = (mouseY - imgCenterY) * 0.08;
-        
-        img.style.setProperty('--cursor-dist-x', distX + 'px');
-        img.style.setProperty('--cursor-dist-y', distY + 'px');
-      });
-    });
-
-    gallery.addEventListener('mouseleave', () => {
-      images.forEach(img => {
-        img.style.setProperty('--cursor-dist-x', '0px');
-        img.style.setProperty('--cursor-dist-y', '0px');
-      });
-    });
-  }
-
-  // Scroll-linked parallax
-  let scrollObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const scrollProgress = window.scrollY / window.innerHeight;
-        images.forEach((img, i) => {
-          const parallaxFactor = (i + 1) * 0.05;
-          img.style.setProperty('--parallax-offset', (scrollProgress * parallaxFactor * -20) + 'px');
-        });
-      }
-    });
-  }, { threshold: 0.1 });
-
-  scrollObserver.observe(gallery);
-  
-  window.addEventListener('scroll', () => {
-    if (gallery.getBoundingClientRect().top < window.innerHeight) {
-      const scrollProgress = window.scrollY / window.innerHeight;
-      images.forEach((img, i) => {
-        const parallaxFactor = (i + 1) * 0.05;
-        img.style.setProperty('--parallax-offset', (scrollProgress * parallaxFactor * -20) + 'px');
-      });
-    }
-  }, { passive: true });
-})();
-
-// Add gallery floating animation keyframes dynamically
-if (!document.querySelector('style[data-gallery]')) {
-  const style = document.createElement('style');
-  style.setAttribute('data-gallery', 'true');
-  style.textContent = `
-    @keyframes galleryFloat {
-      0%, 100% { 
-        transform: translateY(0px) translateX(var(--cursor-dist-x, 0)) translateY(var(--cursor-dist-y, 0));
-      }
-      50% { 
-        transform: translateY(-8px) translateX(var(--cursor-dist-x, 0)) translateY(var(--cursor-dist-y, 0));
-      }
-    }
-  `;
-  document.head.appendChild(style);
-}
