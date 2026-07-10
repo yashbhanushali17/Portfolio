@@ -1,9 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('portfolio-theme') || 'dark';
+        var resolved = t === 'auto'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : t;
+        document.documentElement.setAttribute('data-theme', resolved);
+        if (localStorage.getItem('portfolio-goat') === 'on') {
+          document.documentElement.classList.add('goat-mode');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yash — ML Engineer</title>
+  <title>Yash Nanda — ML Engineer &amp; Python Backend Developer</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Yash Nanda — Machine Learning Engineer &amp; Python Backend Developer skilled in FastAPI, Scikit-learn and full-stack AI applications. BCA 2026, Ahmedabad, India. ML Developer Intern at Cognetix Global Technology.">
+  <meta name="keywords" content="Yash Nanda, Machine Learning Engineer, Python Backend Developer, FastAPI Developer, Scikit-learn, ML Intern, Ahmedabad developer, portfolio">
+  <meta name="author" content="Yash Nanda">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yashbhanushali17.github.io/Portfolio/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Yash Nanda — ML Engineer &amp; Python Backend Developer">
+  <meta property="og:description" content="Machine Learning Engineer &amp; Python Backend Developer skilled in FastAPI, Scikit-learn and full-stack AI applications.">
+  <meta property="og:url" content="https://yashbhanushali17.github.io/Portfolio/">
+  <meta property="og:image" content="images/bg.png">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Yash Nanda — ML Engineer &amp; Python Backend Developer">
+  <meta name="twitter:description" content="Machine Learning Engineer &amp; Python Backend Developer skilled in FastAPI, Scikit-learn and full-stack AI applications.">
+  <meta name="twitter:image" content="images/bg.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" href="favicon.svg">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -11,59 +51,142 @@
 </head>
 <body>
 
-<!-- Custom cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<!-- Page loader -->
+<div class="page-loader" id="pageLoader" aria-hidden="true">
+  <div class="loader-mark">
+    <span class="loader-bracket">[</span><span class="loader-text">YASH</span><span class="loader-bracket">]</span>
+  </div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- Scroll progress -->
 <div class="scroll-bar" id="scrollBar"></div>
 
 <!-- Dot grid canvas -->
-<canvas id="bg"></canvas>
+<canvas id="bg" aria-hidden="true"></canvas>
 
 <!-- Background glow orbs -->
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
+<div class="orb orb-1" aria-hidden="true"></div>
+<div class="orb orb-2" aria-hidden="true"></div>
+<div class="orb orb-3" aria-hidden="true"></div>
+
+<!-- GOAT Mode ambient FX (dormant unless .goat-mode is active) -->
+<div class="goat-fx" aria-hidden="true">
+  <div class="goat-aurora"></div>
+  <div class="goat-mesh"></div>
+  <div class="goat-rays"></div>
+  <div class="goat-pitch-lines"></div>
+  <div class="goat-stars">
+    <span class="g-star" style="--x:8%;--y:18%;--d:0s"></span>
+    <span class="g-star" style="--x:82%;--y:12%;--d:1.2s"></span>
+    <span class="g-star" style="--x:18%;--y:68%;--d:2.4s"></span>
+    <span class="g-star" style="--x:92%;--y:55%;--d:0.6s"></span>
+    <span class="g-star" style="--x:60%;--y:80%;--d:1.8s"></span>
+    <span class="g-star" style="--x:40%;--y:30%;--d:3s"></span>
+  </div>
+  <div class="goat-dots"></div>
+</div>
 
 <!-- ═══ HEADER ═══ -->
 <header id="header">
-  <a href="#home" class="nav-logo">
+  <a href="#home" class="nav-logo" aria-label="Yash Nanda — home">
     <div class="logo-bracket">[</div>
     <span class="logo-text">YASH</span>
     <span class="logo-dot">.DEV</span>
     <div class="logo-bracket">]</div>
   </a>
-  <nav>
+  <nav aria-label="Primary">
     <ul>
-      <li><a href="#home"><span class="nav-num">01.</span>Home</a></li>
-      <li><a href="#about"><span class="nav-num">02.</span>About</a></li>
-      <li><a href="#skills"><span class="nav-num">03.</span>Skills</a></li>
-      <li><a href="#projects"><span class="nav-num">04.</span>Projects</a></li>
+      <li><a href="#home" class="nav-link" data-nav="home"><span class="nav-num">01.</span>Home</a></li>
+      <li><a href="#about" class="nav-link" data-nav="about"><span class="nav-num">02.</span>About</a></li>
+      <li><a href="#experience" class="nav-link" data-nav="experience"><span class="nav-num">03.</span>Experience</a></li>
+      <li><a href="#skills" class="nav-link" data-nav="skills"><span class="nav-num">04.</span>Skills</a></li>
+      <li><a href="#projects" class="nav-link" data-nav="projects"><span class="nav-num">05.</span>Projects</a></li>
       <li><a href="#contact" class="nav-cta">Contact</a></li>
     </ul>
   </nav>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+  <div class="toggles-container">
+    <div class="theme-switcher" role="group" aria-label="Light and dark theme">
+      <button type="button" class="theme-btn" data-theme-choice="light" aria-label="Light theme">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <button type="button" class="theme-btn" data-theme-choice="dark" aria-label="Dark theme">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+    <div class="messi-toggle-group">
+      <span class="messi-toggle-label">MESSI MODE</span>
+      <button type="button" class="goat-btn" id="goatToggle" aria-pressed="false" aria-label="Toggle Messi mode">
+        <span class="goat-btn-num">10</span>
+      </button>
+    </div>
   </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
-<!-- Mobile nav -->
-<div class="mobile-nav" id="mobileNav">
-  <a href="#home" onclick="closeMobileNav()"><span>01.</span>Home</a>
-  <a href="#about" onclick="closeMobileNav()"><span>02.</span>About</a>
-  <a href="#skills" onclick="closeMobileNav()"><span>03.</span>Skills</a>
-  <a href="#projects" onclick="closeMobileNav()"><span>04.</span>Projects</a>
-  <a href="#contact" onclick="closeMobileNav()"><span>05.</span>Contact</a>
+<!-- GOAT Mode marquee -->
+<div class="goat-marquee" aria-hidden="true">
+  <div class="goat-marquee-track" id="goatMarqueeTrack">
+    <span>🐐 GOAT MODE ACTIVE</span>
+    <span>🏆 8× Ballon d'Or</span>
+    <span>⚽ 850+ Goals</span>
+    <span>🌍 World Champion</span>
+    <span>❤️ Barcelona Legend</span>
+    <span>🏅 Copa América Winner</span>
+    <span>⭐ Impossible Is Temporary</span>
+    <span>🐐 GOAT MODE ACTIVE</span>
+    <span>🏆 8× Ballon d'Or</span>
+    <span>⚽ 850+ Goals</span>
+    <span>🌍 World Champion</span>
+    <span>❤️ Barcelona Legend</span>
+    <span>🏅 Copa América Winner</span>
+    <span>⭐ Impossible Is Temporary</span>
+  </div>
 </div>
 
-<main>
+<!-- Golden GOAT cursor -->
+<div class="goat-cursor-dot" id="goatCursorDot" aria-hidden="true"></div>
+<div class="goat-cursor-ring" id="goatCursorRing" aria-hidden="true"></div>
+
+<!-- Mobile nav -->
+<div class="mobile-nav" id="mobileNav" role="dialog" aria-label="Mobile navigation">
+  <div class="mobile-nav-themes">
+    <div class="theme-switcher" role="group" aria-label="Light and dark theme">
+      <button type="button" class="theme-btn" data-theme-choice="light" aria-label="Light theme">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <button type="button" class="theme-btn" data-theme-choice="dark" aria-label="Dark theme">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+    <div class="messi-toggle-group">
+      <span class="messi-toggle-label">MESSI MODE</span>
+      <button type="button" class="goat-btn" id="goatToggle-mobile" aria-pressed="false" aria-label="Toggle Messi mode">
+        <span class="goat-btn-num">10</span>
+      </button>
+    </div>
+  </div>
+  <a href="#home" onclick="closeMobileNav()"><span>01.</span>Home</a>
+  <a href="#about" onclick="closeMobileNav()"><span>02.</span>About</a>
+  <a href="#experience" onclick="closeMobileNav()"><span>03.</span>Experience</a>
+  <a href="#skills" onclick="closeMobileNav()"><span>04.</span>Skills</a>
+  <a href="#projects" onclick="closeMobileNav()"><span>05.</span>Projects</a>
+  <a href="#contact" onclick="closeMobileNav()"><span>06.</span>Contact</a>
+</div>
+<div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="closeMobileNav()"></div>
+
+<main id="main-content">
 
   <!-- ═══ HOME ═══ -->
   <section id="home">
     <div class="hero-bg">
-      <img src="images/bg.png" alt="" class="hero-bg-img">
+      <img src="images/bg.png" alt="" class="hero-bg-img" loading="eager">
       <div class="hero-bg-overlay"></div>
+      <div class="football-watermark" aria-hidden="true">⚽</div>
     </div>
 
     <div class="home-left">
@@ -80,7 +203,7 @@
 
       <div class="home-role">
         <span class="role-prefix">&lt;</span>
-        ML Engineer &amp; AI Enthusiast
+        ML Engineer &amp; Python Backend Developer
         <span class="role-suffix">/&gt;</span>
       </div>
 
@@ -91,10 +214,14 @@
       </div>
 
       <div class="home-btns">
-        <a href="Yash_Nanda_Resume(1).pdf" class="btn btn-solid">
+        <a href="/resume/Yash_Nanda's_Resume.pdf" class="btn btn-solid" download>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download Resume
         </a>
+        <button type="button" class="btn btn-ghost" id="previewResumeBtn" aria-haspopup="dialog">
+          Preview Resume
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
         <a href="#projects" class="btn btn-ghost">
           View Work
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -104,14 +231,17 @@
 
     <!-- Profile card -->
     <div class="home-right">
+      <div class="floating-badge badge-1" aria-hidden="true">🐍</div>
+      <div class="floating-badge badge-2" aria-hidden="true">⚡</div>
+      <div class="floating-badge badge-3" aria-hidden="true">🧠</div>
       <div class="profile-card">
         <div class="card-glow"></div>
         <div class="profile-img-wrap">
           <div class="img-ring"></div>
-          <img src="images/bg.png" alt="Yash">
+          <img src="images/bg.png" alt="Yash Nanda" loading="lazy">
           <div class="img-status"></div>
         </div>
-        <h3>Yash Bhanushali</h3>
+        <h3>Yash Nanda</h3>
         <div class="role-tag">
           <span class="tag-dot"></span>
           ML_ENGINEER
@@ -124,19 +254,19 @@
           </div>
           <div class="stat-sep"></div>
           <div class="stat-item">
-            <span class="s-num">2yr</span>
-            <span class="s-lbl">Learning</span>
+            <span class="s-num">1</span>
+            <span class="s-lbl">Internship</span>
           </div>
           <div class="stat-sep"></div>
           <div class="stat-item">
-            <span class="s-num">∞</span>
-            <span class="s-lbl">Curiosity</span>
+            <span class="s-num">7.8</span>
+            <span class="s-lbl">CGPA</span>
           </div>
         </div>
         <div class="profile-divider"></div>
         <div class="social-connect">
 
-          <a href="https://github.com/yashbhanushali17" target="_blank" class="social-link">
+          <a href="https://github.com/yashbhanushali17" target="_blank" rel="noopener" class="social-link">
             <div class="s-icon github-ic">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
             </div>
@@ -147,7 +277,7 @@
             <span class="s-arrow">→</span>
           </a>
 
-          <a href="https://www.linkedin.com/in/yash-nanda17/" target="_blank" class="social-link">
+          <a href="https://www.linkedin.com/in/yash-nanda17/" target="_blank" rel="noopener" class="social-link">
             <div class="s-icon linkedin-ic">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2" fill="white"/></svg>
             </div>
@@ -158,7 +288,7 @@
             <span class="s-arrow">→</span>
           </a>
 
-          <a href="https://wa.me/917779088071" target="_blank" class="social-link">
+          <a href="https://wa.me/917779088071" target="_blank" rel="noopener" class="social-link">
             <div class="s-icon whatsapp-ic">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
             </div>
@@ -182,9 +312,9 @@
     </div>
     <div class="about-grid">
       <div class="about-bio">
-        <p>I'm <strong>Yash</strong>, an aspiring Machine Learning Engineer with a deep passion for AI, data science, and building systems that think. I believe the intersection of mathematics, statistics, and software is where the most exciting problems live.</p>
-        <p>My journey started with curiosity — asking how machines can learn from data, detect patterns, and make decisions. That question still drives me every day.</p>
-        <p>I'm currently building projects spanning <strong>Regression, Classification and predictive analytics</strong>, while sharpening my fundamentals.</p>
+        <p>I'm <strong>Yash</strong>, a Python Backend Developer and Machine Learning Engineer (BCA, 2026) who builds full-stack AI applications end to end — from data pipelines to production-style APIs.</p>
+        <p>I enjoy the entire lifecycle of an ML product: cleaning and exploring data, engineering features, training and evaluating models with Scikit-learn, then wrapping them in a FastAPI backend and shipping them to the cloud.</p>
+        <p>I recently completed a <strong>Machine Learning Developer internship at Cognetix Global Technology LLP</strong>, working on real-world predictive modeling and model evaluation pipelines — adding hands-on industry experience to a strong foundation in data structures, algorithms and clean, maintainable code.</p>
 
         <div class="timeline">
           <div class="tl-item">
@@ -192,26 +322,26 @@
             <div class="tl-line"></div>
             <div class="tl-content">
               <div class="tl-year">2023</div>
-              <h4>Started learning Python &amp; Data Science</h4>
-              <p>Self-taught foundations in ML and data science</p>
+              <h4>Started BCA &amp; began learning Python</h4>
+              <p>Foundations in programming, data structures and algorithms</p>
             </div>
           </div>
           <div class="tl-item">
             <div class="tl-icon">🤖</div>
             <div class="tl-line"></div>
             <div class="tl-content">
-              <div class="tl-year">2024</div>
-              <h4>Dived into Machine Learning</h4>
-              <p>Sklearn, model training &amp; evaluation</p>
+              <div class="tl-year">2024 – 2025</div>
+              <h4>Dived into Machine Learning &amp; backend development</h4>
+              <p>Scikit-learn, FastAPI, REST APIs — shipped DiagnoWeb &amp; InsureIQ</p>
             </div>
           </div>
           <div class="tl-item">
-            <div class="tl-icon">💡</div>
+            <div class="tl-icon">💼</div>
             <div class="tl-line last"></div>
             <div class="tl-content">
-              <div class="tl-year">2025</div>
-              <h4>Building real-world projects</h4>
-              <p>Web development, stock prediction, Classification</p>
+              <div class="tl-year">May – Jun 2026</div>
+              <h4>ML Developer Intern at Cognetix Global Technology</h4>
+              <p>Real-world predictive modeling, model evaluation &amp; pipeline debugging</p>
             </div>
           </div>
         </div>
@@ -228,28 +358,76 @@
             <span class="lbl">Python proficiency</span>
           </div>
           <div class="stat-card">
-            <span class="num">2yr</span>
-            <span class="lbl">Learning streak</span>
+            <span class="num">1</span>
+            <span class="lbl">ML internship</span>
           </div>
           <div class="stat-card">
-            <span class="num">∞</span>
-            <span class="lbl">Curiosity level</span>
+            <span class="num">7.8</span>
+            <span class="lbl">CGPA / 10</span>
           </div>
         </div>
 
         <div class="tech-stack">
           <h4>// Tech I work with</h4>
           <div class="tech-pills">
-            <span class="tech-pill">Python</span>
-            <span class="tech-pill">NumPy</span>
-            <span class="tech-pill">Pandas</span>
-            <span class="tech-pill">Scikit-learn</span>
-            <span class="tech-pill">Matplotlib</span>
-            <span class="tech-pill">SQL</span>
-            <span class="tech-pill">Git</span>
-            <span class="tech-pill">FastAPI</span>
+            <span class="tech-pill"><span class="tp-ic">🐍</span>Python</span>
+            <span class="tech-pill"><span class="tp-ic">🔢</span>NumPy</span>
+            <span class="tech-pill"><span class="tp-ic">🐼</span>Pandas</span>
+            <span class="tech-pill"><span class="tp-ic">🔬</span>Scikit-learn</span>
+            <span class="tech-pill"><span class="tp-ic">⚡</span>FastAPI</span>
+            <span class="tech-pill"><span class="tp-ic">🗄️</span>SQL</span>
+            <span class="tech-pill"><span class="tp-ic">⚛️</span>React.js</span>
+            <span class="tech-pill"><span class="tp-ic">🔗</span>Git</span>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ EXPERIENCE ═══ -->
+  <section id="experience" class="section-wrap reveal">
+    <div class="section-header">
+      <div class="section-tag">// 02 — experience</div>
+      <h2 class="section-title">Where I've <span>Worked</span></h2>
+    </div>
+
+    <div class="exp-timeline">
+      <div class="exp-card glass-card">
+        <div class="exp-card-top">
+          <div class="exp-role">
+            <span class="exp-badge exp-badge-current">Internship</span>
+            <h3>Machine Learning Developer Intern</h3>
+            <div class="exp-company">Cognetix Global Technology LLP · Remote</div>
+          </div>
+          <div class="exp-dates">10 May 2026 – 10 Jun 2026</div>
+        </div>
+        <ul class="exp-points">
+          <li>Worked on real-world AI/ML tasks spanning data preprocessing, exploratory data analysis, and feature engineering using Python, Pandas, and NumPy.</li>
+          <li>Built and evaluated machine learning models using Scikit-learn, applying regression and classification techniques for predictive modeling.</li>
+          <li>Assisted in testing and debugging model pipelines, documenting workflows and results for reproducibility.</li>
+          <li>Collaborated using Git/GitHub for version control and code review as part of a distributed development workflow.</li>
+        </ul>
+        <div class="exp-trust">
+          <span class="trust-badge">✔ MCA Registered LLP</span>
+          <span class="trust-badge">✔ ISO 9001:2015 Certified</span>
+          <span class="trust-badge">✔ MSME Registered</span>
+          <span class="trust-badge">✔ Startup India Recognized</span>
+        </div>
+      </div>
+
+      <div class="exp-card glass-card">
+        <div class="exp-card-top">
+          <div class="exp-role">
+            <span class="exp-badge">Team Project</span>
+            <h3>Frontend &amp; Full-Stack Contributor</h3>
+            <div class="exp-company">Cohort — Unified Professional Communication Platform</div>
+          </div>
+          <div class="exp-dates">Collaborative build</div>
+        </div>
+        <ul class="exp-points">
+          <li>Built and maintained reusable React.js UI components and integrated Node.js REST API endpoints into the frontend, gaining full-stack experience across the data flow.</li>
+          <li>Contributed to feature testing, UI bug fixes, peer code reviews, and technical documentation within an Agile SDLC process.</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -258,11 +436,11 @@
   <section id="skills">
     <div class="section-wrap reveal">
       <div class="section-header">
-        <div class="section-tag">// 02 — skills</div>
+        <div class="section-tag">// 03 — skills</div>
         <h2 class="section-title">What I <span>Know</span></h2>
       </div>
       <div class="skills-grid">
-        <div class="skill-item">
+        <div class="skill-item glass-card">
           <div class="skill-header">
             <span class="skill-icon">🐍</span>
             <h3>Python</h3>
@@ -274,7 +452,7 @@
           <div class="skill-bar"><div class="skill-fill" data-w="80%"></div></div>
         </div>
 
-        <div class="skill-item">
+        <div class="skill-item glass-card">
           <div class="skill-header">
             <span class="skill-icon">🧠</span>
             <h3>Machine Learning</h3>
@@ -286,19 +464,31 @@
           <div class="skill-bar"><div class="skill-fill" data-w="70%"></div></div>
         </div>
 
-        <div class="skill-item">
+        <div class="skill-item glass-card">
           <div class="skill-header">
             <span class="skill-icon">🔬</span>
             <h3>Scikit-learn</h3>
           </div>
           <div class="skill-meta">
             <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">6/10</span>
+            <span class="skill-score">7/10</span>
           </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="60%"></div></div>
+          <div class="skill-bar"><div class="skill-fill" data-w="70%"></div></div>
         </div>
 
-        <div class="skill-item">
+        <div class="skill-item glass-card">
+          <div class="skill-header">
+            <span class="skill-icon">⚡</span>
+            <h3>FastAPI</h3>
+          </div>
+          <div class="skill-meta">
+            <span class="skill-level">PROFICIENCY</span>
+            <span class="skill-score">7/10</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" data-w="70%"></div></div>
+        </div>
+
+        <div class="skill-item glass-card">
           <div class="skill-header">
             <span class="skill-icon">🗄️</span>
             <h3>SQL</h3>
@@ -310,10 +500,22 @@
           <div class="skill-bar"><div class="skill-fill" data-w="70%"></div></div>
         </div>
 
-        <div class="skill-item">
+        <div class="skill-item glass-card">
           <div class="skill-header">
-            <span class="skill-icon">⚡</span>
-            <h3>FastAPI</h3>
+            <span class="skill-icon">🔌</span>
+            <h3>REST APIs</h3>
+          </div>
+          <div class="skill-meta">
+            <span class="skill-level">PROFICIENCY</span>
+            <span class="skill-score">7/10</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" data-w="70%"></div></div>
+        </div>
+
+        <div class="skill-item glass-card">
+          <div class="skill-header">
+            <span class="skill-icon">⚛️</span>
+            <h3>React.js</h3>
           </div>
           <div class="skill-meta">
             <span class="skill-level">PROFICIENCY</span>
@@ -322,31 +524,7 @@
           <div class="skill-bar"><div class="skill-fill" data-w="60%"></div></div>
         </div>
 
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-icon">📊</span>
-            <h3>Visualization</h3>
-          </div>
-          <div class="skill-meta">
-            <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">5/10</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="50%"></div></div>
-        </div>
-
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-icon">📈</span>
-            <h3>Data Analysis</h3>
-          </div>
-          <div class="skill-meta">
-            <span class="skill-level">PROFICIENCY</span>
-            <span class="skill-score">7/10</span>
-          </div>
-          <div class="skill-bar"><div class="skill-fill" data-w="72%"></div></div>
-        </div>
-
-        <div class="skill-item">
+        <div class="skill-item glass-card">
           <div class="skill-header">
             <span class="skill-icon">🔗</span>
             <h3>Git &amp; Version Control</h3>
@@ -364,82 +542,106 @@
   <!-- ═══ PROJECTS ═══ -->
   <section id="projects" class="section-wrap reveal">
     <div class="section-header">
-      <div class="section-tag">// 03 — projects</div>
+      <div class="section-tag">// 04 — projects</div>
       <h2 class="section-title">What I've <span>Built</span></h2>
     </div>
-    <div class="projects-grid">
 
-      <div class="proj-card">
+    <div class="project-controls">
+      <div class="filter-tabs" role="tablist" aria-label="Filter projects by category">
+        <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="filter-tab" data-filter="ml" role="tab" aria-selected="false">Machine Learning</button>
+        <button class="filter-tab" data-filter="web" role="tab" aria-selected="false">Full-Stack</button>
+        <button class="filter-tab" data-filter="team" role="tab" aria-selected="false">Team Project</button>
+      </div>
+      <div class="project-search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="projectSearch" placeholder="Search projects or tech…" aria-label="Search projects">
+      </div>
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+
+      <div class="proj-card" data-category="team" data-search="cohort communication react node mongodb socket.io team project">
         <div class="proj-glow"></div>
         <div class="proj-body">
           <div class="proj-top">
             <div class="proj-num">PROJECT_01</div>
             <div class="proj-icon">👁️</div>
           </div>
-          <h3>Cohort-A communication Website</h3>
-          <p>Cohort is a real-time chat and communication platform designed for seamless collaboration.</p>
+          <h3>Cohort — Unified Communication Platform</h3>
+          <p>Team-built real-time chat and collaboration platform. Built reusable React.js UI components and integrated Node.js REST endpoints into the frontend, contributing to feature testing, bug fixes and peer code review within an Agile workflow.</p>
+          <div class="proj-meta">
+            <span class="meta-chip">👥 Team Project</span>
+            <span class="meta-chip">⚡ Real-time (Socket.IO)</span>
+          </div>
           <div class="proj-tags">
             <span class="proj-tag">React</span>
             <span class="proj-tag">Node.js</span>
             <span class="proj-tag">MongoDB</span>
-            <span class="proj-tag">Socket IO</span>
+            <span class="proj-tag">Socket.IO</span>
           </div>
-          <a href="https://github.com/yashbhanushali17/Cohort" target="_blank" class="proj-link">
+          <a href="https://github.com/yashbhanushali17/Cohort" target="_blank" rel="noopener" class="proj-link">
             View on GitHub
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card" data-category="ml" data-search="diagnoweb diabetes risk predictor python fastapi sklearn machine learning">
         <div class="proj-glow"></div>
         <div class="proj-body">
           <div class="proj-top">
             <div class="proj-num">PROJECT_02</div>
             <div class="proj-icon">📈</div>
           </div>
-          <h3>DiagnoWeb Diabetes Risk Predictor</h3>
-          <p>ML models trained on patient data to predict diabetes risk with high accuracy.</p>
+          <h3>DiagnoWeb — AI-Powered Diabetes Risk Predictor</h3>
+          <p>Full-stack AI web app with a FastAPI backend serving a trained Scikit-learn classification model through RESTful prediction endpoints. Built an end-to-end pipeline — preprocessing, feature engineering, model training &amp; evaluation — with Chart.js risk visualizations and automated PDF report generation.</p>
+          <div class="proj-meta">
+            <span class="meta-chip">🧠 Classification Model</span>
+            <span class="meta-chip">📄 Auto PDF Reports</span>
+            <span class="meta-chip">☁️ Deployed on Render</span>
+          </div>
           <div class="proj-tags">
             <span class="proj-tag">Python</span>
-            <span class="proj-tag">Sklearn</span>
-            <span class="proj-tag">Pandas</span>
             <span class="proj-tag">FastAPI</span>
+            <span class="proj-tag">Scikit-learn</span>
+            <span class="proj-tag">Chart.js</span>
           </div>
-          <a href="https://yashbhanushali17.github.io/DiagnoWeb/" target="_blank" class="proj-link">
+          <a href="https://yashbhanushali17.github.io/DiagnoWeb/" target="_blank" rel="noopener" class="proj-link">
             View Live Project
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card" data-category="ml" data-search="insureiq insurance cost estimator python fastapi sklearn regression">
         <div class="proj-glow"></div>
         <div class="proj-body">
           <div class="proj-top">
             <div class="proj-num">PROJECT_03</div>
             <div class="proj-icon">🛡️</div>
           </div>
-          <h3>InsureIQ Insurance Cost Predictor</h3>
-          <p>      A machine learning-powered insurance cost prediction web app that estimates medical insurance charges based on user details using predictive analytics.
-</p>
+          <h3>InsureIQ — AI-Based Insurance Cost Estimator</h3>
+          <p>Full-stack ML web app for real-time insurance cost estimation, integrating a FastAPI backend with a trained Scikit-learn regression model via REST API. Implemented BMI calculation and city-tier regional prediction logic, plus prediction history tracking and interactive result charts.</p>
+          <div class="proj-meta">
+            <span class="meta-chip">📊 Regression Model</span>
+            <span class="meta-chip">🕒 Prediction History</span>
+            <span class="meta-chip">☁️ Render + GitHub Pages</span>
+          </div>
           <div class="proj-tags">
             <span class="proj-tag">FastAPI</span>
-            <span class="proj-tag">Scikit-Learn</span>
+            <span class="proj-tag">Scikit-learn</span>
             <span class="proj-tag">Python</span>
             <span class="proj-tag">Pandas</span>
-            <span class="proj-tag">Gradient Boosting</span>
-
-
           </div>
-          <a href="https://yashbhanushali17.github.io/InsureIQ/" target="_blank" class="proj-link">
+          <a href="https://yashbhanushali17.github.io/InsureIQ/" target="_blank" rel="noopener" class="proj-link">
             View Live Project
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card" data-category="web" data-search="ai powered developer portfolio chatbot cloudflare workers groq">
         <div class="proj-glow"></div>
         <div class="proj-body">
           <div class="proj-top">
@@ -447,16 +649,18 @@
             <div class="proj-icon">🤖</div>
           </div>
           <h3>AI-Powered Developer Portfolio</h3>
-          <p>
-            This portfolio website itself is a custom-built project featuring a modern responsive UI, smooth animations, and an AI chatbot integrated using Cloudflare Workers and Groq/Grok API for interactive real-time conversations.
-          </p>
+          <p>This portfolio itself — a custom-built, fully responsive site with premium animations, glassmorphism UI, and an AI chatbot integrated via Cloudflare Workers for interactive, real-time conversations about my work.</p>
+          <div class="proj-meta">
+            <span class="meta-chip">💬 AI Chatbot</span>
+            <span class="meta-chip">⚡ Cloudflare Workers</span>
+          </div>
           <div class="proj-tags">
-              <span class="proj-tag">FrontEnd</span>
+              <span class="proj-tag">Frontend</span>
               <span class="proj-tag">AI Chatbot</span>
               <span class="proj-tag">Cloudflare Workers</span>
               <span class="proj-tag">API Integration</span>
           </div>
-          <a href="https://github.com/yashbhanushali17/Portfolio" target="_blank" class="proj-link">
+          <a href="https://github.com/yashbhanushali17/Portfolio" target="_blank" rel="noopener" class="proj-link">
             View on GitHub
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -464,21 +668,22 @@
       </div>
 
     </div>
+    <p class="no-results" id="noResults" hidden>No projects match your search. Try a different keyword or filter.</p>
   </section>
 
   <!-- ═══ CONTACT ═══ -->
   <section id="contact">
     <div class="section-wrap reveal">
       <div class="section-header">
-        <div class="section-tag">// 04 — contact</div>
+        <div class="section-tag">// 05 — contact</div>
         <h2 class="section-title">Let's <span>Connect</span></h2>
-      </div> 
+      </div>
       <div class="contact-wrap">
         <div class="contact-info">
           <p>I'm actively looking for ML engineering opportunities, internships, and collaborations. Whether you have a project idea or just want to connect — my inbox is always open.</p>
 
           <div class="contact-socials">
-            <a href="https://github.com/yashbhanushali17" target="_blank" class="c-social">
+            <a href="https://github.com/yashbhanushali17" target="_blank" rel="noopener" class="c-social">
               <div class="c-icon" style="background:#161b22;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
               </div>
@@ -486,7 +691,7 @@
               <span class="c-arr">→</span>
             </a>
 
-            <a href="https://www.linkedin.com/in/yash-nanda17/" target="_blank" class="c-social">
+            <a href="https://www.linkedin.com/in/yash-nanda17/" target="_blank" rel="noopener" class="c-social">
               <div class="c-icon" style="background:#0a66c2;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2" fill="white"/></svg>
               </div>
@@ -494,7 +699,7 @@
               <span class="c-arr">→</span>
             </a>
 
-            <a href="https://wa.me/917779088071" target="_blank" class="c-social">
+            <a href="https://wa.me/917779088071" target="_blank" rel="noopener" class="c-social">
               <div class="c-icon" style="background:#128c7e;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
               </div>
@@ -502,41 +707,41 @@
               <span class="c-arr">→</span>
             </a>
 
-            <a href="mailto:yashbhanushali1710@email.com" class="c-social">
+            <a href="mailto:yashbhanushali1710@gmail.com" class="c-social">
               <div class="c-icon" style="background:#2d2d2d;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
               </div>
-              <div class="c-text"><span class="c-label">Email</span><span class="c-sub">yashbhanushali1710@email.com</span></div>
+              <div class="c-text"><span class="c-label">Email</span><span class="c-sub">yashbhanushali1710@gmail.com</span></div>
               <span class="c-arr">→</span>
             </a>
           </div>
         </div>
 
-        <div class="contact-form-wrap">
+        <div class="contact-form-wrap glass-card">
           <form class="contact-form" id="contactForm">
             <div class="form-row">
               <div class="form-field">
-                <label>Your Name</label>
-                <input type="text" name="name" placeholder="John Doe" required>
+                <label for="cf-name">Your Name</label>
+                <input type="text" id="cf-name" name="name" placeholder="John Doe" required>
               </div>
               <div class="form-field">
-                <label>Your Email</label>
-                <input type="email" name="email" placeholder="john@example.com" required>
+                <label for="cf-email">Your Email</label>
+                <input type="email" id="cf-email" name="email" placeholder="john@example.com" required>
               </div>
             </div>
             <div class="form-field">
-              <label>Subject</label>
-              <input type="text" name="subject" placeholder="Project Collaboration / Opportunity">
+              <label for="cf-subject">Subject</label>
+              <input type="text" id="cf-subject" name="subject" placeholder="Project Collaboration / Opportunity">
             </div>
             <div class="form-field">
-              <label>Message</label>
-              <textarea name="message" placeholder="Tell me about your project or opportunity..." required></textarea>
+              <label for="cf-message">Message</label>
+              <textarea id="cf-message" name="message" placeholder="Tell me about your project or opportunity..." required></textarea>
             </div>
             <button type="submit" class="btn btn-solid btn-full">
               Send Message
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
-            <p id="statusMsg"></p>
+            <p id="statusMsg" role="status"></p>
           </form>
         </div>
       </div>
@@ -550,10 +755,32 @@
   <div class="footer-left">Crafted by <strong>Yash</strong> · ML Engineer · 2026</div>
   <div class="footer-right">
     <a href="#home" class="foot-link">Back to top ↑</a>
-    <a href="https://github.com/yashbhanushali17" target="_blank" class="foot-link">GitHub</a>
+    <a href="https://github.com/yashbhanushali17" target="_blank" rel="noopener" class="foot-link">GitHub</a>
     <a href="#contact" class="foot-link">Contact</a>
   </div>
 </footer>
+
+<!-- Back to top -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<!-- ═══ RESUME PREVIEW MODAL ═══ -->
+<div class="resume-modal" id="resumeModal" role="dialog" aria-modal="true" aria-label="Resume preview">
+  <div class="resume-modal-backdrop" id="resumeModalBackdrop"></div>
+  <div class="resume-modal-card glass-card">
+    <div class="resume-modal-header">
+      <h3>Resume Preview</h3>
+      <div class="resume-modal-actions">
+        <a href="/resume/Yash_Nanda's_Resume.pdf" class="btn btn-solid btn-sm" download>Download</a>
+        <button class="close-btn" id="closeResumeModal" aria-label="Close preview">✕</button>
+      </div>
+    </div>
+    <div class="resume-modal-body">
+      <iframe src="/resume/Yash_Nanda's_Resume.pdf" title="Yash Nanda Resume" loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
 
 <!-- ═══ AI CHATBOT WIDGET ═══ -->
 <button class="chatbot-fab" id="chatbot-toggle" aria-label="Open AI Assistant">
@@ -607,46 +834,137 @@
         </span>
       </div>
     </div>
-    <button class="close-btn" id="close-chatbot" aria-label="Close chat">✕</button>
-  </div>
-
-  <div class="chat-messages" id="chat-messages">
-    <div class="chat-message bot-msg">
-      <p>Hey! 👋 I'm Yash's AI. Ask me about his skills, projects, experience — or just say hi!</p>
-      <span class="msg-time">now</span>
-    </div>
-    <div class="typing-indicator" id="typing-indicator">
-      <span></span><span></span><span></span>
+    <div class="chatbot-header-actions">
+      <button class="min-btn" id="minimize-chatbot" aria-label="Minimize chat">–</button>
+      <button class="close-btn" id="close-chatbot" aria-label="Close chat">✕</button>
     </div>
   </div>
 
-  <div class="chat-suggestions">
-    <button class="chip">Projects 🚀</button>
-    <button class="chip">Skills 💡</button>
-    <button class="chip">Hire Yash?</button>
-    <button class="chip">Contact 📬</button>
-  </div>
+  <div class="chatbot-body" id="chatbotBody">
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-message bot-msg">
+        <div class="msg-row">
+          <div class="msg-avatar bot-avatar" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="7" width="16" height="11" rx="3"/><circle cx="9" cy="12.5" r="1.6" fill="var(--bg-2)"/><circle cx="15" cy="12.5" r="1.6" fill="var(--bg-2)"/><rect x="10.2" y="2" width="1.6" height="4" rx="0.8"/></svg>
+          </div>
+          <div class="msg-bubble">
+            <div class="msg-text">Hey! 👋 I'm Yash's AI. Ask me about his skills, projects, experience — or just say hi!</div>
+            <span class="msg-time">now</span>
+          </div>
+        </div>
+      </div>
+      <div class="typing-indicator" id="typing-indicator">
+        <div class="msg-avatar bot-avatar" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="7" width="16" height="11" rx="3"/><circle cx="9" cy="12.5" r="1.6" fill="var(--bg-2)"/><circle cx="15" cy="12.5" r="1.6" fill="var(--bg-2)"/><rect x="10.2" y="2" width="1.6" height="4" rx="0.8"/></svg>
+        </div>
+        <div class="typing-dots"><span></span><span></span><span></span></div>
+      </div>
+    </div>
 
-  <div class="chatbot-input-area">
-    <div class="input-wrapper">
-      <textarea
-        class="chat-input"
-        id="chat-input"
-        placeholder="Ask me anything..."
-        rows="1"
-        aria-label="Type a message"
-      ></textarea>
-      <button class="send-btn" id="send-btn" aria-label="Send message">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="22" y1="2" x2="11" y2="13"/>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-        </svg>
-      </button>
+    <div class="chat-suggestions">
+      <button class="chip">Projects 🚀</button>
+      <button class="chip">Skills 💡</button>
+      <button class="chip">Internship?</button>
+      <button class="chip">Contact 📬</button>
+    </div>
+
+    <div class="chatbot-input-area">
+      <div class="input-wrapper">
+        <textarea
+          class="chat-input"
+          id="chat-input"
+          placeholder="Ask me anything..."
+          rows="1"
+          aria-label="Type a message"
+        ></textarea>
+        <button class="send-btn" id="send-btn" aria-label="Send message">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-<script src="script.js"></script>
+<!-- ═══ GOAT MODE — cinematic entrance overlay ═══ -->
+<div class="goat-intro" id="goatIntro" aria-hidden="true">
+  <button class="goat-intro-skip" id="goatIntroSkip" type="button">Skip <span>→</span></button>
+  <div class="goat-intro-card">
+    <img src="/images/messi-main.jpg" alt="" class="goat-intro-img" loading="eager">
+    <div class="goat-intro-num">10</div>
+    <h2 class="goat-intro-title">GOAT MODE</h2>
+    <p class="goat-intro-sub">The Greatest Of All Time — Edition</p>
+    <div class="goat-intro-badges">
+      <div class="gi-badge"><span class="gi-ic">🏆</span><span>2022</span></div>
+      <div class="gi-badge"><span class="gi-ic">🏆</span><span>2021</span></div>
+      <div class="gi-badge"><span class="gi-ic">⭐</span><span>2016</span></div>
+      <div class="gi-badge"><span class="gi-ic">🥇</span><span>2015</span></div>
+      <div class="gi-badge"><span class="gi-ic">🥇</span><span>2011</span></div>
+    </div>
+    <div class="goat-intro-tag">👐 Vamos!</div>
+    <div class="goat-intro-bar"><div class="goat-intro-fill"></div></div>
+  </div>
+</div>
+
+<!-- ═══ GOAT MODE — floating side tab (opens achievements panel) ═══ -->
+<button type="button" class="messi-fab" id="messiFab" aria-label="Open Messi Mode highlights" aria-expanded="false" aria-controls="goatPanel">
+  <span class="messi-fab-face">
+    <img src="/images/messi-main.jpg" alt="" loading="lazy">
+  </span>
+  <span class="messi-fab-text">LM10</span>
+</button>
+
+<!-- ═══ GOAT MODE — panel backdrop (blur + outside-click close) ═══ -->
+<div class="goat-panel-backdrop" id="goatPanelBackdrop" aria-hidden="true"></div>
+
+<!-- ═══ GOAT MODE — achievements side panel ═══ -->
+<aside class="goat-panel" id="goatPanel" aria-label="GOAT mode highlights">
+  <div class="goat-panel-handle" aria-hidden="true"></div>
+  <div class="goat-panel-head">
+    <div class="goat-panel-brand">
+      <span class="goat-panel-num">10</span>
+      <div>
+        <div class="goat-panel-title">MESSI MODE</div>
+        <div class="goat-panel-sub">The Greatest Of All Time</div>
+      </div>
+    </div>
+    <button class="close-btn" id="closeGoatPanel" aria-label="Close panel">✕</button>
+  </div>
+  <img src="/images/messi-ballondor.jpg" alt="Lionel Messi" class="goat-panel-hero" loading="lazy">
+  <div class="goat-panel-gallery">
+    <div class="gp-gimg"><img src="/images/messi-barca.jpg" alt="Barcelona era" loading="lazy"><span>Barcelona</span></div>
+    <div class="gp-gimg"><img src="/images/messi-worldcup.jpg" alt="World Cup" loading="lazy"><span>World Cup</span></div>
+    <div class="gp-gimg"><img src="/images/messi-young.jpg" alt="Young Messi" loading="lazy"><span>Young Messi</span></div>
+    <div class="gp-gimg"><img src="/images/messi-intermiami.jpg" alt="Inter Miami" loading="lazy"><span>Inter Miami</span></div>
+  </div>
+  <div class="goat-panel-section-title">🐐 LEGACY PRIDE</div>
+  <ul class="goat-panel-list">
+    <li><span class="gp-ic">🏆</span>World Champion — Qatar 2022</li>
+    <li><span class="gp-ic">🥇</span>8× Ballon d'Or — most in history</li>
+    <li><span class="gp-ic">🎯</span>Career goals 850+ — unmatched consistency</li>
+    <li><span class="gp-ic">👑</span>Copa América &amp; Finalissima champion</li>
+    <li><span class="gp-ic">📈</span>4× UEFA Champions League winner</li>
+    <li><span class="gp-ic">💛</span>Global fanbase — 500M+ followers</li>
+  </ul>
+  <div class="goat-panel-trophies">
+    <div class="gp-trophy"><span>🏆</span>2022</div>
+    <div class="gp-trophy"><span>🏆</span>2021</div>
+    <div class="gp-trophy"><span>⭐</span>2016</div>
+    <div class="gp-trophy"><span>🥇</span>2015</div>
+    <div class="gp-trophy"><span>🥇</span>2011</div>
+    <div class="gp-trophy"><span>🥇</span>2010</div>
+  </div>
+  <div class="goat-panel-stat-grid">
+    <div class="gp-stat"><span class="gp-num">8×</span><span class="gp-lbl">Ballon d'Or</span></div>
+    <div class="gp-stat"><span class="gp-num">46</span><span class="gp-lbl">Career trophies</span></div>
+    <div class="gp-stat"><span class="gp-num">850+</span><span class="gp-lbl">Goals scored</span></div>
+  </div>
+  <div class="goat-panel-foot">the GOAT way.</div>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12" defer></script>
+<script src="script.js" defer></script>
 </body>
 </html>
