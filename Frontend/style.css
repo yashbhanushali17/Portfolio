@@ -416,66 +416,73 @@ nav ul a.active .nav-num { opacity: 1; }
   border-left: 1px solid var(--border-2);
 }
 
-/* Single sliding-knob switch — shared by theme + LM10 (2 switches total) */
+/* Single circular icon toggle — shared by theme + LM10 (2 switches total) */
 .switch-toggle {
   position: relative;
-  width: 54px; height: 28px;
-  border-radius: 100px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
   background: var(--bg-glass);
   border: 1px solid var(--border);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
   cursor: pointer;
-  padding: 0 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  transform: translateZ(0);
+  overflow: hidden;
 }
 .switch-toggle:hover { border-color: var(--border-2); }
 .switch-icon {
-  z-index: 1;
-  display: flex;
-  color: var(--white-40);
-  transition: color 0.3s ease;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.08);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+  color: var(--white-85);
+  transition: opacity 0.25s ease, transform 0.25s ease, color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
-.switch-toggle[aria-checked="true"] .switch-icon-moon,
-.switch-toggle[aria-checked="false"] .switch-icon-sun { color: var(--white-70); }
-.switch-label {
-  z-index: 1;
-  font-family: var(--font-mono);
-  font-size: 0.56rem;
+.switch-icon svg {
+  width: 13px;
+  height: 13px;
+}
+.toggle-badge {
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.03em;
-  color: var(--white-40);
-  transition: color 0.3s ease;
+  font-family: var(--font-mono);
+  line-height: 1;
 }
-.switch-toggle[aria-checked="false"] .switch-label-off { color: var(--white-70); }
-.switch-toggle[aria-checked="true"] .switch-label-on { color: #F4C542; }
-
-.switch-thumb {
-  position: absolute;
-  top: 3px; left: 3px;
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--blue), var(--cyan));
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 12px var(--blue-glow);
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.35s ease, box-shadow 0.35s ease;
+.switch-toggle[aria-checked="false"] .switch-icon-sun,
+.switch-toggle[aria-checked="true"] .switch-icon-goat-off {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
 }
-.switch-toggle[aria-checked="true"] .switch-thumb {
-  transform: translateX(26px);
+.switch-toggle[aria-checked="true"] .switch-icon-sun,
+.switch-toggle[aria-checked="false"] .switch-icon-moon,
+.switch-toggle[aria-checked="false"] .switch-icon-goat-off,
+.switch-toggle[aria-checked="true"] .switch-icon-goat-on {
+  opacity: 0;
+  transform: scale(0.82) rotate(-8deg);
 }
-.switch-toggle.goat-btn .switch-thumb {
-  background: rgba(120,120,150,0.55);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+.switch-toggle[aria-checked="true"] .switch-icon-moon,
+.switch-toggle[aria-checked="false"] .switch-icon-goat-on {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+.switch-toggle[aria-checked="true"] .switch-icon {
+  background: rgba(244,197,66,0.16);
+  color: #F4C542;
+  box-shadow: inset 0 0 0 1px rgba(244,197,66,0.32);
 }
 .switch-toggle.goat-btn[aria-checked="true"] {
   border-color: rgba(244,197,66,0.5);
-}
-.switch-toggle.goat-btn[aria-checked="true"] .switch-thumb {
-  background: linear-gradient(135deg, #004D98, #F4C542);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 14px rgba(244,197,66,0.5);
 }
 html.goat-mode .header-toggles { border-left-color: rgba(244,197,66,0.3); }
 
@@ -488,6 +495,20 @@ html.goat-mode .header-toggles { border-left-color: rgba(244,197,66,0.3); }
   border-bottom: 1px solid rgba(255,255,255,0.06);
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .switch-toggle {
+    width: 42px;
+    height: 42px;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .messi-fab {
+    animation: none !important;
+  }
 }
 
 /* ── Ripple ───────────────────────────────────── */
