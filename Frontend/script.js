@@ -2,6 +2,16 @@
 //  YASH PORTFOLIO — script.js
 // =============================================
 
+// ── Shared perf helpers (mobile optimization) ──
+function debounce(fn, wait = 150) {
+  let t;
+  return function (...args) {
+    clearTimeout(t);
+    t = setTimeout(() => fn.apply(this, args), wait);
+  };
+}
+const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768;
+
 // ── Theme System (dark / light + GOAT mode) ──
 (function () {
   const THEME_KEY = 'portfolio-theme';
@@ -278,7 +288,7 @@ document.querySelectorAll('.btn, .chip, .filter-tab, .send-btn, .nav-cta, .switc
     half = track.scrollWidth / 2;
   }
   measure();
-  window.addEventListener('resize', measure, { passive: true });
+  window.addEventListener('resize', debounce(measure, 150), { passive: true });
 
   function setTransform() {
     track.style.transform = `translate3d(${pos}px,0,0)`;
@@ -381,12 +391,20 @@ const backToTop = document.getElementById('backToTop');
 const navLinks  = document.querySelectorAll('.nav-link');
 const sections  = document.querySelectorAll('main section[id]');
 
-window.addEventListener('scroll', () => {
+let scrollTicking = false;
+function updateScrollUI() {
   const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
   scrollBar.style.width = scrolled + '%';
   header.classList.toggle('scrolled', window.scrollY > 50);
   if (backToTop) backToTop.classList.toggle('show', window.scrollY > 500);
-});
+  scrollTicking = false;
+}
+window.addEventListener('scroll', () => {
+  if (!scrollTicking) {
+    scrollTicking = true;
+    requestAnimationFrame(updateScrollUI);
+  }
+}, { passive: true });
 
 // Active nav highlighting via IntersectionObserver
 if (sections.length && navLinks.length) {
@@ -459,50 +477,72 @@ const ctx    = canvas.getContext('2d');
 
 let W, H, dots = [];
 let mxC = -9999, myC = -9999;
+// Touch devices never trigger mousemove reactions — use a wider grid (fewer
+// dots) and skip every other frame to cut canvas CPU/GPU cost on mobile.
+const dotGap = isCoarsePointer ? 84 : 44;
+const dotFrameSkip = isCoarsePointer ? 1 : 0;
+let dotFrameCount = 0;
 
 function resizeCanvas() {
   W = canvas.width  = window.innerWidth;
   H = canvas.height = window.innerHeight;
 }
 resizeCanvas();
-window.addEventListener('resize', () => { resizeCanvas(); buildDots(); });
+window.addEventListener('resize', debounce(() => { resizeCanvas(); buildDots(); }, 150), { passive: true });
 
 function buildDots() {
   dots = [];
-  const gap = 44;
-  for (let x = gap; x < W; x += gap) {
-    for (let y = gap; y < H; y += gap) {
+  for (let x = dotGap; x < W; x += dotGap) {
+    for (let y = dotGap; y < H; y += dotGap) {
       dots.push({ x, y, ox: x, oy: y });
     }
   }
 }
 buildDots();
 
-document.addEventListener('mousemove', e => { mxC = e.clientX; myC = e.clientY; });
+if (!isCoarsePointer) {
+  document.addEventListener('mousemove', e => { mxC = e.clientX; myC = e.clientY; }, { passive: true });
+}
 
 (function drawDots() {
-  ctx.clearRect(0, 0, W, H);
-  dots.forEach(d => {
-    const dx   = mxC - d.x;
-    const dy   = myC - d.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const r    = 160;
-
-    if (dist < r) {
-      const force = (1 - dist / r) * 14;
-      d.x = d.ox - (dx / dist) * force;
-      d.y = d.oy - (dy / dist) * force;
-      ctx.fillStyle = `rgba(255,255,255,${0.1 + (1 - dist / r) * 0.25})`;
-    } else {
-      d.x += (d.ox - d.x) * 0.1;
-      d.y += (d.oy - d.y) * 0.1;
-      ctx.fillStyle = 'rgba(255,255,255,0.055)';
+  if (dotFrameSkip) {
+    dotFrameCount = (dotFrameCount + 1) % (dotFrameSkip + 1);
+    if (dotFrameCount !== 0) {
+      requestAnimationFrame(drawDots);
+      return;
     }
+  }
+  ctx.clearRect(0, 0, W, H);
 
+  if (isCoarsePointer) {
+    // No pointer to react to on touch — draw the static grid as one batched path.
+    ctx.fillStyle = 'rgba(255,255,255,0.055)';
     ctx.beginPath();
-    ctx.arc(d.x, d.y, 1, 0, Math.PI * 2);
+    dots.forEach(d => { ctx.moveTo(d.ox + 1, d.oy); ctx.arc(d.ox, d.oy, 1, 0, Math.PI * 2); });
     ctx.fill();
-  });
+  } else {
+    dots.forEach(d => {
+      const dx   = mxC - d.x;
+      const dy   = myC - d.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const r    = 160;
+
+      if (dist < r) {
+        const force = (1 - dist / r) * 14;
+        d.x = d.ox - (dx / dist) * force;
+        d.y = d.oy - (dy / dist) * force;
+        ctx.fillStyle = `rgba(255,255,255,${0.1 + (1 - dist / r) * 0.25})`;
+      } else {
+        d.x += (d.ox - d.x) * 0.1;
+        d.y += (d.oy - d.y) * 0.1;
+        ctx.fillStyle = 'rgba(255,255,255,0.055)';
+      }
+
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, 1, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
   requestAnimationFrame(drawDots);
 })();
 
@@ -576,20 +616,24 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && resumeModal?.classList.contains('open')) closeResumeModal();
 });
 
-// ── Mobile Nav ────────────────────────────────
+// ── Mobile Nav (cached DOM refs — avoid repeated lookups) ────
+const mobileNavEl = document.getElementById('mobileNav');
+const hamburgerEl = document.getElementById('hamburger');
+const mobileNavBackdropEl = document.getElementById('mobileNavBackdrop');
+
 function toggleMenu() {
-  const isOpen = document.getElementById('mobileNav').classList.toggle('open');
-  document.getElementById('hamburger').classList.toggle('open');
-  document.getElementById('hamburger').setAttribute('aria-expanded', String(isOpen));
-  document.getElementById('mobileNavBackdrop')?.classList.toggle('open', isOpen);
+  const isOpen = mobileNavEl.classList.toggle('open');
+  hamburgerEl.classList.toggle('open');
+  hamburgerEl.setAttribute('aria-expanded', String(isOpen));
+  mobileNavBackdropEl?.classList.toggle('open', isOpen);
   document.body.style.overflow = isOpen ? 'hidden' : '';
 }
 
 function closeMobileNav() {
-  document.getElementById('mobileNav').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
-  document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
-  document.getElementById('mobileNavBackdrop')?.classList.remove('open');
+  mobileNavEl.classList.remove('open');
+  hamburgerEl.classList.remove('open');
+  hamburgerEl.setAttribute('aria-expanded', 'false');
+  mobileNavBackdropEl?.classList.remove('open');
   document.body.style.overflow = '';
 }
 
@@ -604,13 +648,14 @@ if (contactForm && statusMsg) {
     const data = {
       name:    contactForm.elements['name'].value,
       email:   contactForm.elements['email'].value,
+      subject: contactForm.elements['subject'].value,
       message: contactForm.elements['message'].value
     };
 
     statusMsg.textContent = 'Sending...';
 
     try {
-      const res = await fetch('https://formspree.io/f/mlgwljzj', {
+      const res = await fetch("http://127.0.0.1:8000/contact", {
         method:  'POST',
         headers: {
           'Content-Type': 'application/json',

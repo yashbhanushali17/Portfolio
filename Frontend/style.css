@@ -1458,7 +1458,7 @@ button.btn { font-family: var(--font-body); }
 .proj-card:hover .proj-glow { opacity: 1; }
 
 .proj-body {
-  padding: 2rem;
+  padding: 1.35rem 1.6rem;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -1470,7 +1470,7 @@ button.btn { font-family: var(--font-body); }
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.85rem;
 }
 
 .proj-num {
@@ -1483,11 +1483,11 @@ button.btn { font-family: var(--font-body); }
 }
 
 .proj-icon {
-  font-size: 1.8rem;
-  width: 50px; height: 50px;
+  font-size: 1.55rem;
+  width: 44px; height: 44px;
   background: var(--white-15);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1500,25 +1500,29 @@ button.btn { font-family: var(--font-body); }
 }
 
 .proj-body h3 {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 700;
   color: var(--white);
-  line-height: 1.35;
-  margin-bottom: 0.65rem;
+  line-height: 1.3;
+  margin-bottom: 0.45rem;
 }
 .proj-body > p {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   color: var(--white-40);
-  line-height: 1.7;
-  flex: 1;
-  margin-bottom: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 0.85rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
 }
 
 .proj-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.9rem;
 }
 .proj-tag {
   padding: 0.25rem 0.65rem;
@@ -1541,7 +1545,7 @@ button.btn { font-family: var(--font-body); }
   color: var(--cyan);
   transition: var(--transition);
   border-top: 1px solid var(--border);
-  padding-top: 1.25rem;
+  padding-top: 0.9rem;
   margin-top: auto;
   width: fit-content;
 }
@@ -1731,7 +1735,7 @@ button.btn { font-family: var(--font-body); }
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.7rem;
 }
 .meta-chip {
   font-size: 0.72rem;
@@ -2435,6 +2439,11 @@ html.goat-mode.goat-cursor-active .goat-cursor-ring { opacity: 1; }
 html.goat-mode.goat-cursor-active .goat-cursor-ring.hovering {
   width: 50px; height: 50px;
   border-color: rgba(165,0,68,0.6);
+}
+html.goat-mode,
+html.goat-mode body,
+html.goat-mode * {
+    cursor: none !important;
 }
 @media (max-width: 900px), (pointer: coarse) {
   .goat-cursor-dot, .goat-cursor-ring { display: none; }
@@ -3523,4 +3532,173 @@ html.goat-mode .messi-fab {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE PERFORMANCE & RESPONSIVE OPTIMIZATION LAYER  (appended)
+   Everything below is scoped to <= 900px / coarse-pointer or narrower.
+   No selector here touches the default (desktop) cascade above —
+   desktop remains pixel-identical.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── 1 & 7 & 8. Mobile perf: containment, cheaper compositing ─────── */
+@media (max-width: 900px), (pointer: coarse) {
+  .proj-card, .skill-item, .exp-card, .stat-card, .glass-card,
+  .tech-pill, .gp-trophy, .gp-stat, .goat-panel-list li, .gc-slide {
+    contain: layout style;
+  }
+
+  /* Below-the-fold sections: browser skips layout/paint until near view */
+  #experience, #skills, #projects, #contact {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1400px;
+  }
+
+  /* Cheaper glass blur — same premium look, far less GPU compositing cost */
+  .glass-card, #chatbot-widget, .contact-form-wrap, .profile-card,
+  .exp-card, .skill-item, .resume-modal-card {
+    backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%);
+  }
+
+  /* Ambient orbs: smaller blur radius + slower motion = less repaint cost */
+  .orb { filter: blur(36px); opacity: 0.6; animation-duration: 18s; }
+  .orb-3 { display: none; }
+}
+
+/* ── 6. GOAT mode ambient FX — disable/soften decorative-only layers ── */
+@media (max-width: 900px), (pointer: coarse) {
+  .goat-rays, .goat-mesh { display: none; }
+  .goat-aurora { filter: blur(18px); animation: none; }
+  .goat-stars .g-star:nth-child(even) { display: none; }
+  .g-star { animation-duration: 4.5s; box-shadow: 0 0 4px 1px rgba(244,197,66,0.35); }
+  .goat-marquee-track { animation-duration: 30s; }
+  .gp-ic, .gp-trophy span { filter: none; }
+  .goat-panel, .messi-fab {
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+  }
+}
+
+/* ── 2. Mobile responsive — safe widths, spacing, touch targets ────── */
+@media (max-width: 900px) {
+  html, body { max-width: 100%; overflow-x: hidden; }
+
+  .btn, .filter-tab, .chip, .nav-cta, .switch-toggle,
+  .social-link, .c-social, .send-btn, .close-btn, .back-to-top, .hamburger {
+    min-height: 44px;
+  }
+  .filter-tab, .chip { min-height: 40px; }
+
+  .section-wrap { padding-left: 1.1rem; padding-right: 1.1rem; }
+}
+
+@media (max-width: 430px) {
+  .section-title { font-size: clamp(1.7rem, 7vw, 2.1rem); }
+  .home-name { font-size: clamp(2.2rem, 10vw, 2.6rem); }
+  .proj-tags, .tech-pills, .exp-trust, .goat-intro-badges { row-gap: 0.5rem; }
+}
+
+@media (max-width: 375px) {
+  .section-wrap { padding-left: 0.9rem; padding-right: 0.9rem; }
+  .profile-card, .contact-form-wrap { padding: 1.25rem; }
+}
+
+@media (max-width: 320px) {
+  .home-name { font-size: 2rem; }
+}
+
+/* ── 3. LM10 / GOAT panel — fit all cards, avoid vertical scroll ───── */
+@media (max-width: 900px) {
+  .goat-panel {
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 1.3rem 1.1rem 1.5rem;
+  }
+  .goat-panel-head { margin-bottom: 1rem; padding-bottom: 0.8rem; }
+  .goat-panel-num { font-size: 1.4rem; padding: 0.3rem 0.6rem; }
+  .goat-panel-title { font-size: 1rem; }
+  .goat-panel-sub { font-size: 0.68rem; }
+  .goat-panel-hero { height: 110px; margin-bottom: 0.8rem; padding: 0.4rem; }
+  .goat-carousel { margin-bottom: 0.9rem; }
+  .gc-slide { width: 84px; }
+  .goat-carousel-track { gap: 0.5rem; }
+  .goat-panel-section-title { font-size: 0.72rem; margin-top: 0.7rem; margin-bottom: 0.6rem; }
+  .goat-panel-list {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.6rem;
+    row-gap: 0.5rem;
+    margin-bottom: 0.9rem;
+  }
+  .goat-panel-list li { font-size: 0.68rem; padding: 0.45rem 0.5rem; line-height: 1.35; }
+  .gp-ic { font-size: 0.9rem; }
+  .goat-panel-trophies { gap: 0.5rem; margin-bottom: 0.9rem; }
+  .gp-trophy { padding: 0.5rem 0.35rem; font-size: 0.62rem; }
+  .gp-trophy span { font-size: 1.05rem; margin-bottom: 0.15rem; }
+  .goat-panel-stat-grid { gap: 0.5rem; margin-bottom: 0.9rem; }
+  .gp-stat { padding: 0.6rem 0.35rem; }
+  .gp-num { font-size: 1.05rem; }
+  .gp-lbl { font-size: 0.6rem; margin-top: 0.2rem; }
+  .goat-panel-foot { font-size: 0.68rem; padding-top: 0.8rem; }
+}
+
+/* Allow scrolling only on extremely small screens where content still
+   can't fit even at the reduced sizes above. */
+@media (max-width: 380px) {
+  .goat-panel { padding: 1.1rem 0.9rem 1.3rem; max-height: 92vh; }
+  .goat-panel-hero { height: 92px; }
+  .gc-slide { width: 74px; }
+  .goat-panel-list { grid-template-columns: 1fr; }
+  .goat-panel-trophies, .goat-panel-stat-grid { grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
+}
+
+/* ── 4. GOAT image — always show the complete Messi photo on mobile ── */
+@media (max-width: 900px) {
+  .goat-panel-hero {
+    object-fit: contain;
+    object-position: center;
+    background-color: rgba(6,15,32,0.4);
+  }
+}
+
+/* ── 5. Mobile LM10 floating button — reuses #messiFab + existing JS ── */
+@media (max-width: 768px) {
+  .messi-fab {
+    top: auto;
+    right: 1.1rem;
+    bottom: calc(1.25rem + 54px + 14px); /* sits above .chatbot-fab, no overlap */
+    left: auto;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1.8px solid rgba(244,197,66,0.6);
+    box-shadow: 0 6px 22px rgba(0,0,0,0.45), 0 0 18px rgba(244,197,66,0.5);
+    transform: scale(0.6) translateY(10px);
+  }
+  .messi-fab-text { display: none; }
+  .messi-fab-face { width: 100%; height: 100%; border-width: 2px; }
+
+  html.goat-mode .messi-fab {
+    transform: scale(1) translateY(0);
+    animation: messiFabBreatheMobile 2.6s ease-in-out infinite;
+  }
+  .messi-fab.panel-open { transform: scale(0.6) translateY(10px); }
+  .messi-fab:hover,
+  .messi-fab:active {
+    transform: scale(1.08);
+    box-shadow: 0 8px 26px rgba(0,0,0,0.5), 0 0 26px rgba(244,197,66,0.7);
+  }
+}
+@keyframes messiFabBreatheMobile {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 6px 22px rgba(0,0,0,0.45), 0 0 18px rgba(244,197,66,0.5);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 8px 26px rgba(0,0,0,0.5), 0 0 28px rgba(244,197,66,0.75);
+  }
+}
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  html.goat-mode .messi-fab { animation: none; transform: scale(1) translateY(0); }
 }
