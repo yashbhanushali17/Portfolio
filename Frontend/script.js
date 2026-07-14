@@ -85,11 +85,17 @@ const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window
     });
   });
 
-  document.querySelectorAll('.goat-btn').forEach(btn => {
+document.querySelectorAll('.goat-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const now = !document.documentElement.classList.contains('goat-mode');
       localStorage.setItem(GOAT_KEY, now ? 'on' : 'off');
       applyGoat(now);
+      if (now) {
+        btn.classList.remove('goat-flash');
+        void btn.offsetWidth; // restart animation if clicked again quickly
+        btn.classList.add('goat-flash');
+        setTimeout(() => btn.classList.remove('goat-flash'), 550);
+      }
     });
   });
 
@@ -187,10 +193,11 @@ const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window
     });
   });
 
-  function fireGoatConfetti() {
+function fireGoatConfetti() {
     if (reduceMotion) return;
     const colors = ['#F4C542', '#A50044', '#004D98', '#F8FAFC'];
-    for (let i = 0; i < 60; i++) {
+    const pieceCount = isCoarsePointer ? 24 : 60;
+    for (let i = 0; i < pieceCount; i++) {
       const piece = document.createElement('span');
       const size = 6 + Math.random() * 6;
       piece.style.cssText = `
@@ -283,17 +290,29 @@ document.querySelectorAll('.btn, .chip, .filter-tab, .send-btn, .nav-cta, .switc
   let dragMoved = false;
   let startX = 0;
   let startPos = 0;
-
-  function measure() {
+function measure() {
     half = track.scrollWidth / 2;
   }
-  measure();
-  window.addEventListener('resize', debounce(measure, 150), { passive: true });
+
+  // Only measure once Messi Mode is actually turned on (this carousel is
+  // invisible until then, so measuring at page load for every visitor
+  // was an unnecessary forced reflow).
+  let measured = false;
+  function measureIfNeeded() {
+    if (document.documentElement.classList.contains('goat-mode') && !measured) {
+      measured = true;
+      measure();
+    }
+  }
+  const goatModeObserver = new MutationObserver(measureIfNeeded);
+  goatModeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  measureIfNeeded(); // covers the case where Messi Mode was already saved 'on' from a previous visit
+
+  window.addEventListener('resize', debounce(() => { if (measured) measure(); }, 150), { passive: true });
 
   function setTransform() {
     track.style.transform = `translate3d(${pos}px,0,0)`;
   }
-
   function frame() {
     if (!paused && !dragging && !reduceMotion && half > 0) {
       pos -= 0.55;
@@ -484,8 +503,12 @@ const dotFrameSkip = isCoarsePointer ? 1 : 0;
 let dotFrameCount = 0;
 
 function resizeCanvas() {
-  W = canvas.width  = window.innerWidth;
-  H = canvas.height = window.innerHeight;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  W = w;
+  H = h;
+  canvas.width = w;
+  canvas.height = h;
 }
 resizeCanvas();
 window.addEventListener('resize', debounce(() => { resizeCanvas(); buildDots(); }, 150), { passive: true });
@@ -504,7 +527,18 @@ if (!isCoarsePointer) {
   document.addEventListener('mousemove', e => { mxC = e.clientX; myC = e.clientY; }, { passive: true });
 }
 
+// ── Pause everything expensive when the tab isn't visible ──
+document.addEventListener('visibilitychange', () => {
+  document.documentElement.classList.toggle('page-hidden', document.hidden);
+});
+
 (function drawDots() {
+  // Tab is backgrounded — skip drawing and stop scheduling frames until it's visible again.
+  if (document.hidden) {
+    requestAnimationFrame(drawDots);
+    return;
+  }
+
   if (dotFrameSkip) {
     dotFrameCount = (dotFrameCount + 1) % (dotFrameSkip + 1);
     if (dotFrameCount !== 0) {
@@ -545,7 +579,6 @@ if (!isCoarsePointer) {
   }
   requestAnimationFrame(drawDots);
 })();
-
 // ── Project Card Mouse Glow ───────────────────
 document.querySelectorAll('.proj-card').forEach(card => {
   card.addEventListener('mousemove', e => {

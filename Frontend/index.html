@@ -46,7 +46,10 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"></noscript>
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -190,8 +193,10 @@
   <!-- ═══ HOME ═══ -->
   <section id="home">
     <div class="hero-bg">
-      <img src="images/bg.png" alt="" class="hero-bg-img" loading="eager">
-      <div class="hero-bg-overlay"></div>
+<picture>
+  <source srcset="images/hero-bg.webp" type="image/webp">
+  <img src="images/hero-bg.jpg" alt="" class="hero-bg-img" loading="eager">
+</picture>      <div class="hero-bg-overlay"></div>
       <div class="football-watermark" aria-hidden="true">⚽</div>
     </div>
 
@@ -248,8 +253,10 @@
       <div class="hero-portrait">
         <span class="portrait-ring" aria-hidden="true"></span>
         <span class="portrait-ring portrait-ring-2" aria-hidden="true"></span>
-        <img src="images/bg.png" alt="Yash Nanda" class="portrait-img" loading="lazy">
-        <span class="portrait-pulse" aria-hidden="true"></span>
+<picture>
+  <source srcset="images/portrait.webp" type="image/webp">
+  <img src="images/portrait.png" alt="Yash Nanda" class="portrait-img" loading="lazy">
+</picture>        <span class="portrait-pulse" aria-hidden="true"></span>
       </div>
 
       <div class="profile-card">
