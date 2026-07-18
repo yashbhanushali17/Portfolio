@@ -42,7 +42,7 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="./images/favicon.svg">
-  <link rel="alternate icon" href="./images/favicon.svg>
+  <link rel="alternate icon" href="./images/favicon.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,7 +195,7 @@
     <div class="hero-bg">
 <picture>
   <source srcset="images/hero-bg.webp" type="image/webp">
-  <img src="images/hero-bg.jpg" alt="" class="hero-bg-img" loading="eager">
+  <img src="images/hero-bg.jpg" alt="" class="hero-bg-img" loading="eager" decoding="async">
 </picture>      <div class="hero-bg-overlay"></div>
       <div class="football-watermark" aria-hidden="true">⚽</div>
     </div>
@@ -255,7 +255,7 @@
         <span class="portrait-ring portrait-ring-2" aria-hidden="true"></span>
 <picture>
   <source srcset="images/portrait.webp" type="image/webp">
-  <img src="images/portrait.png" alt="Yash Nanda" class="portrait-img" loading="lazy">
+  <img src="images/portrait.png" alt="Yash Nanda" class="portrait-img" loading="lazy" decoding="async">
 </picture>        <span class="portrait-pulse" aria-hidden="true"></span>
       </div>
 
@@ -995,7 +995,7 @@
 <div class="goat-intro" id="goatIntro" aria-hidden="true">
   <button class="goat-intro-skip" id="goatIntroSkip" type="button">Skip <span>→</span></button>
   <div class="goat-intro-card">
-    <img src="images/messi_goat.jpg" alt="" class="goat-intro-img" loading="eager">
+    <img src="images/messi_goat.jpg" alt="" class="goat-intro-img" loading="lazy" decoding="async" fetchpriority="low">
     <div class="goat-intro-num">10</div>
     <h2 class="goat-intro-title">GOAT MODE</h2>
     <p class="goat-intro-sub">The Greatest Of All Time — Edition</p>
@@ -1014,7 +1014,7 @@
 <!-- ═══ GOAT MODE — floating side tab (opens achievements panel) ═══ -->
 <button type="button" class="messi-fab" id="messiFab" aria-label="Open Messi Mode highlights" aria-expanded="false" aria-controls="goatPanel">
   <span class="messi-fab-face">
-    <img src="images/messi-main.jpg" alt="" loading="lazy">
+    <img src="images/messi-main.jpg" alt="" loading="lazy" decoding="async" fetchpriority="low">
   </span>
   <span class="messi-fab-text">LM10</span>
 </button>
@@ -1035,19 +1035,19 @@
     </div>
     <button class="close-btn" id="closeGoatPanel" aria-label="Close panel">✕</button>
   </div>
-  <img src="images/messi_goat.jpg" alt="Lionel Messi" class="goat-panel-hero" loading="lazy">
+  <img src="images/messi_goat.jpg" alt="Lionel Messi" class="goat-panel-hero" loading="lazy" decoding="async" fetchpriority="low">
   <div class="goat-carousel" id="goatCarousel">
     <div class="goat-carousel-track" id="goatCarouselTrack">
-      <div class="gc-slide"><img src="images/messi-barca.jpg" alt="Barcelona era" loading="lazy"><span>Barcelona</span></div>
-      <div class="gc-slide"><img src="images/worldcup_messi.jpg" alt="World Cup" loading="lazy"><span>World Cup</span></div>
-      <div class="gc-slide"><img src="images/messi-young.jpg" alt="Young Messi" loading="lazy"><span>Young Messi</span></div>
-      <div class="gc-slide"><img src="images/messi-intermiami.jpg" alt="Inter Miami" loading="lazy"><span>Inter Miami</span></div>
-      <div class="gc-slide"><img src="images/messi-ballondor.jpg" alt="Ballon d'Or" loading="lazy"><span>Ballon d'Or</span></div>
-      <div class="gc-slide" aria-hidden="true"><img src="images/messi-barca.jpg" alt="" loading="lazy"><span>Barcelona</span></div>
-      <div class="gc-slide" aria-hidden="true"><img src="images/worldcup_messi.jpg" alt="" loading="lazy"><span>World Cup</span></div>
-      <div class="gc-slide" aria-hidden="true"><img src="images/messi-young.jpg" alt="" loading="lazy"><span>Young Messi</span></div>
-      <div class="gc-slide" aria-hidden="true"><img src="images/messi-intermiami.jpg" alt="" loading="lazy"><span>Inter Miami</span></div>
-      <div class="gc-slide" aria-hidden="true"><img src="images/messi-ballondor.jpg" alt="" loading="lazy"><span>Ballon d'Or</span></div>    
+      <div class="gc-slide"><img src="images/messi-barca.jpg" alt="Barcelona era" loading="lazy" decoding="async" fetchpriority="low"><span>Barcelona</span></div>
+      <div class="gc-slide"><img src="images/worldcup_messi.jpg" alt="World Cup" loading="lazy" decoding="async" fetchpriority="low"><span>World Cup</span></div>
+      <div class="gc-slide"><img src="images/messi-young.jpg" alt="Young Messi" loading="lazy" decoding="async" fetchpriority="low"><span>Young Messi</span></div>
+      <div class="gc-slide"><img src="images/messi-intermiami.jpg" alt="Inter Miami" loading="lazy" decoding="async" fetchpriority="low"><span>Inter Miami</span></div>
+      <div class="gc-slide"><img src="images/messi-ballondor.jpg" alt="Ballon d'Or" loading="lazy" decoding="async" fetchpriority="low"><span>Ballon d'Or</span></div>
+      <div class="gc-slide" aria-hidden="true"><img src="images/messi-barca.jpg" alt="" loading="lazy" decoding="async" fetchpriority="low"><span>Barcelona</span></div>
+      <div class="gc-slide" aria-hidden="true"><img src="images/worldcup_messi.jpg" alt="" loading="lazy" decoding="async" fetchpriority="low"><span>World Cup</span></div>
+      <div class="gc-slide" aria-hidden="true"><img src="images/messi-young.jpg" alt="" loading="lazy" decoding="async" fetchpriority="low"><span>Young Messi</span></div>
+      <div class="gc-slide" aria-hidden="true"><img src="images/messi-intermiami.jpg" alt="" loading="lazy" decoding="async" fetchpriority="low"><span>Inter Miami</span></div>
+      <div class="gc-slide" aria-hidden="true"><img src="images/messi-ballondor.jpg" alt="" loading="lazy" decoding="async" fetchpriority="low"><span>Ballon d'Or</span></div>    
     </div>
   </div>
   <div class="goat-panel-section-title">🐐 LEGACY PRIDE</div>

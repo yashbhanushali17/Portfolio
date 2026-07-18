@@ -23,10 +23,13 @@ const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window
     return pref === 'auto' ? (media.matches ? 'dark' : 'light') : pref;
   }
 
+  const themeToggleBtns = document.querySelectorAll('.theme-toggle');
+  const goatBtns = document.querySelectorAll('.goat-btn');
+
   function applyTheme(pref) {
     const resolved = resolve(pref);
     document.documentElement.setAttribute('data-theme', resolved);
-    document.querySelectorAll('.theme-toggle').forEach(btn => {
+    themeToggleBtns.forEach(btn => {
       btn.setAttribute('aria-checked', String(resolved === 'dark'));
     });
   }
@@ -63,7 +66,7 @@ const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window
 
   function applyGoat(on, { silent } = {}) {
     document.documentElement.classList.toggle('goat-mode', on);
-    document.querySelectorAll('.goat-btn').forEach(btn => {
+    goatBtns.forEach(btn => {
       btn.setAttribute('aria-checked', String(on));
     });
     // Toggling Messi Mode never opens/closes the achievements panel by itself,
@@ -77,7 +80,7 @@ const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window
   applyTheme(savedTheme);
   applyGoat(localStorage.getItem(GOAT_KEY) === 'on', { silent: true });
 
-  document.querySelectorAll('.theme-toggle').forEach(btn => {
+  themeToggleBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const now = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       localStorage.setItem(THEME_KEY, now);
@@ -85,7 +88,7 @@ const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window
     });
   });
 
-document.querySelectorAll('.goat-btn').forEach(btn => {
+goatBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const now = !document.documentElement.classList.contains('goat-mode');
       localStorage.setItem(GOAT_KEY, now ? 'on' : 'off');
@@ -152,16 +155,39 @@ document.querySelectorAll('.goat-btn').forEach(btn => {
   const cRing = document.getElementById('goatCursorRing');
   if (cDot && cRing && matchMedia('(pointer: fine)').matches) {
     let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', (e) => {
-      mx = e.clientX; my = e.clientY;
+    let cursorActive = false;
+    let dotTicking = false;
+    let ringLoopRunning = false;
+
+    function moveDot() {
       cDot.style.left = mx + 'px'; cDot.style.top = my + 'px';
-      document.documentElement.classList.add('goat-cursor-active');
-    });
-    (function loop() {
+      dotTicking = false;
+    }
+    function ringLoop() {
+      if (document.hidden) { ringLoopRunning = false; return; }
       rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
       cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px';
-      requestAnimationFrame(loop);
-    })();
+      if (Math.abs(mx - rx) > 0.05 || Math.abs(my - ry) > 0.05) {
+        requestAnimationFrame(ringLoop);
+      } else {
+        ringLoopRunning = false;
+      }
+    }
+    document.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      if (!cursorActive) {
+        cursorActive = true;
+        document.documentElement.classList.add('goat-cursor-active');
+      }
+      if (!dotTicking) {
+        dotTicking = true;
+        requestAnimationFrame(moveDot);
+      }
+      if (!ringLoopRunning) {
+        ringLoopRunning = true;
+        requestAnimationFrame(ringLoop);
+      }
+    }, { passive: true });
     document.addEventListener('mouseover', (e) => {
       if (e.target.closest('a, button, .glass-card, .proj-card, .skill-item, input, textarea')) {
         cRing.classList.add('hovering');
@@ -363,16 +389,32 @@ function measure() {
 // ── Card Tilt (project cards + profile card) ──
 function initTilt(selector, intensity) {
   document.querySelectorAll(selector).forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.transition = 'transform 0.1s ease-out';
+    let rect = null;
+    let lastX = 0, lastY = 0, tiltTicking = false;
+
+    function applyTilt() {
+      const x = (lastX - rect.left) / rect.width - 0.5;
+      const y = (lastY - rect.top) / rect.height - 0.5;
       card.style.transform = `perspective(900px) rotateY(${x * intensity}deg) rotateX(${-y * intensity}deg) translateY(-4px)`;
-    });
+      tiltTicking = false;
+    }
+
+    card.addEventListener('mouseenter', () => {
+      rect = card.getBoundingClientRect();
+      card.style.transition = 'transform 0.1s ease-out';
+    }, { passive: true });
+    card.addEventListener('mousemove', e => {
+      lastX = e.clientX; lastY = e.clientY;
+      if (!rect) rect = card.getBoundingClientRect();
+      if (!tiltTicking) {
+        tiltTicking = true;
+        requestAnimationFrame(applyTilt);
+      }
+    }, { passive: true });
     card.addEventListener('mouseleave', () => {
       card.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1)';
       card.style.transform = '';
+      rect = null;
     });
   });
 }
@@ -581,11 +623,26 @@ document.addEventListener('visibilitychange', () => {
 })();
 // ── Project Card Mouse Glow ───────────────────
 document.querySelectorAll('.proj-card').forEach(card => {
+  let rect = null;
+  let lastX = 0, lastY = 0, glowTicking = false;
+
+  function applyGlow() {
+    card.style.setProperty('--mx', (lastX - rect.left) + 'px');
+    card.style.setProperty('--my', (lastY - rect.top) + 'px');
+    glowTicking = false;
+  }
+
+  card.addEventListener('mouseenter', () => {
+    rect = card.getBoundingClientRect();
+  }, { passive: true });
   card.addEventListener('mousemove', e => {
-    const rect = card.getBoundingClientRect();
-    card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
-    card.style.setProperty('--my', (e.clientY - rect.top)  + 'px');
-  });
+    lastX = e.clientX; lastY = e.clientY;
+    if (!rect) rect = card.getBoundingClientRect();
+    if (!glowTicking) {
+      glowTicking = true;
+      requestAnimationFrame(applyGlow);
+    }
+  }, { passive: true });
 });
 
 // ── Project Filtering + Search ────────────────
