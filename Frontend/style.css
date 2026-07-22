@@ -3640,6 +3640,25 @@ html.goat-mode .messi-fab {
     -webkit-backdrop-filter: blur(10px) saturate(130%);
   }
 
+  /* Mobile nav drawer + Messi panel scrim — heavy blur, always full-screen
+     on mobile, direct cost of opening the hamburger / LM10 panel */
+  .mobile-nav {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .goat-panel-backdrop {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Theme/GOAT crossfade: drop box-shadow from the transition — it's the
+     costliest property to repaint and runs on every listed surface at once */
+  body, #header, .glass-card, .btn, .switch-toggle, .proj-card, .skill-item,
+  .exp-card, .profile-card, #chatbot-widget, nav ul a, .section-title span {
+    transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease,
+                background 0.5s ease;
+  }
+
   /* Ambient orbs: smaller blur radius + slower motion = less repaint cost */
   .orb { filter: blur(36px); opacity: 0.6; animation-duration: 18s; }
   .orb-3 { display: none; }
