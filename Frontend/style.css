@@ -2519,7 +2519,11 @@ html.goat-mode .goat-marquee { max-height: 40px; }
 .goat-marquee-track {
   display: flex; white-space: nowrap;
   animation: goatMarqueeScroll 22s linear infinite;
+  animation-play-state: paused;
   width: max-content;
+}
+html.goat-mode .goat-marquee-track {
+  animation-play-state: running;
   will-change: transform;
 }
 .goat-marquee:hover .goat-marquee-track { animation-play-state: paused; }
@@ -2562,8 +2566,12 @@ html.goat-mode .goat-fx { opacity: 1; }
     radial-gradient(40% 50% at 50% 35%, rgba(238,244,251,0.08), transparent 70%);
   filter: blur(40px);
   animation: goatAurora 18s ease-in-out infinite alternate;
-  will-change: transform;
+  animation-play-state: paused;
   contain: layout style paint;
+}
+html.goat-mode .goat-aurora {
+  animation-play-state: running;
+  will-change: transform;
 }
 @keyframes goatAurora {
   0%   { transform: translate(0,0) scale(1); }
@@ -2578,7 +2586,11 @@ html.goat-mode .goat-fx { opacity: 1; }
     linear-gradient(240deg, rgba(244,197,66,0.045) 0%, transparent 45%);
   background-size: 200% 200%;
   animation: goatMeshShift 22s ease-in-out infinite;
+  animation-play-state: paused;
   contain: layout paint;
+}
+html.goat-mode .goat-mesh {
+  animation-play-state: running;
   will-change: background-position;
 }
 @keyframes goatMeshShift {
@@ -2596,8 +2608,12 @@ html.goat-mode .goat-fx { opacity: 1; }
     transparent 80deg, rgba(244,197,66,0.04) 84deg, transparent 90deg);
   opacity: 0.7;
   animation: goatRaysSway 26s ease-in-out infinite;
-  will-change: transform;
+  animation-play-state: paused;
   contain: layout style paint;
+}
+html.goat-mode .goat-rays {
+  animation-play-state: running;
+  will-change: transform;
 }
 @keyframes goatRaysSway {
   0%, 100% { transform: translateX(-50%) rotate(0deg); }
@@ -2624,6 +2640,10 @@ html.goat-mode .goat-fx { opacity: 1; }
   box-shadow: 0 0 8px 2px rgba(244,197,66,0.5);
   animation: goatStarPulse 3.2s ease-in-out infinite;
   animation-delay: var(--d);
+  animation-play-state: paused;
+}
+html.goat-mode .g-star {
+  animation-play-state: running;
   will-change: transform, opacity;
 }
 @keyframes goatStarPulse {
@@ -2761,6 +2781,7 @@ html.goat-mode .chat-messages::-webkit-scrollbar-thumb {
 .goat-intro.show { opacity: 1; visibility: visible; }
 .goat-intro-skip {
   position: absolute; top: 2rem; right: 2rem;
+  z-index: 2;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(244,197,66,0.3);
   color: #F4C542;
@@ -2772,6 +2793,8 @@ html.goat-mode .chat-messages::-webkit-scrollbar-thumb {
   cursor: pointer;
   display: flex; align-items: center; gap: 0.4rem;
   transition: var(--transition);
+  touch-action: manipulation;
+  pointer-events: auto;
 }
 .goat-intro-skip:hover { background: rgba(244,197,66,0.14); }
 .goat-intro-card {
@@ -3689,7 +3712,8 @@ html.goat-mode .messi-fab {
   html, body { max-width: 100%; overflow-x: hidden; }
 
   .btn, .filter-tab, .chip, .nav-cta, .switch-toggle,
-  .social-link, .c-social, .send-btn, .close-btn, .back-to-top, .hamburger {
+  .social-link, .c-social, .send-btn, .close-btn, .back-to-top, .hamburger,
+  .goat-intro-skip {
     min-height: 44px;
   }
   .filter-tab, .chip { min-height: 40px; }

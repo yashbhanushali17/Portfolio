@@ -12,6 +12,38 @@ function debounce(fn, wait = 150) {
 }
 const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768;
 
+// ── Central animation scheduler ──────────────
+// Merges every continuous per-frame task (cursor ring easing, dot-grid
+// canvas, hero parallax easing, GOAT carousel auto-scroll) into a single
+// requestAnimationFrame loop instead of each one self-scheduling its own
+// independent rAF chain. One callback per frame = less browser scheduling
+// overhead, one place to pause everything when the tab is hidden, and no
+// risk of tasks drifting out of sync with each other.
+const scheduler = (() => {
+  const tasks = new Set();
+  let rafId = null;
+
+  function loop() {
+    rafId = null;
+    if (document.hidden) return; // resumed by the visibilitychange listener below
+    tasks.forEach(fn => fn());
+    if (tasks.size) rafId = requestAnimationFrame(loop);
+  }
+  function add(fn) {
+    tasks.add(fn);
+    if (rafId === null && !document.hidden) rafId = requestAnimationFrame(loop);
+  }
+  function remove(fn) {
+    tasks.delete(fn);
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && tasks.size && rafId === null) {
+      rafId = requestAnimationFrame(loop);
+    }
+  });
+  return { add, remove };
+})();
+
 // ── Theme System (dark / light + GOAT mode) ──
 (function () {
   const THEME_KEY = 'portfolio-theme';
@@ -37,6 +69,21 @@ const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches || window
   const goatIntro = document.getElementById('goatIntro');
   const goatPanel = document.getElementById('goatPanel');
   let introTimer = null;
+
+  // Warm the browser cache for the intro image during idle time, well
+  // before GOAT mode is ever toggled — so on mobile the "Skip" button
+  // isn't competing with a fresh image fetch+decode the instant the
+  // overlay appears.
+  (function prefetchIntroImgWhenIdle() {
+    const src = goatIntro?.querySelector('.goat-intro-img')?.getAttribute('src');
+    if (!src) return;
+    const load = () => { const img = new Image(); img.src = src; };
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(load, { timeout: 4000 });
+    } else {
+      setTimeout(load, 2000);
+    }
+  })();
 
   function playGoatIntro() {
     if (!goatIntro || reduceMotion) return;
@@ -163,13 +210,11 @@ goatBtns.forEach(btn => {
       cDot.style.left = mx + 'px'; cDot.style.top = my + 'px';
       dotTicking = false;
     }
-    function ringLoop() {
-      if (document.hidden) { ringLoopRunning = false; return; }
+    function ringTick() {
       rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
       cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px';
-      if (Math.abs(mx - rx) > 0.05 || Math.abs(my - ry) > 0.05) {
-        requestAnimationFrame(ringLoop);
-      } else {
+      if (Math.abs(mx - rx) <= 0.05 && Math.abs(my - ry) <= 0.05) {
+        scheduler.remove(ringTick);
         ringLoopRunning = false;
       }
     }
@@ -185,7 +230,7 @@ goatBtns.forEach(btn => {
       }
       if (!ringLoopRunning) {
         ringLoopRunning = true;
-        requestAnimationFrame(ringLoop);
+        scheduler.add(ringTick);
       }
     }, { passive: true });
     document.addEventListener('mouseover', (e) => {
@@ -248,15 +293,22 @@ function fireGoatConfetti() {
 // ── Ripple Effect (buttons, chips, tabs) ──────
 function addRipple(e) {
   const el = e.currentTarget;
-  const rect = el.getBoundingClientRect();
-  const size = Math.max(rect.width, rect.height);
-  const span = document.createElement('span');
-  span.className = 'ripple';
-  span.style.width = span.style.height = size + 'px';
-  span.style.left = (e.clientX - rect.left - size / 2) + 'px';
-  span.style.top = (e.clientY - rect.top - size / 2) + 'px';
-  el.appendChild(span);
-  span.addEventListener('animationend', () => span.remove());
+  const clientX = e.clientX, clientY = e.clientY;
+  // Deferring the rect read to the next frame lets any pending style/class
+  // change (e.g. theme or GOAT-mode toggle on this same click) flush through
+  // the browser's normal render pipeline instead of forcing it synchronously
+  // right here mid-handler.
+  requestAnimationFrame(() => {
+    const rect = el.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const span = document.createElement('span');
+    span.className = 'ripple';
+    span.style.width = span.style.height = size + 'px';
+    span.style.left = (clientX - rect.left - size / 2) + 'px';
+    span.style.top = (clientY - rect.top - size / 2) + 'px';
+    el.appendChild(span);
+    span.addEventListener('animationend', () => span.remove());
+  });
 }
 document.querySelectorAll('.btn, .chip, .filter-tab, .send-btn, .nav-cta, .switch-toggle').forEach(el => {
   el.addEventListener('click', addRipple);
@@ -279,7 +331,7 @@ document.querySelectorAll('.btn, .chip, .filter-tab, .send-btn, .nav-cta, .switc
     targetY = ((e.clientY - cy) / rect.height) * MAX_OFFSET;
     if (!ticking) {
       ticking = true;
-      requestAnimationFrame(update);
+      scheduler.add(update);
     }
   }
 
@@ -288,9 +340,8 @@ document.querySelectorAll('.btn, .chip, .filter-tab, .send-btn, .nav-cta, .switc
     curY += (targetY - curY) * 0.12;
     showcase.style.setProperty('--px', curX.toFixed(2) + 'px');
     showcase.style.setProperty('--py', curY.toFixed(2) + 'px');
-    if (Math.abs(targetX - curX) > 0.05 || Math.abs(targetY - curY) > 0.05) {
-      requestAnimationFrame(update);
-    } else {
+    if (Math.abs(targetX - curX) <= 0.05 && Math.abs(targetY - curY) <= 0.05) {
+      scheduler.remove(update);
       ticking = false;
     }
   }
@@ -298,7 +349,7 @@ document.querySelectorAll('.btn, .chip, .filter-tab, .send-btn, .nav-cta, .switc
   document.getElementById('home')?.addEventListener('mousemove', onMove, { passive: true });
   document.getElementById('home')?.addEventListener('mouseleave', () => {
     targetX = 0; targetY = 0;
-    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    if (!ticking) { ticking = true; scheduler.add(update); }
   }, { passive: true });
 })();
 
@@ -324,10 +375,17 @@ function measure() {
   // invisible until then, so measuring at page load for every visitor
   // was an unnecessary forced reflow).
   let measured = false;
+  let carouselTickRunning = false;
   function measureIfNeeded() {
     if (document.documentElement.classList.contains('goat-mode') && !measured) {
       measured = true;
       measure();
+    }
+    // The carousel is invisible until GOAT mode is on — no reason to keep
+    // scheduling its per-frame tick before then.
+    if (document.documentElement.classList.contains('goat-mode') && !carouselTickRunning) {
+      carouselTickRunning = true;
+      scheduler.add(carouselTick);
     }
   }
   const goatModeObserver = new MutationObserver(measureIfNeeded);
@@ -339,15 +397,13 @@ function measure() {
   function setTransform() {
     track.style.transform = `translate3d(${pos}px,0,0)`;
   }
-  function frame() {
+  function carouselTick() {
     if (!paused && !dragging && !reduceMotion && half > 0) {
       pos -= 0.55;
       if (pos <= -half) pos += half;
       setTransform();
     }
-    requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
 
   wrap.addEventListener('mouseenter', () => { paused = true; });
   wrap.addEventListener('mouseleave', () => { paused = false; });
@@ -393,10 +449,11 @@ function initTilt(selector, intensity) {
     let lastX = 0, lastY = 0, tiltTicking = false;
 
     function applyTilt() {
+      tiltTicking = false;
+      if (!rect) return; // mouse already left the card before this queued frame ran
       const x = (lastX - rect.left) / rect.width - 0.5;
       const y = (lastY - rect.top) / rect.height - 0.5;
       card.style.transform = `perspective(900px) rotateY(${x * intensity}deg) rotateX(${-y * intensity}deg) translateY(-4px)`;
-      tiltTicking = false;
     }
 
     card.addEventListener('mouseenter', () => {
@@ -453,8 +510,22 @@ const navLinks  = document.querySelectorAll('.nav-link');
 const sections  = document.querySelectorAll('main section[id]');
 
 let scrollTicking = false;
+let scrollableHeight = document.body.scrollHeight - window.innerHeight;
+
+function recalcScrollableHeight() {
+  scrollableHeight = document.body.scrollHeight - window.innerHeight;
+}
+// Recompute only when the page's height can actually change — never on
+// every scroll frame. This is what was forcing a synchronous layout
+// read on each of the ~90 scroll ticks/sec while scrolling.
+window.addEventListener('resize', debounce(recalcScrollableHeight, 150), { passive: true });
+window.addEventListener('load', recalcScrollableHeight);
+if (typeof ResizeObserver !== 'undefined') {
+  new ResizeObserver(debounce(recalcScrollableHeight, 150)).observe(document.body);
+}
+
 function updateScrollUI() {
-  const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  const scrolled = window.scrollY / scrollableHeight * 100;
   scrollBar.style.width = scrolled + '%';
   header.classList.toggle('scrolled', window.scrollY > 50);
   if (backToTop) backToTop.classList.toggle('show', window.scrollY > 500);
@@ -574,19 +645,10 @@ document.addEventListener('visibilitychange', () => {
   document.documentElement.classList.toggle('page-hidden', document.hidden);
 });
 
-(function drawDots() {
-  // Tab is backgrounded — skip drawing and stop scheduling frames until it's visible again.
-  if (document.hidden) {
-    requestAnimationFrame(drawDots);
-    return;
-  }
-
+function dotsTick() {
   if (dotFrameSkip) {
     dotFrameCount = (dotFrameCount + 1) % (dotFrameSkip + 1);
-    if (dotFrameCount !== 0) {
-      requestAnimationFrame(drawDots);
-      return;
-    }
+    if (dotFrameCount !== 0) return;
   }
   ctx.clearRect(0, 0, W, H);
 
@@ -619,17 +681,18 @@ document.addEventListener('visibilitychange', () => {
       ctx.fill();
     });
   }
-  requestAnimationFrame(drawDots);
-})();
+}
+scheduler.add(dotsTick);
 // ── Project Card Mouse Glow ───────────────────
 document.querySelectorAll('.proj-card').forEach(card => {
   let rect = null;
   let lastX = 0, lastY = 0, glowTicking = false;
 
   function applyGlow() {
+    glowTicking = false;
+    if (!rect) return;
     card.style.setProperty('--mx', (lastX - rect.left) + 'px');
     card.style.setProperty('--my', (lastY - rect.top) + 'px');
-    glowTicking = false;
   }
 
   card.addEventListener('mouseenter', () => {
