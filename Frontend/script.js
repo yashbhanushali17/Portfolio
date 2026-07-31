@@ -611,7 +611,7 @@ let W, H, dots = [];
 let mxC = -9999, myC = -9999;
 // Touch devices never trigger mousemove reactions — use a wider grid (fewer
 // dots) and skip every other frame to cut canvas CPU/GPU cost on mobile.
-const dotGap = isCoarsePointer ? 84 : 44;
+const dotGap = isCoarsePointer ? 110 : 58;
 const dotFrameSkip = isCoarsePointer ? 1 : 0;
 let dotFrameCount = 0;
 

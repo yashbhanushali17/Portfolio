@@ -290,8 +290,8 @@ html.page-hidden .orb {
   background: var(--bg-glass);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(9px) saturate(120%);
+  -webkit-backdrop-filter: blur(9px) saturate(120%);
   box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.04);
   transition: var(--transition);
 }
@@ -311,8 +311,8 @@ html.page-hidden .orb {
   padding: 0 clamp(1.5rem, 5vw, 4rem);
   height: 70px;
   background: color-mix(in srgb, var(--bg) 50%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
   border-bottom: 1px solid transparent;
   contain: layout style paint;
   transition: var(--transition);
@@ -429,8 +429,8 @@ nav ul a.active .nav-num { opacity: 1; }
   border-radius: 50%;
   background: var(--bg-glass);
   border: 1px solid var(--border);
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(9px) saturate(120%);
+  -webkit-backdrop-filter: blur(9px) saturate(120%);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
   cursor: pointer;
   padding: 0;
@@ -603,7 +603,7 @@ html.goat-mode .header-toggles { border-left-color: rgba(244,197,66,0.3); }
   width: min(320px, 85vw);
   height: calc(100vh - 70px);
   background: rgba(5, 8, 16, 0.97);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(12px);
   border-left: 1px solid var(--border);
   z-index: 999;
   display: flex;
@@ -1029,8 +1029,8 @@ main { position: relative; z-index: 1; }
   background: var(--bg-glass);
   border: 1px solid var(--border-2);
   border-radius: 100px;
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(9px) saturate(120%);
+  -webkit-backdrop-filter: blur(9px) saturate(120%);
   box-shadow: var(--shadow);
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -1064,8 +1064,8 @@ main { position: relative; z-index: 1; }
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 4.25rem 2rem 2.5rem;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
   position: relative;
   overflow: hidden;
   transition: var(--transition);
@@ -1899,7 +1899,7 @@ button.btn { font-family: var(--font-body); }
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 2.5rem;
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(9px);
 }
 
 .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
@@ -1999,7 +1999,7 @@ footer {
   background: var(--bg-glass);
   border: 1px solid var(--border-2);
   color: var(--white-70);
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(9px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2515,7 +2515,7 @@ html.goat-mode * {
   background: linear-gradient(90deg, var(--goat-maroon, #A50044), var(--goat-blue, #004D98));
   transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1);
 }
-html.goat-mode .goat-marquee { max-height: 40px; }
+html.goat-mode .goat-marquee { max-height: 0; }
 .goat-marquee-track {
   display: flex; white-space: nowrap;
   animation: goatMarqueeScroll 22s linear infinite;
@@ -2803,7 +2803,7 @@ html.goat-mode .chat-messages::-webkit-scrollbar-thumb {
   border-radius: 24px;
   background: rgba(10,24,50,0.55);
   border: 1px solid rgba(244,197,66,0.25);
-  backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(9px) saturate(120%);
   box-shadow: 0 0 60px rgba(0,77,152,0.15), 0 0 100px rgba(244,197,66,0.08);
   animation: goatCardIn 0.7s cubic-bezier(0.16,1,0.3,1);
   max-width: min(90vw, 480px);
@@ -2902,8 +2902,8 @@ body.goat-panel-lock { overflow: hidden; }
   background:
     linear-gradient(165deg, rgba(0,77,152,0.32), rgba(6,15,32,0.96) 45%, rgba(165,0,68,0.26)),
     rgba(6,15,32,0.91);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
   border-left: 2.2px solid rgba(244,197,66,0.42);
   padding: 4.2rem 1.8rem 2.4rem;
   overflow-y: auto;
@@ -3254,8 +3254,8 @@ body.goat-panel-lock { overflow: hidden; }
   width: 66px;
   padding: 1.1rem 0.65rem 1.3rem;
   background: linear-gradient(165deg, rgba(0,77,152,0.48), rgba(165,0,68,0.38));
-  backdrop-filter: blur(22px) saturate(210%);
-  -webkit-backdrop-filter: blur(22px) saturate(210%);
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
   border: 1.8px solid rgba(244,197,66,0.55);
   border-right: none;
   border-radius: 20px 0 0 20px;
@@ -3349,8 +3349,8 @@ html.goat-mode .messi-fab {
     inset -1px 0 2px rgba(0,0,0,0.35);
   border-color: #F4C542;
   animation-play-state: paused;
-  backdrop-filter: blur(26px) saturate(230%);
-  -webkit-backdrop-filter: blur(26px) saturate(230%);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
   background: linear-gradient(165deg, rgba(0,77,152,0.55), rgba(165,0,68,0.45));
 }
 .messi-fab:hover .messi-fab-face {
@@ -3463,8 +3463,8 @@ html.goat-mode .messi-fab {
     inset -1px 0 1px rgba(0,0,0,0.3);
   border-color: #F4C542;
   animation-play-state: paused;
-  backdrop-filter: blur(22px) saturate(220%);
-  -webkit-backdrop-filter: blur(22px) saturate(220%);
+  backdrop-filter: blur(12px) saturate(220%);
+  -webkit-backdrop-filter: blur(12px) saturate(220%);
 }
 .messi-fab:hover .messi-fab-face {
   box-shadow: 
@@ -3705,8 +3705,8 @@ html.goat-mode .messi-fab {
   .goat-marquee-track { animation-duration: 30s; }
   .gp-ic, .gp-trophy span { filter: none; }
   .goat-panel, .messi-fab {
-    backdrop-filter: blur(16px) saturate(160%);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(9px) saturate(120%);
+    -webkit-backdrop-filter: blur(9px) saturate(120%);
   }
   .goat-intro-card {
     backdrop-filter: blur(10px) saturate(130%);
@@ -3838,4 +3838,80 @@ html.goat-mode .messi-fab {
 }
 @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
   html.goat-mode .messi-fab { animation: none; transform: scale(1) translateY(0); }
+}
+/* ══════════════════════════════════════════════════════════════════
+   UI REFRESH PASS — modern/clean base + subtle premium GOAT mode
+   Appended so it wins the cascade without touching the rules above.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Typography: reserve Orbitron for the hero signature only ───── */
+.section-title {
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.profile-card h3 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+.goat-panel-title, .goat-intro-title {
+  font-family: var(--font-body);
+  font-weight: 800;
+}
+.resume-modal-header h3 { font-family: var(--font-body); font-weight: 700; }
+
+/* ── Flatten repeated gradient-clip stat numbers to a single solid accent ── */
+.s-num, .stat-card .num {
+  background: none;
+  -webkit-text-fill-color: unset;
+  color: var(--cyan);
+}
+
+/* ── Kill continuous ambient float/glow-ring animation on the LM10 tab ── */
+html.goat-mode .messi-fab,
+.messi-fab.panel-open { animation: none; }
+.messi-fab-face::before { animation: none; opacity: 0; }
+
+/* ── Calmer hover response across the board (less bounce, less bloom) ── */
+.gc-slide:hover { transform: translateY(-4px) scale(1.03); }
+.gp-trophy:hover, .gp-stat:hover { transform: translateY(-3px) scale(1.03); }
+.goat-panel-list li:hover { transform: translateX(2px); padding-left: 0.8rem; }
+.messi-fab:hover { transform: translateY(-50%) translateX(-6px) scale(1.04); }
+@media (max-width: 768px) {
+  html.goat-mode .messi-fab { animation: none; transform: scale(1) translateY(0); }
+  .messi-fab:hover, .messi-fab:active { transform: scale(1.04); }
+}
+
+/* ── Fewer continuously-animating orbs (transform-only, but cheaper with one) ── */
+.orb-2, .orb-3 { animation: none; opacity: 0.5; }
+
+/* ── GOAT mode: muted, closer-to-base surfaces instead of a full navy reskin ── */
+html.goat-mode[data-theme="dark"] {
+  --bg:        #06090f;
+  --bg-2:      #0a0d18;
+  --bg-card:   rgba(10, 14, 26, 0.85);
+  --bg-glass:  rgba(13, 17, 32, 0.55);
+  --border:    rgba(0, 77, 152, 0.18);
+  --border-2:  rgba(244, 197, 66, 0.22);
+}
+
+/* ── Soften the glow intensity on GOAT signature elements ── */
+.messi-fab-face {
+  box-shadow:
+    0 0 10px rgba(244,197,66,0.5),
+    0 0 0 4px rgba(0,77,152,0.35);
+}
+.goat-panel {
+  box-shadow: -10px 0 32px rgba(0,0,0,0.5), inset 2px 0 0 rgba(255,255,255,0.04);
+}
+.goat-panel-num {
+  box-shadow: 0 0 8px rgba(244,197,66,0.22);
+  text-shadow: none;
+}
+.gp-num { text-shadow: none; }
+.goat-intro-num { text-shadow: none; }
+.goat-panel-hero {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.06);
 }
