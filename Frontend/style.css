@@ -103,12 +103,12 @@ html.goat-mode {
   --goat-blue:   #004D98;
 }
 html.goat-mode[data-theme="dark"] {
-  --bg:        #0A1931;
-  --bg-2:      #181733;
-  --bg-card:   rgba(10, 25, 49, 0.85);
-  --bg-glass:  rgba(24, 23, 51, 0.55);
-  --border:    rgba(0, 77, 152, 0.28);
-  --border-2:  rgba(244, 197, 66, 0.38);
+  --bg:        #0A0714;
+  --bg-2:      #100A1E;
+  --bg-card:   rgba(19, 13, 30, 0.85);
+  --bg-glass:  rgba(21, 15, 34, 0.55);
+  --border:    rgba(0, 77, 152, 0.2);
+  --border-2:  rgba(244, 197, 66, 0.24);
 }
 html.goat-mode[data-theme="light"] {
   --bg:        #f2f5fb;
@@ -915,7 +915,7 @@ main { position: relative; z-index: 1; }
   align-items: center;
   gap: 4px;
 }
-.typed-prefix { color: var(--blue); }
+.typed-prefix { color: var(--blue-light); }
 #typed-el { color: var(--white-70); }
 .typed-cursor-line {
   color: var(--cyan);
@@ -2481,33 +2481,11 @@ footer {
 body, #header, .glass-card, .btn, .switch-toggle, .proj-card, .skill-item,
 .exp-card, .profile-card, #chatbot-widget, nav ul a, .section-title span {
   transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease,
-              box-shadow 0.5s ease, background 0.5s ease;
+              background 0.5s ease;
 }
 
-/* ── Golden cursor (GOAT mode, desktop only) ───────────────── */
-.goat-cursor-dot, .goat-cursor-ring {
-  position: fixed; top: 0; left: 0;
-  pointer-events: none; z-index: 9999;
-  opacity: 0; transition: opacity 0.3s ease;
-  transform: translate(-50%, -50%);
-}
-.goat-cursor-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: #F4C542;
-  box-shadow: 0 0 8px rgba(244,197,66,0.8);
-}
-.goat-cursor-ring {
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 1.5px solid rgba(244,197,66,0.55);
-  transition: opacity 0.3s ease, width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
-}
-html.goat-mode.goat-cursor-active .goat-cursor-dot,
-html.goat-mode.goat-cursor-active .goat-cursor-ring { opacity: 1; }
-html.goat-mode.goat-cursor-active .goat-cursor-ring.hovering {
-  width: 50px; height: 50px;
-  border-color: rgba(165,0,68,0.6);
-}
-/* Custom golden cursor removed for performance — normal cursor stays visible. */
+/* Golden cursor removed for performance (was a continuous mousemove-driven
+   effect) — normal cursor stays visible everywhere, including GOAT mode. */
 .goat-cursor-dot, .goat-cursor-ring { display: none; }
 
 /* ── Top marquee (GOAT mode) ───────────────────────────────── */
@@ -2573,8 +2551,8 @@ html.goat-mode .goat-fx { opacity: 1; }
   contain: layout style paint;
 }
 html.goat-mode .goat-aurora {
-  animation-play-state: running;
-  will-change: transform;
+  animation: none;
+  opacity: 0.5;
 }
 @keyframes goatAurora {
   0%   { transform: translate(0,0) scale(1); }
@@ -2592,10 +2570,7 @@ html.goat-mode .goat-aurora {
   animation-play-state: paused;
   contain: layout paint;
 }
-html.goat-mode .goat-mesh {
-  animation-play-state: running;
-  will-change: background-position;
-}
+html.goat-mode .goat-mesh { display: none; }
 @keyframes goatMeshShift {
   0%, 100% { background-position: 0% 0%, 100% 100%; }
   50%      { background-position: 100% 50%, 0% 50%; }
@@ -2614,10 +2589,7 @@ html.goat-mode .goat-mesh {
   animation-play-state: paused;
   contain: layout style paint;
 }
-html.goat-mode .goat-rays {
-  animation-play-state: running;
-  will-change: transform;
-}
+html.goat-mode .goat-rays { display: none; }
 @keyframes goatRaysSway {
   0%, 100% { transform: translateX(-50%) rotate(0deg); }
   50%      { transform: translateX(-50%) rotate(2deg); }
@@ -2646,8 +2618,8 @@ html.goat-mode .goat-rays {
   animation-play-state: paused;
 }
 html.goat-mode .g-star {
-  animation-play-state: running;
-  will-change: transform, opacity;
+  animation: none;
+  opacity: 0.5;
 }
 @keyframes goatStarPulse {
   0%, 100% { opacity: 0.25; transform: scale(0.8); }
@@ -2689,11 +2661,7 @@ html.goat-mode .btn-solid {
   background: linear-gradient(120deg, var(--blue) 0%, var(--purple) 55%, var(--blue) 100%);
   background-size: 220% 100%;
   box-shadow: 0 4px 24px rgba(244,197,66,0.28);
-  animation: goatBtnSheen 6s linear infinite;
-}
-@keyframes goatBtnSheen {
-  0%   { background-position: 0% 0%; }
-  100% { background-position: 220% 0%; }
+
 }
 html.goat-mode .btn-solid:hover {
   box-shadow: 0 10px 34px rgba(244,197,66,0.42), 0 0 40px rgba(0,77,152,0.25);
@@ -3904,15 +3872,7 @@ html.goat-mode .messi-fab,
 /* ── Fewer continuously-animating orbs (transform-only, but cheaper with one) ── */
 .orb-2, .orb-3 { animation: none; opacity: 0.5; }
 
-/* ── GOAT mode: muted, closer-to-base surfaces instead of a full navy reskin ── */
-html.goat-mode[data-theme="dark"] {
-  --bg:        #0A0714;
-  --bg-2:      #100A1E;
-  --bg-card:   rgba(19, 13, 30, 0.85);
-  --bg-glass:  rgba(21, 15, 34, 0.55);
-  --border:    rgba(0, 77, 152, 0.2);
-  --border-2:  rgba(244, 197, 66, 0.24);
-}
+/* GOAT-mode surface tokens live at the top of the file (html.goat-mode[data-theme="dark"]) */
 
 /* ── Soften the glow intensity on GOAT signature elements ── */
 .messi-fab-face {
