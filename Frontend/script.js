@@ -197,54 +197,6 @@ goatBtns.forEach(btn => {
     if ((localStorage.getItem(THEME_KEY) || 'dark') === 'auto') applyTheme('auto');
   });
 
-  // ── Golden GOAT cursor (desktop only) ──
-  const cDot = document.getElementById('goatCursorDot');
-  const cRing = document.getElementById('goatCursorRing');
-  if (cDot && cRing && matchMedia('(pointer: fine)').matches) {
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    let cursorActive = false;
-    let dotTicking = false;
-    let ringLoopRunning = false;
-
-    function moveDot() {
-      cDot.style.left = mx + 'px'; cDot.style.top = my + 'px';
-      dotTicking = false;
-    }
-    function ringTick() {
-      rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
-      cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px';
-      if (Math.abs(mx - rx) <= 0.05 && Math.abs(my - ry) <= 0.05) {
-        scheduler.remove(ringTick);
-        ringLoopRunning = false;
-      }
-    }
-    document.addEventListener('mousemove', (e) => {
-      mx = e.clientX; my = e.clientY;
-      if (!cursorActive) {
-        cursorActive = true;
-        document.documentElement.classList.add('goat-cursor-active');
-      }
-      if (!dotTicking) {
-        dotTicking = true;
-        requestAnimationFrame(moveDot);
-      }
-      if (!ringLoopRunning) {
-        ringLoopRunning = true;
-        scheduler.add(ringTick);
-      }
-    }, { passive: true });
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest('a, button, .glass-card, .proj-card, .skill-item, input, textarea')) {
-        cRing.classList.add('hovering');
-      }
-    });
-    document.addEventListener('mouseout', (e) => {
-      if (e.target.closest('a, button, .glass-card, .proj-card, .skill-item, input, textarea')) {
-        cRing.classList.remove('hovering');
-      }
-    });
-  }
-
   // ── Logo × 10 clicks → confetti easter egg ──
   let logoClicks = 0, logoClickTimer = null;
   document.querySelectorAll('.nav-logo').forEach(logo => {
@@ -314,78 +266,30 @@ document.querySelectorAll('.btn, .chip, .filter-tab, .send-btn, .nav-cta, .switc
   el.addEventListener('click', addRipple);
 });
 
-// ── Hero showcase — subtle mouse parallax (desktop, GPU-friendly) ──
-(function () {
-  const showcase = document.getElementById('heroShowcase');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!showcase || reduceMotion || !matchMedia('(pointer: fine)').matches) return;
-
-  let targetX = 0, targetY = 0, curX = 0, curY = 0, ticking = false;
-  const MAX_OFFSET = 10; // px
-
-  function onMove(e) {
-    const rect = showcase.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    targetX = ((e.clientX - cx) / rect.width) * MAX_OFFSET;
-    targetY = ((e.clientY - cy) / rect.height) * MAX_OFFSET;
-    if (!ticking) {
-      ticking = true;
-      scheduler.add(update);
-    }
-  }
-
-  function update() {
-    curX += (targetX - curX) * 0.12;
-    curY += (targetY - curY) * 0.12;
-    showcase.style.setProperty('--px', curX.toFixed(2) + 'px');
-    showcase.style.setProperty('--py', curY.toFixed(2) + 'px');
-    if (Math.abs(targetX - curX) <= 0.05 && Math.abs(targetY - curY) <= 0.05) {
-      scheduler.remove(update);
-      ticking = false;
-    }
-  }
-
-  document.getElementById('home')?.addEventListener('mousemove', onMove, { passive: true });
-  document.getElementById('home')?.addEventListener('mouseleave', () => {
-    targetX = 0; targetY = 0;
-    if (!ticking) { ticking = true; scheduler.add(update); }
-  }, { passive: true });
-})();
-
-// ── LM10 panel — infinite horizontal carousel (auto-scroll, hover pause, drag/swipe) ──
+// ── LM10 panel — infinite horizontal carousel (CSS-driven auto-scroll, hover pause, drag/swipe) ──
 (function () {
   const wrap = document.getElementById('goatCarousel');
   const track = document.getElementById('goatCarouselTrack');
   if (!wrap || !track) return;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let pos = 0;
   let half = 0;
-  let paused = false;
   let dragging = false;
   let dragMoved = false;
   let startX = 0;
-  let startPos = 0;
-function measure() {
+  let pos = 0;
+
+  function measure() {
     half = track.scrollWidth / 2;
   }
 
-  // Only measure once Messi Mode is actually turned on (this carousel is
-  // invisible until then, so measuring at page load for every visitor
-  // was an unnecessary forced reflow).
   let measured = false;
-  let carouselTickRunning = false;
   function measureIfNeeded() {
     if (document.documentElement.classList.contains('goat-mode') && !measured) {
       measured = true;
       measure();
-    }
-    // The carousel is invisible until GOAT mode is on — no reason to keep
-    // scheduling its per-frame tick before then.
-    if (document.documentElement.classList.contains('goat-mode') && !carouselTickRunning) {
-      carouselTickRunning = true;
-      scheduler.add(carouselTick);
+      // Auto-scroll is pure CSS (translateX keyframe) — no per-frame JS cost.
+      if (!reduceMotion) track.classList.add('auto-scroll');
     }
   }
   const goatModeObserver = new MutationObserver(measureIfNeeded);
@@ -394,39 +298,29 @@ function measure() {
 
   window.addEventListener('resize', debounce(() => { if (measured) measure(); }, 150), { passive: true });
 
-  function setTransform() {
-    track.style.transform = `translate3d(${pos}px,0,0)`;
-  }
-  function carouselTick() {
-    if (!paused && !dragging && !reduceMotion && half > 0) {
-      pos -= 0.55;
-      if (pos <= -half) pos += half;
-      setTransform();
-    }
-  }
-
-  wrap.addEventListener('mouseenter', () => { paused = true; });
-  wrap.addEventListener('mouseleave', () => { paused = false; });
-
   function dragStart(x) {
     dragging = true;
     dragMoved = false;
     startX = x;
-    startPos = pos;
+    pos = 0;
+    track.classList.remove('auto-scroll');
+    track.style.transform = 'translate3d(0,0,0)';
     wrap.classList.add('dragging');
   }
   function dragMove(x) {
     if (!dragging || half <= 0) return;
     const dx = x - startX;
     if (Math.abs(dx) > 3) dragMoved = true;
-    pos = startPos + dx;
+    pos = dx;
     if (pos > 0) pos -= half;
     if (pos <= -half) pos += half;
-    setTransform();
+    track.style.transform = `translate3d(${pos}px,0,0)`;
   }
   function dragEnd() {
     dragging = false;
     wrap.classList.remove('dragging');
+    track.style.transform = '';
+    if (!reduceMotion) track.classList.add('auto-scroll');
   }
 
   wrap.addEventListener('pointerdown', (e) => dragStart(e.clientX));
@@ -442,43 +336,6 @@ function measure() {
   }, true);
 })();
 
-// ── Card Tilt (project cards + profile card) ──
-function initTilt(selector, intensity) {
-  document.querySelectorAll(selector).forEach(card => {
-    let rect = null;
-    let lastX = 0, lastY = 0, tiltTicking = false;
-
-    function applyTilt() {
-      tiltTicking = false;
-      if (!rect) return; // mouse already left the card before this queued frame ran
-      const x = (lastX - rect.left) / rect.width - 0.5;
-      const y = (lastY - rect.top) / rect.height - 0.5;
-      card.style.transform = `perspective(900px) rotateY(${x * intensity}deg) rotateX(${-y * intensity}deg) translateY(-4px)`;
-    }
-
-    card.addEventListener('mouseenter', () => {
-      rect = card.getBoundingClientRect();
-      card.style.transition = 'transform 0.1s ease-out';
-    }, { passive: true });
-    card.addEventListener('mousemove', e => {
-      lastX = e.clientX; lastY = e.clientY;
-      if (!rect) rect = card.getBoundingClientRect();
-      if (!tiltTicking) {
-        tiltTicking = true;
-        requestAnimationFrame(applyTilt);
-      }
-    }, { passive: true });
-    card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1)';
-      card.style.transform = '';
-      rect = null;
-    });
-  });
-}
-if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-  initTilt('.proj-card', 5);
-  initTilt('.profile-card', 4);
-}
 
 // ── Page Loader ───────────────────────────────
 window.addEventListener('load', () => {
@@ -683,31 +540,6 @@ function dotsTick() {
   }
 }
 scheduler.add(dotsTick);
-// ── Project Card Mouse Glow ───────────────────
-document.querySelectorAll('.proj-card').forEach(card => {
-  let rect = null;
-  let lastX = 0, lastY = 0, glowTicking = false;
-
-  function applyGlow() {
-    glowTicking = false;
-    if (!rect) return;
-    card.style.setProperty('--mx', (lastX - rect.left) + 'px');
-    card.style.setProperty('--my', (lastY - rect.top) + 'px');
-  }
-
-  card.addEventListener('mouseenter', () => {
-    rect = card.getBoundingClientRect();
-  }, { passive: true });
-  card.addEventListener('mousemove', e => {
-    lastX = e.clientX; lastY = e.clientY;
-    if (!rect) rect = card.getBoundingClientRect();
-    if (!glowTicking) {
-      glowTicking = true;
-      requestAnimationFrame(applyGlow);
-    }
-  }, { passive: true });
-});
-
 // ── Project Filtering + Search ────────────────
 const filterTabs   = document.querySelectorAll('.filter-tab');
 const projectCards = document.querySelectorAll('.proj-card');

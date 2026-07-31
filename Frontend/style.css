@@ -1,76 +1,76 @@
 /* ============================================
    YASH PORTFOLIO — style.css
    Dark Futuristic Premium Theme
-   Fonts: Orbitron (display) + Outfit (body) + JetBrains Mono (code)
+   Fonts: Space Grotesk (display) + Manrope (body) + JetBrains Mono (code)
    ============================================ */
 
 /* ── CSS Variables ──────────────────────────── */
 :root {
-  --bg:         #050810;
-  --bg-2:       #080d1a;
-  --bg-card:    rgba(12, 18, 35, 0.85);
-  --bg-glass:   rgba(15, 22, 45, 0.6);
-  --border:     rgba(99, 179, 237, 0.12);
-  --border-2:   rgba(99, 179, 237, 0.22);
+  --bg:         #0A0714;
+  --bg-2:       #0F0B1E;
+  --bg-card:    rgba(19, 14, 33, 0.85);
+  --bg-glass:   rgba(21, 16, 37, 0.6);
+  --border:     rgba(150, 120, 255, 0.14);
+  --border-2:   rgba(150, 120, 255, 0.28);
 
-  --blue:       #3b82f6;
-  --blue-light: #60a5fa;
-  --blue-glow:  rgba(59, 130, 246, 0.35);
-  --cyan:       #22d3ee;
-  --cyan-glow:  rgba(34, 211, 238, 0.25);
-  --purple:     #a855f7;
+  --blue:       #4D5FFF;
+  --blue-light: #8B95FF;
+  --blue-glow:  rgba(77, 95, 255, 0.35);
+  --cyan:       #FF3D9A;
+  --cyan-glow:  rgba(255, 61, 154, 0.22);
+  --purple:     #A855F7;
   --purple-glow:rgba(168, 85, 247, 0.25);
-  --accent:     #06b6d4;
+  --accent:     #FF3D9A;
 
   --white:      #f8fafc;
   --white-70:   rgba(248, 250, 252, 0.7);
   --white-40:   rgba(248, 250, 252, 0.4);
   --white-15:   rgba(248, 250, 252, 0.08);
 
-  --black:      #050810;
+  --black:      #0A0714;
 
-  --font-display: 'Orbitron', monospace;
-  --font-body:    'Outfit', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Manrope', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 
   --radius:     12px;
   --radius-lg:  20px;
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --shadow:     0 8px 32px rgba(0, 0, 0, 0.4);
-  --glow-blue:  0 0 30px rgba(59,130,246,0.3), 0 0 60px rgba(59,130,246,0.1);
-  --glow-cyan:  0 0 30px rgba(34,211,238,0.3), 0 0 60px rgba(34,211,238,0.1);
+  --glow-blue:  0 0 30px rgba(77,95,255,0.28), 0 0 60px rgba(77,95,255,0.09);
+  --glow-cyan:  0 0 30px rgba(255,61,154,0.24), 0 0 60px rgba(255,61,154,0.08);
 }
 
 /* ── Theme: Light ────────────────────────────
    Same token names, different values — every
    component below reads these vars automatically. */
 :root[data-theme="light"] {
-  --bg:         #f4f6fb;
-  --bg-2:       #eaeef7;
+  --bg:         #f6f5fb;
+  --bg-2:       #edebf5;
   --bg-card:    rgba(255, 255, 255, 0.85);
   --bg-glass:   rgba(255, 255, 255, 0.65);
-  --border:     rgba(15, 23, 42, 0.09);
-  --border-2:   rgba(15, 23, 42, 0.16);
+  --border:     rgba(30, 20, 60, 0.09);
+  --border-2:   rgba(30, 20, 60, 0.16);
 
-  --blue:       #2563eb;
-  --blue-light: #3b82f6;
-  --blue-glow:  rgba(37, 99, 235, 0.22);
-  --cyan:       #0891b2;
-  --cyan-glow:  rgba(8, 145, 178, 0.18);
-  --purple:     #9333ea;
-  --purple-glow:rgba(147, 51, 234, 0.18);
-  --accent:     #0891b2;
+  --blue:       #3A47D6;
+  --blue-light: #4D5FFF;
+  --blue-glow:  rgba(58, 71, 214, 0.2);
+  --cyan:       #D6237E;
+  --cyan-glow:  rgba(214, 35, 126, 0.16);
+  --purple:     #8B2FE0;
+  --purple-glow:rgba(139, 47, 224, 0.16);
+  --accent:     #D6237E;
 
-  --white:      #0f172a;
-  --white-70:   rgba(15, 23, 42, 0.72);
-  --white-40:   rgba(15, 23, 42, 0.45);
-  --white-15:   rgba(15, 23, 42, 0.06);
+  --white:      #150f28;
+  --white-70:   rgba(21, 15, 40, 0.72);
+  --white-40:   rgba(21, 15, 40, 0.45);
+  --white-15:   rgba(21, 15, 40, 0.06);
 
-  --black:      #0f172a;
+  --black:      #150f28;
 
-  --shadow:     0 8px 32px rgba(15, 23, 42, 0.08);
-  --glow-blue:  0 0 30px rgba(37,99,235,0.18), 0 0 60px rgba(37,99,235,0.08);
-  --glow-cyan:  0 0 30px rgba(8,145,178,0.18), 0 0 60px rgba(8,145,178,0.08);
+  --shadow:     0 8px 32px rgba(21, 15, 40, 0.08);
+  --glow-blue:  0 0 30px rgba(58,71,214,0.16), 0 0 60px rgba(58,71,214,0.07);
+  --glow-cyan:  0 0 30px rgba(214,35,126,0.16), 0 0 60px rgba(214,35,126,0.07);
 }
 :root[data-theme="light"] .hero-bg-img { opacity: 0.035; }
 :root[data-theme="light"] #home::before {
@@ -660,13 +660,24 @@ main { position: relative; z-index: 1; }
 
 .section-tag {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
-  font-weight: 400;
+  font-size: 0.8rem;
+  font-weight: 500;
   color: var(--cyan);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 0.75rem;
-  opacity: 0.85;
+  margin-bottom: 0.85rem;
+  opacity: 0.9;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-tag::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: var(--cyan);
+  opacity: 0.6;
 }
 
 .section-title {
@@ -720,41 +731,40 @@ main { position: relative; z-index: 1; }
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.85rem 2rem;
-  border-radius: var(--radius);
+  gap: 0.55rem;
+  padding: 0.85rem 1.9rem;
+  border-radius: 10px;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
-  transition: var(--transition);
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, filter 0.25s ease;
   border: none;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   white-space: nowrap;
 }
 
 .btn-solid {
-  background: linear-gradient(135deg, var(--blue), var(--cyan));
+  background: linear-gradient(135deg, var(--blue), var(--cyan) 130%);
   color: var(--bg);
-  box-shadow: 0 4px 20px rgba(59,130,246,0.4);
+  box-shadow: 0 4px 18px rgba(74,99,255,0.28);
 }
 .btn-solid:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(59,130,246,0.6), var(--glow-blue);
-  filter: brightness(1.1);
+  box-shadow: 0 10px 26px rgba(74,99,255,0.4);
+  filter: brightness(1.06);
 }
 
 .btn-ghost {
   background: transparent;
   color: var(--white);
   border: 1px solid var(--border-2);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
 .btn-ghost:hover {
   border-color: var(--blue);
-  background: rgba(59,130,246,0.1);
+  background: rgba(74,99,255,0.08);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px var(--blue-glow);
 }
 
 .btn-full { width: 100%; justify-content: center; }
@@ -855,12 +865,12 @@ main { position: relative; z-index: 1; }
 
 .home-name {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  font-size: clamp(3.1rem, 7.2vw, 5.75rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
   color: var(--white);
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
 }
 .name-highlight {
   background: linear-gradient(135deg, var(--blue-light) 0%, var(--cyan) 50%, var(--purple) 100%);
@@ -1386,8 +1396,8 @@ button.btn { font-family: var(--font-body); }
 .skill-item {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  padding: 1.65rem;
   transition: var(--transition);
   backdrop-filter: blur(10px);
   position: relative;
@@ -1486,23 +1496,22 @@ button.btn { font-family: var(--font-body); }
   backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
-  --mx: 50%; --my: 50%;
 }
 .proj-card::before {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    250px circle at var(--mx) var(--my),
-    rgba(59,130,246,0.06),
-    transparent 80%
+    320px circle at 50% 0%,
+    rgba(59,130,246,0.07),
+    transparent 75%
   );
   opacity: 0;
   transition: opacity 0.4s;
   pointer-events: none;
   z-index: 0;
 }
-.proj-card:hover { border-color: var(--border-2); transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(59,130,246,0.08); }
+.proj-card:hover { border-color: var(--border-2); transform: translateY(-5px); box-shadow: 0 16px 36px rgba(0,0,0,0.35); }
 .proj-card:hover::before { opacity: 1; }
 
 .proj-glow {
@@ -2498,14 +2507,8 @@ html.goat-mode.goat-cursor-active .goat-cursor-ring.hovering {
   width: 50px; height: 50px;
   border-color: rgba(165,0,68,0.6);
 }
-html.goat-mode,
-html.goat-mode body,
-html.goat-mode * {
-    cursor: none !important;
-}
-@media (max-width: 900px), (pointer: coarse) {
-  .goat-cursor-dot, .goat-cursor-ring { display: none; }
-}
+/* Custom golden cursor removed for performance — normal cursor stays visible. */
+.goat-cursor-dot, .goat-cursor-ring { display: none; }
 
 /* ── Top marquee (GOAT mode) ───────────────────────────────── */
 .goat-marquee {
@@ -2815,7 +2818,7 @@ html.goat-mode .chat-messages::-webkit-scrollbar-thumb {
 .goat-intro-num {
   font-family: var(--font-display);
   font-size: 3.2rem;
-  font-weight: 900;
+  font-weight: 700;
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(244,197,66,0.7);
   text-shadow: 0 0 30px rgba(244,197,66,0.35);
@@ -2825,7 +2828,7 @@ html.goat-mode .chat-messages::-webkit-scrollbar-thumb {
 .goat-intro-title {
   font-family: var(--font-display);
   font-size: 2rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.06em;
   background: linear-gradient(135deg, #6fa3d6, #F4C542);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
@@ -2937,7 +2940,7 @@ body.goat-panel-lock { overflow: hidden; }
 .goat-panel-num {
   font-family: var(--font-display);
   font-size: 1.8rem;
-  font-weight: 900;
+  font-weight: 700;
   color: #F4C542;
   border: 2.5px solid rgba(244,197,66,0.7);
   border-radius: 12px;
@@ -2949,7 +2952,7 @@ body.goat-panel-lock { overflow: hidden; }
 .goat-panel-title { 
   font-family: var(--font-display); 
   font-size: 1.2rem; 
-  font-weight: 900; 
+  font-weight: 700; 
   color: #F4C542; 
   letter-spacing: 0.08em;
   line-height: 1.15;
@@ -2995,7 +2998,7 @@ body.goat-panel-lock { overflow: hidden; }
   text-transform: uppercase; 
   margin-bottom: 1rem;
   margin-top: 1.2rem;
-  font-weight: 900;
+  font-weight: 700;
   text-shadow: 0 0 6px rgba(244,197,66,0.2);
 }
 .goat-panel-list {
@@ -3097,7 +3100,7 @@ body.goat-panel-lock { overflow: hidden; }
 .gp-num { 
   display: block; 
   font-family: var(--font-display); 
-  font-weight: 900; 
+  font-weight: 700; 
   font-size: 1.4rem; 
   color: #F4C542;
   line-height: 1.15;
@@ -3168,6 +3171,20 @@ body.goat-panel-lock { overflow: hidden; }
   gap: 0.85rem;
   width: max-content;
   will-change: transform;
+}
+.goat-carousel-track.auto-scroll {
+  animation: goatCarouselScroll 26s linear infinite;
+}
+.goat-carousel:hover .goat-carousel-track.auto-scroll,
+.goat-carousel.dragging .goat-carousel-track.auto-scroll {
+  animation-play-state: paused;
+}
+@keyframes goatCarouselScroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .goat-carousel-track.auto-scroll { animation: none; }
 }
 .gc-slide {
   position: relative;
@@ -3333,7 +3350,7 @@ html.goat-mode .messi-fab {
   transform: rotate(180deg);
   font-family: var(--font-display);
   font-size: 0.88rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.16em;
   color: #F4C542;
   text-shadow: 
@@ -3447,7 +3464,7 @@ html.goat-mode .messi-fab {
   transform: rotate(180deg);
   font-family: var(--font-display);
   font-size: 0.85rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.14em;
   color: #F4C542;
   text-shadow: 
@@ -3844,7 +3861,7 @@ html.goat-mode .messi-fab {
    Appended so it wins the cascade without touching the rules above.
    ══════════════════════════════════════════════════════════════════ */
 
-/* ── Typography: reserve Orbitron for the hero signature only ───── */
+/* ── Typography: reserve Space Grotesk for the hero signature only ── */
 .section-title {
   font-family: var(--font-body);
   font-weight: 800;
@@ -3889,12 +3906,12 @@ html.goat-mode .messi-fab,
 
 /* ── GOAT mode: muted, closer-to-base surfaces instead of a full navy reskin ── */
 html.goat-mode[data-theme="dark"] {
-  --bg:        #06090f;
-  --bg-2:      #0a0d18;
-  --bg-card:   rgba(10, 14, 26, 0.85);
-  --bg-glass:  rgba(13, 17, 32, 0.55);
-  --border:    rgba(0, 77, 152, 0.18);
-  --border-2:  rgba(244, 197, 66, 0.22);
+  --bg:        #0A0714;
+  --bg-2:      #100A1E;
+  --bg-card:   rgba(19, 13, 30, 0.85);
+  --bg-glass:  rgba(21, 15, 34, 0.55);
+  --border:    rgba(0, 77, 152, 0.2);
+  --border-2:  rgba(244, 197, 66, 0.24);
 }
 
 /* ── Soften the glow intensity on GOAT signature elements ── */
@@ -3915,3 +3932,43 @@ html.goat-mode[data-theme="dark"] {
 .goat-panel-hero {
   box-shadow: 0 8px 24px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.06);
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   MESSI MODE — editorial refinement pass
+   Less "gamified badge grid", more curated/premium feel.
+   ══════════════════════════════════════════════════════════════════ */
+
+.goat-panel-list li {
+  background: rgba(244,197,66,0.03);
+  border-color: rgba(244,197,66,0.1);
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.goat-panel-list li:hover {
+  background: rgba(244,197,66,0.08);
+  border-color: rgba(244,197,66,0.25);
+  box-shadow: none;
+}
+
+.gp-trophy, .gp-stat {
+  background: rgba(244,197,66,0.06);
+  border-color: rgba(244,197,66,0.16);
+  box-shadow: none;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.gp-trophy:hover, .gp-stat:hover {
+  background: rgba(244,197,66,0.1);
+  border-color: rgba(244,197,66,0.3);
+  box-shadow: none;
+}
+.gp-trophy span, .gp-ic { filter: none; }
+
+.goat-intro-card {
+  box-shadow: 0 0 30px rgba(0,77,152,0.12);
+}
+.gi-badge {
+  transition: border-color 0.2s ease;
+}
+
+/* Carousel is now manual drag/swipe only — remove the hover cursor hint
+   that implied auto-motion, keep the grab affordance for dragging */
+.goat-carousel { cursor: grab; }
