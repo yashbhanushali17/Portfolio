@@ -1,0 +1,135 @@
+/* ── Typography ───────────────────────────────────────────
+   Two layers, both fully self-hosted (no Google Fonts CDN,
+   no usage caps):
+   1. Base layer — Cinzel / Crimson Pro / Caveat, shipped in
+      public/fonts/base/. Open-licensed, real type, used for
+      every heading/body/ink-styled element site-wide via
+      --font-display / --font-body / --font-ink.
+   2. Display-only layer — "Hogwarts Display" now points at the
+      real public/fonts/base/HarryPotter.ttf file (Phase 6).
+      It's intentionally kept OUT of --font-display so it does
+      not cascade to every h1–h4/button/label site-wide; it's
+      applied narrowly via --font-hero, used only by the Gates
+      hero name (see .gates-name in App.css). "Hogwarts
+      Parchment" / "Hogwarts Quill" remain placeholders pointing
+      at files that don't exist yet — nothing 404s loudly, the
+      browser just falls through to the base layer below. Drop
+      real licensed files in at those exact paths later to
+      activate them the same way.
+   Note: unlike the asset() helper used for JS-driven paths
+   (see src/utils/asset.js), CSS url() can't read Vite's `base`
+   config at build time. These paths are root-absolute and assume
+   base: '/' (the default, and what vite.config.js recommends for
+   everything except a GitHub Pages *project* subpath). Deploying
+   under a subpath: prefix the url()s below with that subpath. ── */
+@font-face { font-family: 'Hogwarts Display'; src: url('/fonts/base/HarryPotter.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Hogwarts Parchment'; src: url('/fonts/hogwarts-parchment.woff2') format('woff2'); font-weight: 400 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hogwarts Parchment'; src: url('/fonts/hogwarts-parchment-italic.woff2') format('woff2'); font-weight: 400 600; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Hogwarts Quill'; src: url('/fonts/hogwarts-quill.woff2') format('woff2'); font-weight: 500 700; font-display: swap; }
+
+@font-face { font-family: 'Cinzel Base'; src: url('/fonts/base/cinzel-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Cinzel Base'; src: url('/fonts/base/cinzel-600.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Cinzel Base'; src: url('/fonts/base/cinzel-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Cinzel Base'; src: url('/fonts/base/cinzel-800.woff2') format('woff2'); font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Crimson Pro Base'; src: url('/fonts/base/crimson-pro-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Crimson Pro Base'; src: url('/fonts/base/crimson-pro-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Crimson Pro Base'; src: url('/fonts/base/crimson-pro-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Crimson Pro Base'; src: url('/fonts/base/crimson-pro-600.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Caveat Base'; src: url('/fonts/base/caveat-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Caveat Base'; src: url('/fonts/base/caveat-600.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Caveat Base'; src: url('/fonts/base/caveat-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+:root {
+  /* ── Palette — parchment & candlelight, not glass & gradients ── */
+  --ink-black:      #16130f;
+  --stone-900:      #1c1812;
+  --stone-800:      #241f18;
+  --stone-700:      #332b20;
+  --wood-600:       #4a3b28;
+  --parchment-100:  #f3e8cd;
+  --parchment-200:  #e9d9b3;
+  --parchment-ink:  #2c2013;
+  --candle-500:     #d9a441;
+  --candle-400:     #f0c674;
+  --ember-500:      #b8552e;
+  --burgundy-700:   #5c1a24;
+  --moss-700:       #2c4a35;
+  --steel-500:      #6a7488;
+
+  /* House accents — recolor an existing token, never a new layout */
+  --house-accent: var(--candle-500);
+  --house-accent-2: var(--ember-500);
+
+  --font-display: 'Cinzel Base', 'Times New Roman', serif;
+  --font-body: 'Hogwarts Parchment', 'Crimson Pro Base', Georgia, serif;
+  --font-ink: 'Hogwarts Quill', 'Caveat Base', cursive;
+  /* Hero-only: the real Hogwarts Display face (HarryPotter.ttf), used
+     solely by .gates-name so the rest of the site's headings/buttons/
+     labels keep reading in --font-display (Cinzel) as before. */
+  --font-hero: 'Hogwarts Display', var(--font-display);
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+
+
+  --ease-corridor: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-corridor: 900ms;
+
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--ink-black);
+  color: var(--parchment-100);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  margin: 0;
+  color: var(--parchment-100);
+}
+
+a { color: inherit; }
+button { font-family: inherit; }
+
+::selection { background: var(--candle-500); color: var(--ink-black); }
+
+:focus-visible {
+  outline: 2px solid var(--candle-400);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--candle-500);
+  color: var(--ink-black);
+  padding: 10px 16px;
+  z-index: 999;
+  font-weight: 600;
+}
+.skip-link:focus { left: 0; }
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
