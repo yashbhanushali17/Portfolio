@@ -134,9 +134,11 @@ body {
   position: fixed; inset: 0; z-index: 200; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
   background: radial-gradient(ellipse 90% 70% at 50% 30%, #241d2e 0%, var(--ink-black) 65%);
+}
+.acceptance-letter.stage-leaving {
+  opacity: 0; transform: scale(1.14); filter: blur(10px); pointer-events: none;
   transition: opacity 780ms var(--ease-corridor), transform 780ms var(--ease-corridor), filter 780ms var(--ease-corridor);
 }
-.acceptance-letter.stage-leaving { opacity: 0; transform: scale(1.14); filter: blur(10px); pointer-events: none; }
 .acceptance-letter.skipped { transition-duration: 260ms; }
 
 .letter-skip {
@@ -168,13 +170,14 @@ body {
   pointer-events: none;
 }
 
-.letter-scene { position: relative; width: min(480px, 88vw); text-align: center; perspective: 1400px; }
+.letter-scene { position: relative; width: min(480px, 88vw); text-align: center; }
 
 /* ── Owl (generic silhouette placeholder) ── */
 .letter-owl {
   position: absolute; left: 50%; top: -120px; width: 90px; height: 68px;
   transform: translate(-160vw, -40px) rotate(-8deg);
   fill: #17140f; opacity: 0;
+  backface-visibility: hidden; will-change: transform, opacity;
 }
 .stage-owl .letter-owl { animation: owl-flyin 1.3s var(--ease-corridor) forwards; }
 .stage-landed .letter-owl,
@@ -195,12 +198,13 @@ body {
 @keyframes owl-flap { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(0.55); } }
 
 /* ── Envelope ── */
-.letter-envelope { position: relative; width: 100%; max-width: 340px; margin: 0 auto; }
+.letter-envelope { position: relative; width: 100%; max-width: 340px; margin: 0 auto; perspective: 1400px; }
 .envelope-shadow {
   position: absolute; left: 8%; right: 8%; bottom: -14px; height: 18px; border-radius: 50%;
   background: rgba(0,0,0,0.5); filter: blur(8px);
   transform: scale(0.6); opacity: 0;
   transition: transform 550ms var(--ease-corridor), opacity 550ms var(--ease-corridor);
+  backface-visibility: hidden; will-change: transform, opacity;
 }
 .stage-landed .envelope-shadow,
 .stage-sealed .envelope-shadow,
@@ -218,6 +222,7 @@ body {
   transform: translateY(-16px) scale(0.85); opacity: 0;
   transition: transform 550ms var(--ease-corridor), opacity 550ms var(--ease-corridor);
   overflow: hidden;
+  backface-visibility: hidden; will-change: transform, opacity;
 }
 .stage-landed .envelope-body,
 .stage-sealed .envelope-body,
@@ -249,6 +254,7 @@ body {
   font-family: var(--font-display); font-weight: 700; color: var(--parchment-100); font-size: 0.9rem;
   box-shadow: inset 0 -4px 8px rgba(0,0,0,0.4), 0 4px 14px rgba(0,0,0,0.5);
   transition: transform 260ms var(--ease-corridor), opacity 260ms var(--ease-corridor);
+  backface-visibility: hidden; will-change: transform, opacity;
 }
 .stage-sealed .wax-seal { animation: seal-breathe 2.4s ease-in-out infinite; cursor: pointer; }
 .stage-breaking .wax-seal { animation: seal-crack 480ms var(--ease-corridor) forwards; }
@@ -271,6 +277,7 @@ body {
   transform: translateY(0) scaleY(0.04); transform-origin: top center; opacity: 0;
   transition: transform 640ms var(--ease-corridor), opacity 260ms ease;
   z-index: 2; pointer-events: none;
+  backface-visibility: hidden; will-change: transform, opacity;
 }
 .stage-unfolding .letter-paper,
 .stage-writing .letter-paper,
