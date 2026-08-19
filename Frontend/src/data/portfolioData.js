@@ -20,7 +20,7 @@ export const profile = {
     whatsapp: "https://wa.me/917779088071",
     email: "mailto:yashbhanushali1710@gmail.com",
   },
-  resumePath: "/resume/Yash_Nanda_Resume.pdf",
+  resumePath: "resume/Yash_Nanda_Resume.pdf",
 };
 
 export const bio = [

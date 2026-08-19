@@ -2,6 +2,7 @@ import { useReveal } from '../hooks/useReveal.js';
 import { profile } from '../data/portfolioData.js';
 import { asset } from '../utils/asset.js';
 import FloatingCandles from '../components/FloatingCandles.jsx';
+import RoomTransition from '../components/RoomTransition.jsx';
 
 const PATHS = [
   { href: '#library', title: 'The Library', sub: 'About', icon: '📚' },
@@ -19,6 +20,7 @@ export default function GreatHall({ lastVisitedId }) {
 
   return (
     <section id="great-hall" className="stage great-hall-stage" style={{ '--bg-photo': `url(${asset('images/backgrounds/great-hall-bg.jpg')})` }} ref={ref}>
+      <RoomTransition motif="doors" open={visible} />
       <div className="great-hall-sky" aria-hidden="true" />
       <FloatingCandles count={11} />
       <div className={`container ${visible ? 'visible' : ''}`}>

@@ -1,12 +1,14 @@
 import { useReveal } from '../hooks/useReveal.js';
 import { bio, timeline, profile } from '../data/portfolioData.js';
 import { asset } from '../utils/asset.js';
+import RoomTransition from '../components/RoomTransition.jsx';
 
 export default function Library() {
   const [ref, visible] = useReveal();
 
   return (
     <section id="library" className="stage library-stage" style={{ '--bg-photo': `url(${asset('images/backgrounds/library-bg.jpg')})` }} ref={ref}>
+      <RoomTransition motif="parchment" open={visible} />
       <div className={`container ${visible ? 'visible' : ''}`}>
         <div className="section-header">
           <div className="section-tag">// The Library</div>

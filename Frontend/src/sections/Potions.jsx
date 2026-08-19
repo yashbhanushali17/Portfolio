@@ -2,6 +2,7 @@ import { useReveal } from '../hooks/useReveal.js';
 import { useVisible } from '../hooks/useVisible.js';
 import { skills } from '../data/portfolioData.js';
 import { asset } from '../utils/asset.js';
+import RoomTransition from '../components/RoomTransition.jsx';
 
 // Presentation-only grouping — no change to the underlying skills data.
 // Any skill name that doesn't match one of these buckets still renders,
@@ -35,6 +36,7 @@ export default function Potions() {
 
   return (
     <section id="potions" className="stage potions-stage" style={{ '--bg-photo': `url(${asset('images/backgrounds/potions-classroom-bg.jpg')})` }} ref={ref}>
+      <RoomTransition motif="mist" open={visible} />
       <div className={`potions-cauldron ${active ? 'is-active' : ''}`} aria-hidden="true">
         <div className="cauldron-smoke" />
         <div className="cauldron-glow" />

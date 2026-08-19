@@ -1,11 +1,13 @@
 import { useReveal } from '../hooks/useReveal.js';
 import { profile } from '../data/portfolioData.js';
+import RoomTransition from '../components/RoomTransition.jsx';
 
 export default function Exit() {
   const [ref, visible] = useReveal(0.05);
 
   return (
     <footer id="exit" className={`stage exit-stage ${visible ? 'visible' : ''}`} ref={ref}>
+      <RoomTransition motif="calm" open={visible} />
       <div className="exit-gate" aria-hidden="true">
         <span className="exit-gate-panel left" />
         <span className="exit-gate-panel right" />

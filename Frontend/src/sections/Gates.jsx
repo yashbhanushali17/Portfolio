@@ -13,7 +13,6 @@ export default function Gates({ onPreviewResume }) {
       <div className="gates-arch" aria-hidden="true" />
       <Clouds />
       <CastleSilhouette speed={0.06} />
-      <CastleSilhouette speed={0.11} className="castle-silhouette-near" />
       <Owl delaySeconds={4} />
       <Owl delaySeconds={13} className="owl-cameo-low" />
       <div className="house-watermark" aria-hidden="true" />

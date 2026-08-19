@@ -2,6 +2,7 @@ import { useReveal } from '../hooks/useReveal.js';
 import { useVisible } from '../hooks/useVisible.js';
 import { profile } from '../data/portfolioData.js';
 import { asset } from '../utils/asset.js';
+import RoomTransition from '../components/RoomTransition.jsx';
 
 // Anchors point at existing sections already on the page — a "table of
 // contents" for the record, not new content. No portfolioData changes.
@@ -19,6 +20,7 @@ export default function HeadmastersOffice({ onPreviewResume }) {
 
   return (
     <section id="headmaster" className="stage headmaster-stage" style={{ '--bg-photo': `url(${asset('images/backgrounds/headmasters-office-bg.jpg')})` }} ref={ref}>
+      <RoomTransition motif="doors" open={visible} />
       <div className={`headmaster-instrument ${active ? 'is-active' : ''}`} aria-hidden="true">
         <svg viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="50" />

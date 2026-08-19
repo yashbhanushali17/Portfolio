@@ -1,12 +1,14 @@
 import { useReveal } from '../hooks/useReveal.js';
 import { experience } from '../data/portfolioData.js';
 import { asset } from '../utils/asset.js';
+import RoomTransition from '../components/RoomTransition.jsx';
 
 export default function DailyProphet() {
   const [ref, visible] = useReveal();
 
   return (
     <section id="prophet" className="stage prophet-stage" style={{ '--bg-photo': `url(${asset('images/backgrounds/daily-prophet-bg.jpg')})` }} ref={ref}>
+      <RoomTransition motif="newsprint" open={visible} />
       <div className={`container ${visible ? 'visible' : ''}`}>
         <div className="section-header">
           <div className="section-tag">// The Daily Prophet</div>

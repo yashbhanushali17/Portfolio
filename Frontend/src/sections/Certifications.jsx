@@ -2,12 +2,14 @@ import { useReveal } from '../hooks/useReveal.js';
 import { certifications } from '../data/portfolioData.js';
 import { asset } from '../utils/asset.js';
 import Owl from '../components/Owl.jsx';
+import RoomTransition from '../components/RoomTransition.jsx';
 
 export default function Certifications() {
   const [ref, visible] = useReveal();
 
   return (
     <section id="certifications" className="stage certifications-stage" style={{ '--bg-photo': `url(${asset('images/backgrounds/owl-newt-records-bg.jpg')})` }} ref={ref}>
+      <RoomTransition motif="parchment" open={visible} />
       <div className="cert-archive-glow" aria-hidden="true" />
       <Owl delaySeconds={6} className="owl-cameo-low" />
       <div className={`container ${visible ? 'visible' : ''}`}>

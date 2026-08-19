@@ -2,6 +2,7 @@ import { useReveal } from '../hooks/useReveal.js';
 import { profile } from '../data/portfolioData.js';
 import { asset } from '../utils/asset.js';
 import ContactForm from '../components/ContactForm.jsx';
+import RoomTransition from '../components/RoomTransition.jsx';
 import Clouds from '../components/Clouds.jsx';
 import CastleSilhouette from '../components/CastleSilhouette.jsx';
 import Owl from '../components/Owl.jsx';
@@ -18,6 +19,7 @@ export default function Owlery() {
 
   return (
     <section id="owlery" className="stage owlery-stage" style={{ '--bg-photo': `url(${asset('images/backgrounds/owlery-bg.jpg')})` }} ref={ref}>
+      <RoomTransition motif="moonlit" open={visible} />
       <Clouds />
       <CastleSilhouette speed={0.05} className="castle-silhouette-far" />
       <Owl delaySeconds={0} />

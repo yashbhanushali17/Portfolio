@@ -3,6 +3,7 @@ import { useReveal } from '../hooks/useReveal.js';
 import { useVisible } from '../hooks/useVisible.js';
 import { projects, filterTabs } from '../data/portfolioData.js';
 import { asset } from '../utils/asset.js';
+import RoomTransition from '../components/RoomTransition.jsx';
 
 export default function RestrictedSection() {
   const [ref, visible] = useReveal();
@@ -22,6 +23,7 @@ export default function RestrictedSection() {
 
   return (
     <section id="restricted" className="stage restricted-stage" style={{ '--bg-photo': `url(${asset('images/backgrounds/restricted-section-bg.jpg')})` }} ref={ref}>
+      <RoomTransition motif="curtain" open={visible} />
       <div className={`restricted-barrier ${active ? 'is-active' : ''}`} aria-hidden="true" />
       <div className="restricted-mist" aria-hidden="true" />
       <div className={`container ${visible ? 'visible' : ''}`}>
