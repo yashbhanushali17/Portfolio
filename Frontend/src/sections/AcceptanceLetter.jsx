@@ -138,7 +138,7 @@ export default function AcceptanceLetter({ onEnter }) {
       </div>
 
       {stage === 'sealed' && (
-        <p className="letter-hint" aria-hidden="true">Click the seal, or press Enter</p>
+        <p className="letter-hint" aria-hidden="true">Tap the seal to continue</p>
       )}
     </div>
   );

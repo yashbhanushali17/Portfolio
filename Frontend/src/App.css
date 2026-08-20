@@ -170,6 +170,7 @@ body {
   background: none; border: 1px solid rgba(243,232,205,0.25); color: var(--parchment-100);
   opacity: 0.6; padding: 7px 14px; border-radius: var(--radius-sm); font-size: 0.75rem; cursor: pointer;
   font-family: var(--font-display); letter-spacing: 0.04em; transition: opacity 160ms ease;
+  touch-action: manipulation;
 }
 .letter-skip:hover, .letter-skip:focus-visible { opacity: 1; }
 
@@ -278,9 +279,18 @@ body {
   font-family: var(--font-display); font-weight: 700; color: var(--parchment-100); font-size: 0.9rem;
   box-shadow: inset 0 -4px 8px rgba(0,0,0,0.4), 0 4px 14px rgba(0,0,0,0.5);
   transition: transform 260ms var(--ease-corridor), opacity 260ms var(--ease-corridor);
-  backface-visibility: hidden; will-change: transform, opacity;
+  backface-visibility: hidden; will-change: transform, opacity; touch-action: manipulation;
 }
-.stage-sealed .wax-seal { animation: seal-breathe 2.4s ease-in-out infinite; cursor: pointer; }
+/* seal-breathe was previously `infinite` — a continuously-transforming
+   scale() pulse on the ONE element mobile-Chrome users must successfully
+   tap to proceed. Confirmed via Chromium touch-emulation: an element with
+   an infinite transform animation never satisfies a touch/tap
+   "stable" check (its bounding box never stops moving), which is very
+   likely why some mobile Chrome sessions read as "stuck" waiting on a
+   tap that doesn't reliably register. A one-shot settle keeps the
+   "just arrived" feel without leaving the tap target perpetually
+   animating while it's the thing the user has to hit. */
+.stage-sealed .wax-seal { animation: seal-breathe 900ms var(--ease-corridor) 1 both; cursor: pointer; touch-action: manipulation; }
 .stage-breaking .wax-seal { animation: seal-crack 480ms var(--ease-corridor) forwards; }
 .stage-opening .wax-seal,
 .stage-unfolding .wax-seal,
@@ -325,6 +335,7 @@ body {
 .enter-btn {
   margin-top: 14px; opacity: 0; animation: enter-btn-in 500ms var(--ease-corridor) 200ms forwards;
   background: var(--parchment-ink); color: var(--parchment-100); border-color: var(--parchment-ink);
+  touch-action: manipulation;
 }
 .enter-btn:hover { background: #1a1108; }
 @keyframes enter-btn-in { to { opacity: 1; } }
@@ -741,6 +752,22 @@ body {
    real content weight instead of leaning on the raised min-height to fill
    empty space. Collapses to one column on narrow screens. */
 .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
+/* Was hardcoded to 2 columns at every width, including 360-430px phones,
+   where that made each card too cramped to read comfortably. Single
+   column below 700px (the site's established small-mobile breakpoint) —
+   desktop/tablet layout is unchanged. */
+@media (max-width: 700px) {
+  .cert-grid { grid-template-columns: 1fr; gap: 18px; }
+  /* Single-column stacking makes this section taller than one viewport on
+     phones (4 full-width cards), so a user scrolling through it will
+     naturally reach a point where the last card sits at the very bottom
+     of the screen — exactly where .chatbot-fab is fixed (58px, 24px
+     inset from the bottom-right corner). Without clearance, that fixed
+     button visually sits on top of the last card's text at that resting
+     scroll position. Reserved space, not a chatbot change — the FAB
+     itself is shared across every section and stays as-is. */
+  .certifications-stage .container { padding-bottom: 110px; }
+}
 .cert-card {
   position: relative; min-width: 0; overflow: hidden;
   border: 1px solid var(--wood-600); border-radius: var(--radius-md);
@@ -1154,13 +1181,24 @@ html[data-house="hufflepuff"] .house-watermark::before { content: '🦡'; }
 .library-stage .about-bio p:first-child { font-size: 1.08rem; }
 .education-stage { padding: clamp(66px, 9vw, 108px) 0; --stage-min-h: clamp(620px, 96vh, 100vh); }
 .education-stage .container { max-width: 880px; }
-.potions-stage { padding: clamp(60px, 8vw, 96px) 0; --stage-scrim: linear-gradient(180deg, rgba(10,9,7,0.78), rgba(10,9,7,0.95)); }
+/* --stage-scrim intentionally NOT overridden here anymore — it previously
+   set a near-opaque 0.78-0.95 alpha full-bleed gradient that silently
+   won the cascade over the shared, much lighter, localized scrim defined
+   near the top of this file (same specificity, later source order wins),
+   which is exactly the "whole background darkened" regression that
+   earlier phase's overhaul was supposed to fix. Potions now correctly
+   inherits the shared scrim. */
+.potions-stage { padding: clamp(60px, 8vw, 96px) 0; }
 .potions-stage .container { max-width: 1280px; }
 .certifications-stage { padding: clamp(58px, 8vw, 90px) 0; --stage-min-h: clamp(640px, 97vh, 100vh); }
 .certifications-stage .container { max-width: 980px; }
+/* --stage-scrim intentionally NOT overridden here — same stale-override
+   bug as Potions above (see that comment). Restricted Section already
+   gets its own deliberately-darker-than-other-rooms scrim from the
+   shared block near the top of this file; this old rule was replacing
+   that with an even more extreme, full-bleed 0.82-0.96 alpha wall. */
 .restricted-stage {
   padding: clamp(56px, 7.5vw, 88px) 0;
-  --stage-scrim: linear-gradient(180deg, rgba(10,6,6,0.82), rgba(10,6,6,0.96));
   box-shadow: inset 0 0 140px rgba(0,0,0,0.55);
 }
 .restricted-stage .container { max-width: 1320px; }
